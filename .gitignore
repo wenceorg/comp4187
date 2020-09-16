@@ -1,0 +1,13 @@
+/site/resources/_gen
+/site/public
+/site/package-lock.json
+/site/node_modules
+/site/static/images/auto
+/site/static/code
+/figures/*.png
+/figures/*.pdf
+*.o
+/code/blur_image/*/blur
+/code/calculate_pi/*/calcpi
+/code/add_numbers/*/addnumbers
+.DS_Store
