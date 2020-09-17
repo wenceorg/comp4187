@@ -157,26 +157,17 @@
   }
 
   details {
-    padding: $padding-16;
-    border: $padding-1 solid $gray-200;
-    border-radius: $border-radius;
+      padding-left: $padding-16;
+      padding-right: $padding-16;
 
     summary {
       line-height: 1;
-      padding: $padding-16;
-      margin: -$padding-16;
+      padding: $padding-4;
       cursor: pointer;
     }
 
     &[open] summary {
-      margin-bottom: 0;
-    }
-  }
-
-  figure {
-    margin: $padding-16 0;
-    figcaption p {
-      margin-top: 0;
+      margin-bottom: $padding-4;
     }
   }
 }
