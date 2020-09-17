@@ -35,14 +35,3 @@ figures/%.png: figures/%.py
 
 figures/%.pdf: figures/%.py
 	python $< $@
-
-site/static/code/blur_image.tgz: code/blur_image/vec/Makefile $(wildcard code/blur_image/vec/*.[ch]) code/blur_image/openmp/Makefile $(wildcard code/blur_image/openmp/*.[ch]) $(wildcard code/blur_image/images/*.ppm)
-	(cd code; tar -zcf $(abspath $@) $(patsubst code/%,%,$^))
-
-site/static/code/add_numbers.tgz: code/add_numbers/serial/Makefile $(wildcard code/add_numbers/serial/*.[ch]) code/add_numbers/openmp/Makefile $(wildcard code/add_numbers/openmp/*.[ch])
-	(cd code; tar -zcf $(abspath $@) $(patsubst code/%,%,$^))
-
-alltgz: site/static/code/blur_image.tgz site/static/code/add_numbers.tgz
-
-allcode:
-	rsync --delete -rupm code/ site/static/code/ --filter '+ */' --filter '+ *.c' --filter '+ *.h' --filter '+ Makefile' --filter '+ *.slurm' --filter '- *'

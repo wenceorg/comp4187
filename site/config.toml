@@ -1,0 +1,37 @@
+baseURL = 'https://teaching.wence.uk/comp4187/'
+languageCode = 'en-GB'
+title = 'COMP4187 - Parallel Scientific Computing II'
+
+staticDir = ['static']
+disablePathToLower = false
+enableGitInfo = true
+enableRobotsTXT = true
+
+theme = 'book'
+
+disableKinds = ['taxonomy', 'taxonomyTerm']
+# Needed for katex shortcodes
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = 'monokailight'
+    tabWidth = 8
+    
+[params]
+BookSection = '/'
+BookSearch = false
+BookComments = false
+BookToc = true
+BookRepo = 'https://github.com/wenceorg/comp4187'
+ModulePage = 'https://www.dur.ac.uk/postgraduate.modules/module_description/?year=2021&module_code=COMP4187'
+BookEditPath = 'edit/main/site/content'
+ImageDir = 'images'
+
