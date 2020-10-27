@@ -1,3 +1,9 @@
+---
+title: "Finite Differences"
+weight: 2
+katex: true
+---
+
 # Finite Differences
 Consider the one-dimensional Poisson equation with homogeneous Dirichlet conditions
 $$-\frac{d^2 u}{d x^2}=f(x),~~~x\in(0,1)$$
