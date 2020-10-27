@@ -1,3 +1,7 @@
+---
+title: "Lecture 4: Smoothers"
+---
+
 In this lecture we will finish covering efficient matrix storage from: [ipython notebook](https://nbviewer.jupyter.org/urls/teaching.wence.uk/comp4187/code/finite-difference-II.ipynb).
 
 Alternatively, you can run the notebook online without installing python.

@@ -1,3 +1,7 @@
+---
+title: "Lecture 1: FD"
+---
+
 The lecture will take place over zoom. A calender invite is available on duo. The zoom invite can also be found at [info](https://teaching.wence.uk/comp4187/notes/overview)).
 
 Before the lecture it would be good if you can download the [ipython notebook](https://nbviewer.jupyter.org/urls/teaching.wence.uk/comp4187/code/finite-differences.ipynb) and run it. You can see [jupyter](https://teaching.wence.uk/comp4187/setup/jupyter/) for instructions on how to run the notebook.

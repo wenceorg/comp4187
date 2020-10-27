@@ -1,3 +1,7 @@
+---
+title: "Lecture 2: FD"
+---
+
 For this lecture we continued with [ipython notebook](https://nbviewer.jupyter.org/urls/teaching.wence.uk/comp4187/code/finite-differences.ipynb).
 
 The notebook is also available online without installing python.
