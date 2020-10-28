@@ -14,3 +14,14 @@ Alternatively, you can run the notebook online without installing python.
 
 After the lecture have a look at the corresponding [exercise](https://teaching.wence.uk/comp4187/exercises/finite-differences).
 
+The video is now available at: [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=6717899a-763f-4be8-bcc1-ac6200c08514)
+
+The content of the whiteboard can be found below. It is also all contained in the ipython notebook itself.
+{{< manfig src="Lecture4/Whiteboard01.png" width="50%" >}}
+{{< manfig src="Lecture4/Whiteboard02.png" width="50%" >}}
+{{< manfig src="Lecture4/Whiteboard03.png" width="50%" >}}
+{{< manfig src="Lecture4/Whiteboard04.png" width="50%" >}}
+{{< manfig src="Lecture4/Whiteboard05.png" width="50%" >}}
+{{< manfig src="Lecture4/Whiteboard06.png" width="50%" >}}
+{{< manfig src="Lecture4/Whiteboard07.png" width="50%" >}}
+
