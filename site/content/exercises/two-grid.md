@@ -7,9 +7,9 @@ katex: true
 # Fourier Analysis for Two-Grid Iteration
 In this exercise we want to apply what we have seen already in the lectures on smoothers to the more complicated multigrid setting. For simplicity we restrict ourselves to 1D and two levels.
 
-We stick to the Poisson example used in the smoother example:
+We stick to the Poisson example:
 $$\begin{array}{r c l}
--\cfrac{d^2 u}{d x^2}&=&f(x),~~~x\in(0,1),\vspace*{3mm}\\
+-\cfrac{d^2 u}{d x^2}&=&f(x),~~~x\in(0,1),\\
 u(0)=u(1) & = & 0.
 \end{array}$$
 
@@ -28,7 +28,7 @@ In the following, we want to step through the Fourier analysis for this method a
 1. Give a closed expression for $e^{new}$ which only depends on $e^{old}$ and not on $e^{2h}$ anymore. You may use the operators $R$, $P$, $A_{2h}$ and $A_h$ from above.
 2. Define the restriction operator $R$ by injection. Show that the restriction of any error frequency $R q_h^m$ yields a low frequency, that is
 $$ R q_h^m = \left\{\begin{array}{r c l}
-q_{2h}^m & \hbox{if} & m<N/2\vspace*{3mm}\\
+q_{2h}^m & \hbox{if} & m<N/2\\
 -q_{2h}^{N-m} & \hbox{if} & m\geq N/2.\end{array}\right.$$
 
 3. For interpolation, we want to use the linear interpolation scheme:
@@ -43,7 +43,7 @@ $$\begin{array}{ r c l}
 \frac{1}{2} (\cos(\pi i)+1) & = & \left\{ \begin{array}{rl}
  1 & \mbox{ for } i=2,4,\ldots,N-2 \\
  0 & \mbox{ for } i=1,3,\ldots,N-1 
-\end{array} \right.\vspace*{3mm} \\
+\end{array} \right. \\
 \frac{1}{2} (-\cos(\pi i)+1) & = & \left\{ \begin{array}{rl}
  0 & \mbox{ for } i=2,4,\ldots,N-2 \\
  1 & \mbox{ for } i=1,3,\ldots,N-1 
@@ -78,19 +78,15 @@ As this matrix is invertible, we can find a vector $x^{new}$ with $e^{new} = Qx^
 The entry $(x^{old})_i$ can be interpreted as the weight of the frequency in the i-th column of $Q$.
 If we left-multiply $e^{new}$ with $Q^{-1}$ we have
 $$ x^{new} = Q^{-1}e^{new} = Q^{-1}e^{old} - Q^{-1}PA_{2h}^{-1}RA_he^{old} = x^{old} - C x^{old} = (I - C) x^{old}.$$
-That is, we have found a frequency mapping $x \mapsto (I-C)x$ and may directly work with the error's frequency components instead with the error itself.
-
+That is, we have found a frequency mapping $x \mapsto (I-C)x$ and may directly work with the error's frequency components instead with the error itself.</br>
 Determine the matrix $C$. ($C$ will be block diagonal and consist of blocks $B_m$.)
 
-4. In order to remove high frequency errors, we apply two Jacobi iterations before ({\textit pre-smoothing}) and after ({\textit post-smoothing}) the coarse-grid correction scheme.
-Following the Fourier analysis from the finite-difference exercise for the basis vectors $(q_h^m)_{m=1,\dots,N-1}$, one weighted Jacobi iteration ($\omega=1/2$) corresponds to the update rule
-(again working on the error's frequency components with the same ordering as in 3.
+4. In order to remove high frequency errors, we apply two Jacobi iterations before ( pre-smoothing) and after (post-smoothing) the coarse-grid correction scheme. Following the Fourier analysis from the finite-difference exercise for the basis vectors $(q_h^m)_{m=1,\dots,N-1}$, one weighted Jacobi iteration ($\omega=1/2$) corresponds to the update rule (again working on the error's frequency components with the same ordering as in 3.
 $$
 x \mapsto M_f x.
 $$
 I.e. for the frequency pair $m$ and $N-m$ we obtain
-\begin{displaymath}
-\left(\begin{array}{c}
+$$\left(\begin{array}{c}
 x_1\\
 x_2\end{array}\right) \rightarrow \left(\begin{array}{c c}
 \frac{1}{2}\left(1+\cos(m\pi h)\right) & 0\\
@@ -98,11 +94,8 @@ x_2\end{array}\right) \rightarrow \left(\begin{array}{c c}
 \end{array}\right)
 \left(\begin{array}{c}
 x_1\\
-x_2\end{array}\right)
-\end{displaymath}
-
-Because $C$ is a block diagonal matrix and $M_f$ is diagonal, we may limit the discussion to frequency pairs. The general results then follow easily.
-
+x_2\end{array}\right)$$
+Because $C$ is a block diagonal matrix and $M_f$ is diagonal, we may limit the discussion to frequency pairs. The general results then follow easily.</br>
 Give an estimate for the maximum eigenvalue of the overall solver operations, that is pre-smoothing $\rightarrow$ restriction $\rightarrow$ coarse-grid correction $\rightarrow$ interpolation $\rightarrow $post-smoothing.
 
 
