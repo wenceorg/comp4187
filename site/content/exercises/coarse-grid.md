@@ -7,10 +7,8 @@ katex: true
 # Constructing a coarse grid operator
 
 We consider the discrete Poisson system with Dirichlet boundary conditions and 7 grid points,
-$$\begin{array}{r c l l}
-\cfrac{-u_{i-1} + 2 u_i - u_{i+1}}{h^2} & = & f_i, & i=1\dots 5\\
-u_0 = u_6 & = & 1, & \text{(inhomogeneous)}
-\end{array}$$
+$$\frac{-u_{i-1} + 2 u_i - u_{i+1}}{h^2}  =  f_i,  i=1\dots 5$$
+$$u_0 = u_6 & = & 1, & \text{(inhomogeneous)}$$
 where the mesh size is $h:=\frac{1}{6}$.
 
 1. Formulate the system of equations in matrix form, i.e. $A_h u = b_h$. Take care with the boundary conditions.
