@@ -60,40 +60,44 @@ def lagrange_2d_diffy(points, linear_index, x):
 
 
 class Discretization:
-    def __init__(self, geometry, level, eval_k=None):
+    def __init__(self, geometry, level,  eval_k=None):
         # Standard linear tensor-prod. basis
         self.nodes_x = np.array([-1, 1])
 
         # Gauss-Legendre quadrature
         self.quad_x, self.quad_w = special.roots_legendre(n=2)
-        
+
         # Ref cell is [-1,1]^2
         self.area_reference_cell = 4
-    
+
         self.geometry = geometry
         self.level = level
-        
+
         self.number_of_vertices = geometry.number_of_vertices_per_level[level]
         self.number_of_data = geometry.data_size_per_level[level]
         self.cur_dirichlet_vertices = set([v for v in geometry.dirichlet_vertices if v < self.number_of_vertices])
 
         self.eval_k = eval_k
 
-    def setup_stiffness(self):
-        # TODO: Move those to a class
-        stiffness = sp.lil_matrix((self.number_of_data, self.number_of_data), dtype=np.float64)
+    def setup_stiffness(self, useDir=False):
+        if useDir:
+            stiffness = sp.lil_matrix((self.number_of_vertices, self.number_of_vertices), dtype=np.float64)
+        else:
+            stiffness = sp.lil_matrix((self.number_of_data, self.number_of_data), dtype=np.float64)
         for cell in self.geometry.grid.dfs(only_level=self.level):
             for lin_0, vertex_0 in enumerate(cell.vertices):
                 for lin_1, vertex_1 in enumerate(cell.vertices):
                     data_0 = self.geometry.vertex_idx_to_data_idx[vertex_0]
                     data_1 = self.geometry.vertex_idx_to_data_idx[vertex_1]
                     if vertex_0 in self.geometry.dirichlet_vertices:
-                        #stiffness[vertex_0, :] = 0
-                        #stiffness[vertex_0, vertex_0] = 1
+                        if useDir:
+                            stiffness[vertex_0, :] = 0
+                            #stiffness[vertex_0,vertex_0] = 1
                         continue
-                    if vertex_1 in self.geometry.dirichlet_vertices:
+                    if not useDir:
+                        if vertex_1 in self.geometry.dirichlet_vertices:
                         # Dirichlet vertex has zero contribution
-                        continue
+                            continue
                     for lin_quad in range(4):
                         quad_i, quad_j = lin2cart(lin_quad)
                         x, y = self.quad_x[quad_i], self.quad_x[quad_j]
@@ -105,18 +109,28 @@ class Discretization:
                             lagrange_2d_diffy(self.nodes_x, lin_1, quad_coords)
                         K = self.eval_k(cell.center[0], cell.center[1])
 
-                        # TODO Check area factor
-                        factor = area(cell) / self.area_reference_cell / cell.size * quad_weight * K
-                        stiffness[data_0, data_1] += factor * (diff_x + diff_y)
+                        factor = self.area_reference_cell * quad_weight * K
+                        if useDir:
+                            stiffness[vertex_0, vertex_1] += factor * (diff_x + diff_y)
+                        else:
+                            stiffness[data_0, data_1] += factor * (diff_x + diff_y)
 
         return stiffness.tocsc()
-    
-    def setup_rhs(self):
-        rhs = np.zeros(self.number_of_data)
+
+    def setup_rhs(self, useDir=False):
+        if useDir:
+            rhs = np.zeros(self.number_of_vertices)
+        else:
+            rhs = np.zeros(self.number_of_data)
         for cell in self.geometry.grid.dfs(self.level):
             for lin, vertex in enumerate(cell.vertices):
                 if vertex in self.cur_dirichlet_vertices:
-                    # Dirichlet vertices not contained in rhs
+                    if useDir:
+                        # Dirichlet vertices not contained in rhs
+                        if cell.center[0]<cell.size:
+                            rhs[vertex] = 1.0
+                        else:
+                            rhs[vertex] = 0.0
                     continue
                 data_idx = self.geometry.vertex_idx_to_data_idx[vertex]
                 for lin_quad in range(4):
@@ -125,6 +139,20 @@ class Discretization:
                     quad_coords = np.array([x, y])
                     quad_weight = self.quad_w[quad_i] * self.quad_w[quad_j]
                     factor = area(cell) * quad_weight
-                    rhs[data_idx] += factor * lagrange_2d(self.nodes_x, lin, quad_coords)
-
+                    if useDir:
+                        rhs[vertex] +=0.0
+                    else:
+                        rhs[data_idx] +=  factor * lagrange_2d(self.nodes_x, lin, quad_coords)
         return rhs
+
+    def setup_initial(self):
+        u0 = np.zeros(self.number_of_vertices)
+        for cell in self.geometry.grid.dfs(self.level):
+            for lin, vertex in enumerate(cell.vertices):
+                if vertex in self.cur_dirichlet_vertices and cell.center[0]<cell.size:
+                    # Dirichlet vertices not contained in rhs
+                    u0[vertex] = 1.0
+                    continue
+                u0[vertex] = 0.0
+        return u0
+

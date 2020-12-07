@@ -151,7 +151,7 @@ class Quadtree:
                     cell.vertices.append(vertex_idx)
                     vertices_count[vertex_idx] += 1
             number_of_vertices_per_level.append(len(vertices))
-            print("Level {} has \t{} vertices".format(level, len(vertices) - count_before))
+            #print("Level {} has \t{} vertices".format(level, len(vertices) - count_before))
                 
             boundary_vertices |= set([i for (i,j) in vertices_count.items() if j < 4])
             #print(vertices_count)
