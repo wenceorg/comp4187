@@ -1,7 +1,7 @@
 ---
 title: MPI
 draft: false
-weight: 1
+weight: 11
 ---
 
 # MPI: a messaging API
@@ -24,15 +24,9 @@ message passing is [MPI](https://www.mpi-forum.org/), the Message
 Passing Interface.
 
 Let's look at a simple ["Hello, World"]({{< ref "hello.md#mpi" >}})
-MPI program, and contrast it with the equivalent OpenMP program.
+MPI program.
 
-{{< columns >}}
-{{< code-include "hello/mpi.c" "c" >}}
-
-<--->
-{{< code-include "hello/openmp.c" "c" >}}
-
-{{< /columns >}}
+{{< code-include "parallel/hello/hello.c" "c" >}}
 
 Our MPI programs always start by initialising MPI with `MPI_Init`.
 They must finish by shutting down, with `MPI_Finalize`. Inside, it
@@ -216,7 +210,4 @@ communicator. So communicators, and the group of processes they
 represent, are at the core of MPI programming. This is in contrast to
 OpenMP where we generally don't think about which threads are in
 involved in a parallel region.
-
-We'll revisit these ideas as we learn more MPI functions. Next, we'll
-look at [point-to-point]({{< ref "point-to-point.md" >}}) messaging.
 

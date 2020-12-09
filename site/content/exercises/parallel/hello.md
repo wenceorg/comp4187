@@ -10,7 +10,7 @@ Every programming course has to start with "hello world", this is no
 exception. The goal of this is to familiarise you with compiling and
 running code using MPI, the parallel library we'll be using, either on
 Hamilton, or your own machine. So take a look at the [setup guide]({{<
-ref "/notes/setup/mpi.md" >}}) if you haven't already.
+ref "/setup/mpi.md" >}}) if you haven't already.
 
 ## A C version {#mpi}
 
