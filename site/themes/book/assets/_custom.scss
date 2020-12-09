@@ -17,6 +17,12 @@
         border-color: #f60;
         background-color: rgba(#f60, 0.1);
     }
+    .exercise {
+        border-color: #03a;
+        background-color: rgba(#03a, 0.1);
+        border: $padding-2 solid #03a;
+    }
+
     figure {
         display: block;
         margin-left: auto;
