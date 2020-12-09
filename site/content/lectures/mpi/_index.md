@@ -1,7 +1,7 @@
 ---
 title: MPI
 draft: false
-weight: 11
+weight: 2
 ---
 
 # MPI: a messaging API

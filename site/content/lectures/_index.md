@@ -1,5 +1,5 @@
 ---
-title: Lectures
+title: Notes
 draft: false
 weight: 2
 ---

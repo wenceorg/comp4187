@@ -10,11 +10,13 @@ This is the course webpage for [COMP4187]({{< modulepage >}}). It
 collects the exercises, syllabus, and notes. The source repository is
 [hosted on GitHub]({{< repo >}}).
 
-This submodule builds on Numerical Algorithms I (Parallel Scientific Computing I) and introduces advanced topics in ODE integration schemes, and spatial discretisation.
+This submodule builds on Numerical Algorithms I (Parallel Scientific
+Computing I) and introduces advanced topics in ODE integration
+schemes, and spatial discretisation.
 
 ## Syllabus
 
-### Numerical Methods
+### Numerical Methods (Term 1)
 
 Topic 1: Spatial discretisation. Finite difference methods for partial differential equations (PDEs), stability, convergence, and consistency;
 
@@ -24,8 +26,7 @@ Topic 3: Implicit ordinary differential equation (ODE) methods, and matrix repre
 
 Topic 4: Advanced algorithms for PDEs. Fast methods of solving PDEs, high order discretisation schemes.
 
-### Parallel Computing
-
+### Parallel Computing (Term 2)
 
 - Distributed memory programming models: [MPI](https://www.mpi-forum.org).
 
@@ -42,6 +43,15 @@ Topic 4: Advanced algorithms for PDEs. Fast methods of solving PDEs, high order 
 
 [Lawrence Mitchell](mailto:lawrence.mitchell@durham.ac.uk)
 
+
+The course will be taught over both Term 1 and 2, and assessed by a single piece of coursework due in Term 3.
+
+Lecture slots are at 9am on Wednesday mornings. These will be run over Zoom
+
+https://durhamuniversity.zoom.us/j/98754190700?pwd=dlcxR045Sml0YWxIbXlJTU80TDZ2QT09
+
+Meeting ID: 987 5419 0700
+Passcode: 823439
 
 ## Reading
 
