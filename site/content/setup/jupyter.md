@@ -1,3 +1,7 @@
+---
+title: "Jupyter"
+weight: 1
+---
 # Running the notebooks
 
 To install the necessary software, I recommend doing so in a Python
