@@ -1,5 +1,6 @@
 ---
 title: "Lecture 8: Time-stepping"
+weight: 8
 ---
 
 We finish the discussion of multigrid method: [ipython notebook](https://nbviewer.jupyter.org/urls/teaching.wence.uk/comp4187/code/2DMultigrid.ipynb)

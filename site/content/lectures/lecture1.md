@@ -1,5 +1,6 @@
 ---
 title: "Lecture 1: FD"
+weight: 1
 ---
 
 The lecture will take place over zoom. A calender invite is available on duo. The zoom invite can also be found at [info](https://teaching.wence.uk/comp4187/notes/overview)).

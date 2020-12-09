@@ -1,5 +1,6 @@
 ---
 title: "Lecture 5: Smoothers"
+weight: 5
 ---
 
 This lecture will cover smoothers: [ipython notebook](https://nbviewer.jupyter.org/urls/teaching.wence.uk/comp4187/code/smoothers.ipynb).

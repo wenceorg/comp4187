@@ -1,5 +1,6 @@
 ---
 title: "Lecture 2: FD"
+weight: 2
 ---
 
 For this lecture we continued with [ipython notebook](https://nbviewer.jupyter.org/urls/teaching.wence.uk/comp4187/code/finite-differences.ipynb).

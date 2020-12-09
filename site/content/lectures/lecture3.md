@@ -1,5 +1,6 @@
 ---
 title: "Lecture 3: FD"
+weight: 3
 ---
 
 We will be moving on to the next notebook during the next lecture. Before the lecture it would be good if you can download the next [ipython notebook](https://nbviewer.jupyter.org/urls/teaching.wence.uk/comp4187/code/finite-difference-II.ipynb) and run it. You can see [jupyter](https://teaching.wence.uk/comp4187/setup/jupyter/) for instructions on how to run the notebook.
