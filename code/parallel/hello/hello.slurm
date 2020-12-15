@@ -11,7 +11,9 @@
 
 source /etc/profile.d/modules.sh
 
-module load gcc/9.3.0
 module load intelmpi/gcc/2019.6
+module load python/3.6.8
 
-mpirun ./hello
+# You'll need to activate a virtual environment that contains mpi4py
+# Before this works
+mpirun python hello.py

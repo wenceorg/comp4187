@@ -23,14 +23,72 @@ In the high performance computing world, the dominant library for
 message passing is [MPI](https://www.mpi-forum.org/), the Message
 Passing Interface.
 
+We're going to do our programming in Python in this course so you'll
+need the Python bindings to MPI,
+[mpi4py](https://mpi4py.readthedocs.io).
+
 Let's look at a simple ["Hello, World"]({{< ref "hello.md#mpi" >}})
 MPI program.
 
-{{< code-include "parallel/hello/hello.c" "c" >}}
+{{< code-include "parallel/hello/hello.py" "py" >}}
 
-Our MPI programs always start by initialising MPI with `MPI_Init`.
-They must finish by shutting down, with `MPI_Finalize`. Inside, it
-seems like there is no explicit parallelism written anywhere.
+MPI is a library-based programming model, so we start by importing the
+library. If writing in C, we need to remember to call `MPI_Init`, but
+mpi4py does that for us when we do
+
+```py
+from mpi4py import MPI
+```
+
+If we want to control what is going on, we should instead do
+
+```py
+import mpi4py
+# See the documentation for valid arguments
+mpi4py.rc(initialize=False)
+
+from mpi4py import MPI
+MPI.Init()
+```
+
+Similarly, the last thing we should do is call `MPI_Finalize`. By
+default `mpi4py` does this for us by installing it in an
+[`atexit`](https://docs.python.org/3/library/atexit.html) handler.
+
+With those logistics out the way, it looks like our code doesn't
+contain any parallelism at all. What's going on?
+
+{{< hint info >}}
+
+When I link to MPI functions in the documentation, the links will be
+to C function declarations (since there's no official Python
+documentation).
+
+Here's a quick translation guide.
+
+1. Functions that don't reference a communicator in the C interface
+   (like [`MPI_Init`](https://rookiehpc.com/mpi/docs/mpi_init.php)),
+   become functions on the `MPI` module. Capitalisation remains the
+   same: `MPI.Init()`.
+2. Functions that do reference a [communicator]({{< ref
+   "#communicators" >}}) (like
+   [`MPI_Send`](https://rookiehpc.com/mpi/docs/mpi_send.php)), become
+   methods on the communicator: `communicator.Send()`.
+3. There are two versions of all the messaging routines. The first set use
+   the Python [pickle](https://docs.python.org/3/library/pickle.html)
+   module to send arbitrary Python data (these are slow) and are spelt
+   with a **lowercase** name (e.g. `communicator.send()`). The second
+   set can only send objects that implement the Python [buffer
+   protocol](https://www.python.org/dev/peps/pep-3118/), the usual
+   case will be [numpy arrays](https://numpy.org), these are fast
+   (because no copy is required) and are spelt with a **capitalised**
+   name (e.g. `communicator.Send()`). See the [mpi4py
+   tutorial](https://mpi4py.readthedocs.io/en/stable/tutorial.html#tutorial)
+   for more information.
+
+We'll revisit these concepts through the examples.
+
+{{< /hint >}}
 
 ## Concepts
 
@@ -46,6 +104,7 @@ share an address space (and therefore do not share memory).
     caption="Processes do not share memory." >}}
 
 <--->
+
 {{< manfig
     src="shared-memory-sketch.svg"
     width="100%"
@@ -53,9 +112,10 @@ share an address space (and therefore do not share memory).
 
 {{< /columns >}}
 
-Like in OpenMP programming, we achieve parallelism by having many
-processes cooperate to solve the same task. We must come up with some
-way of dividing the data and computation between the processes.
+Like in OpenMP programming (which you saw last year), we achieve
+parallelism by having many processes cooperate to solve the same task.
+We must come up with some way of dividing the data and computation
+between the processes.
 
 Since processes do not share memory, they must instead send messages
 to communicate information. This is implemented in MPI through library
@@ -66,16 +126,14 @@ the language.
 The core difficulty in writing message-passing programs is the
 conceptual model. This is a very different model to that required for
 sequential programs. Becoming comfortable with this model is key to
-understanding MPI programs. A key idea, which is different from the
-examples we've seen with OpenMP, is that there is much more focus on
-the _decomposition of the data and work_. That is, we must think about
-how we divide the data (and hence work) in our parallel program. I
-will endeavour to emphasise this through the examples and exposition
-when we encounter MPI functions.
+understanding MPI programs. A key idea, is that there is much more
+focus on the _decomposition of the data and work_. That is, we must
+think about how we divide the data (and hence work) in our parallel
+program. I will endeavour to emphasise this through the examples and
+exposition when we encounter MPI functions.
 
-Although at first MPI parallelism seems more complicated than OpenMP
-(we can't just annotate a few loops with a `#pragma`), it is, in my
-experience, a much more _powerful_ programming model, and better
+Although at first MPI parallelism seems complicated, it is, in my
+experience, a really well-designed programming model, and well-suited
 suited to the implementation of reusable software.
 
 ## Single program, multiple data (SPMD)
@@ -85,8 +143,16 @@ Most MPI programs are written using the single-program, multiple data
 of the same program. You saw this with the [Hello World]({{< ref
 "hello.md" >}}) example.
 
+{{< exercise >}}
+
+If you've haven't already done it, go away and do that [hello world
+exercise]({{< ref "hello.md" >}}) now, since it also sets up your
+environment for the rest of the course.
+
+{{< /exercise >}}
+
 Although each process is running the same program, they each have a
-separate copy of data (there is no sharing like in OpenMP).
+separate copy of data.
 
 So that this is useful, processes have a unique identifier, their
 _rank_. We can then write code that sends different ranks down
@@ -98,17 +164,9 @@ then execute at the same time and can pass messages to each other.
 
 Suppose we have a function
 
-```c
-void print_hello(MPI_Comm comm)
-{
-  int rank;
-  int size;
-
-  MPI_Comm_rank(comm, &rank);
-  MPI_Comm_size(comm, &size);
-
-  printf("Hello, I am rank %d of %d\n", rank, size);
-}
+```py
+def print_hello(comm):
+    print("Hello, I am rank %d of %d", comm.rank, comm.size)
 ```
 
 Then if we execute it with two processes we have
@@ -116,30 +174,18 @@ Then if we execute it with two processes we have
 {{< columns >}}
 Process 0
 
-```c
-void print_hello(MPI_Comm comm)
-{
-  int rank;
-  int size;
-
-  rank = 0;
-  size = 2;
-  printf("Hello, I am rank %d of %d\n", rank, size);
-}
+```py
+def print_hello(comm):
+    print("Hello, I am rank %d of %d",
+          0, 2)
 ```
 <--->
 
 Process 1
-```c
-void print_hello(MPI_Comm comm)
-{
-  int rank;
-  int size;
-
-  rank = 1;
-  size = 2;
-  printf("Hello, I am rank %d of %d\n", rank, size);
-}
+```py
+def print_hello(comm):
+    print("Hello, I am rank %d of %d",
+          1, 2)
 ```
 
 {{< /columns >}}
@@ -159,10 +205,10 @@ to that communicator.
 
 When MPI launches a program, it pre-initialises two communicators
 
-`MPI_COMM_WORLD`
+[`MPI.COMM_WORLD`](https://rookiehpc.com/mpi/docs/mpi_comm_world.php)
 : A communicator consisting of all the processes in the current run.
 
-`MPI_COMM_SELF`
+[`MPI.COMM_SELF`](https://rookiehpc.com/mpi/docs/mpi_comm_self.php)
 : A communicator consisting of each process individually.
 
 The figure below shows an example of eight processes and draws the
@@ -179,35 +225,25 @@ on which communicator we view them through.
 
 {{< exercise >}}
 
-This concept is illustrated by [`mpi-snippets/comm-world-self.c`]({{<
-code-ref "mpi-snippets/comm-world-self.c" >}}).
+This concept is illustrated by [`parallel/snippets/comm-world-self.py`]({{<
+code-ref "parallel/snippets/comm-world-self.py" >}}).
 
-Compile it with
 
+Run with
 ```
-$ mpicc -o comm-world-self comm-world-self.c
-```
-
-{{< details Hint >}}
-
-Don't forget than in addition to loading the normal compiler modules
-you also need to load the `intelmpi/intel/2018.2` module.
-
-{{< /details >}}
-
-And run with
-```
-$ mpirun -n 4 ./comm-world-self
+$ mpirun -n 4 python comm-world-self.py
 ```
 
 Do you understand the output?
+
+{{< hint info >}}
+Don't forget to load the correct `intelmpi/gcc/2019.6` module, along
+with activating your virtual environment.
+{{< /hint >}}
 
 {{< /exercise >}}
 
 An important thing about communicators is that they are always
 explicit when we send messages: to send a message, we need a
 communicator. So communicators, and the group of processes they
-represent, are at the core of MPI programming. This is in contrast to
-OpenMP where we generally don't think about which threads are in
-involved in a parallel region.
-
+represent, are at the core of MPI programming.
