@@ -15,6 +15,10 @@ disableKinds = ['taxonomy', 'taxonomyTerm']
 [markup]
   [markup.goldmark.renderer]
     unsafe = true
+  [markup.tableofcontents]
+    startlevel = 1
+    ordered = false
+    endlevel = 4
   [markup.highlight]
     codeFences = true
     guessSyntax = false
@@ -30,7 +34,7 @@ disableKinds = ['taxonomy', 'taxonomyTerm']
 BookSection = '/'
 BookSearch = false
 BookComments = false
-BookToc = false
+BookToc = true
 BookLogo = 'logo.svg'
 BookRepo = 'https://github.com/wenceorg/comp4187'
 ModulePage = 'https://www.dur.ac.uk/faculty.handbook/module_description/?year=2021&module_code=COMP4187'

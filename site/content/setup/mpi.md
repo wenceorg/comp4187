@@ -18,7 +18,7 @@ one by [following their
 instructions](https://www.dur.ac.uk/cis/local/hpc/hamilton/account/#getting_account).
 
 When requesting an account, please put "Lawrence Mitchell" as the
-approver, and mention that the access if for the Computer Science
+approver, and mention that the access is for the Computer Science
 course COMP4187.
 
 We'll learn more on how to use Hamilton by doing the various
