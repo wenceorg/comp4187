@@ -46,12 +46,16 @@ Topic 4: Advanced algorithms for PDEs. Fast methods of solving PDEs, high order 
 
 The course will be taught over both Term 1 and 2, and assessed by a single piece of coursework due in Term 3.
 
-Lecture slots are at 9am on Wednesday mornings. These will be run over Zoom
+Lecture slots are at 9am on Wednesday mornings. These will be run over
+Zoom (you will need to be logged in with your Durham credentials)
 
-https://durhamuniversity.zoom.us/j/98754190700?pwd=dlcxR045Sml0YWxIbXlJTU80TDZ2QT09
+https://durhamuniversity.zoom.us/j/96513562625?pwd=ZGxySUhwc0hPOEV1YW1TT0sxM3lWUT09
 
-Meeting ID: 987 5419 0700
-Passcode: 823439
+Meeting ID: 965 1356 2625
+Passcode: 506890
+
+A calendar subscription is available from
+[https://tinyurl.com/comp4187-ics](https://tinyurl.com/comp4187-ics).
 
 ## Reading
 
