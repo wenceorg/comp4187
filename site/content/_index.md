@@ -37,6 +37,16 @@ Topic 4: Advanced algorithms for PDEs. Fast methods of solving PDEs, high order 
 - Measurement and modelling. Analysis of achieved performance,
   performance models, including the Roofline model.
 
+### Lecture scribblings and video links
+
+I'll add the annotated scribblings, live code examples, and links to
+the videos (accessible with a Durham account) here.
+
+- 2021-01-13: [Scribbles]({{< static-ref "parallel/2020-21/lec01.pdf"
+  >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fe338448-89f7-49b6-be1b-acaf00a72ad7),
+  [code]({{< code-ref "parallel/live/hello.py" >}})
+
 ## Lecturers
 
 [Anne Reinarz](mailto:anne.k.reinarz@durham.ac.uk)
