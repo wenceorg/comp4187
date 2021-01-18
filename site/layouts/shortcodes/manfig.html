@@ -1,13 +1,12 @@
-<figure{{ with .Get "class" }} class="{{ . }}"{{ end }}>
+<figure
+  {{- with .Get "width" }} style="width: {{ . }}"{{ end -}}>
     {{- if .Get "link" -}}
         <a href="{{ .Get "link" }}"{{ with .Get "target" }} target="{{ . }}"{{ end }}{{ with .Get "rel" }} rel="{{ . }}"{{ end }}>
     {{- end }}
-    <img src="{{ (printf "%s/manual/%s" .Site.Params.ImageDir (.Get "src")) | absURL }}"
+    <img class="scaled" src="{{ (printf "%s/manual/%s" .Site.Params.ImageDir (.Get "src")) | absURL }}"
          {{- if or (.Get "alt") (.Get "caption") }}
          alt="{{ with .Get "alt" }}{{ . }}{{ else }}{{ .Get "caption" | markdownify| plainify }}{{ end }}"
          {{- end -}}
-         {{- with .Get "width" }} width="{{ . }}"{{ end -}}
-         {{- with .Get "height" }} height="{{ . }}"{{ end -}}
     /> <!-- Closing img tag -->
     {{- if .Get "link" }}</a>{{ end -}}
     {{- if or (or (.Get "title") (.Get "caption")) (.Get "attr") -}}

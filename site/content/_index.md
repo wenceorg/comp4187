@@ -10,11 +10,13 @@ This is the course webpage for [COMP4187]({{< modulepage >}}). It
 collects the exercises, syllabus, and notes. The source repository is
 [hosted on GitHub]({{< repo >}}).
 
-This submodule builds on Numerical Algorithms I (Parallel Scientific Computing I) and introduces advanced topics in ODE integration schemes, and spatial discretisation.
+This submodule builds on Numerical Algorithms I (Parallel Scientific
+Computing I) and introduces advanced topics in ODE integration
+schemes, and spatial discretisation.
 
 ## Syllabus
 
-### Numerical Methods
+### Numerical Methods (Term 1)
 
 Topic 1: Spatial discretisation. Finite difference methods for partial differential equations (PDEs), stability, convergence, and consistency;
 
@@ -24,8 +26,7 @@ Topic 3: Implicit ordinary differential equation (ODE) methods, and matrix repre
 
 Topic 4: Advanced algorithms for PDEs. Fast methods of solving PDEs, high order discretisation schemes.
 
-### Parallel Computing
-
+### Parallel Computing (Term 2)
 
 - Distributed memory programming models: [MPI](https://www.mpi-forum.org).
 
@@ -36,12 +37,35 @@ Topic 4: Advanced algorithms for PDEs. Fast methods of solving PDEs, high order 
 - Measurement and modelling. Analysis of achieved performance,
   performance models, including the Roofline model.
 
+### Lecture scribblings and video links
+
+I'll add the annotated scribblings, live code examples, and links to
+the videos (accessible with a Durham account) here.
+
+- 2021-01-13: [Scribbles]({{< static-ref "parallel/2020-21/lec01.pdf"
+  >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fe338448-89f7-49b6-be1b-acaf00a72ad7),
+  [code]({{< code-ref "parallel/live/hello.py" >}})
+
 ## Lecturers
 
 [Anne Reinarz](mailto:anne.k.reinarz@durham.ac.uk)
 
 [Lawrence Mitchell](mailto:lawrence.mitchell@durham.ac.uk)
 
+
+The course will be taught over both Term 1 and 2, and assessed by a single piece of coursework due in Term 3.
+
+Lecture slots are at 9am on Wednesday mornings. These will be run over
+Zoom (you will need to be logged in with your Durham credentials)
+
+https://durhamuniversity.zoom.us/j/96513562625?pwd=ZGxySUhwc0hPOEV1YW1TT0sxM3lWUT09
+
+Meeting ID: 965 1356 2625
+Passcode: 506890
+
+A calendar subscription is available from
+[https://tinyurl.com/comp4187-ics](https://tinyurl.com/comp4187-ics).
 
 ## Reading
 

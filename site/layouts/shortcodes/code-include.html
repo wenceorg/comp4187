@@ -6,7 +6,7 @@
 
 */}}
 
-{{ $name := .Get 0 | path.Base }}
+{{ $name := .Get 0 }}
 {{ $file := (printf "/static/code/%s" (.Get 0)) | readFile}}
 {{ $url := (printf "code/%s" (.Get 0)) | absURL}}
 {{ $lang := .Get 1 }}
@@ -20,7 +20,7 @@
     <a href="{{ $url }}">Download</a>
   </div>
   <div class="book-include-content">
-    {{ (printf "```%s\n%s```" $lang $file) | markdownify }}
+    {{ (printf "```%s\n%s```" $lang $file) | markdownify | safeHTML }}
   </div>
 </div>
 
