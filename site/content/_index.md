@@ -37,6 +37,19 @@ Topic 4: Advanced algorithms for PDEs. Fast methods of solving PDEs, high order 
 - Measurement and modelling. Analysis of achieved performance,
   performance models, including the Roofline model.
 
+### Discussion forum
+
+I have set up a [discussion forum]({{< repo >}}/discussions) where you
+can ask, and answer, questions. You'll need a
+[GitHub](https://github.com) account to use it, but you've all got one
+of those already, right? Note that this repository and forum is
+publically visible.
+
+### Office hours
+
+No formal office hours, please [email
+me](mailto:lawrence.mitchell@durham.ac.uk) to arrange something.
+
 ### Lecture scribblings and video links
 
 I'll add the annotated scribblings, live code examples, and links to
