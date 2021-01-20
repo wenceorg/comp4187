@@ -46,6 +46,17 @@ the videos (accessible with a Durham account) here.
   >}}),
   [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fe338448-89f7-49b6-be1b-acaf00a72ad7),
   [code]({{< code-ref "parallel/live/hello.py" >}})
+- 2021-01-20: [Scribbles(]{{< static-ref "parallel/2020-21/lec02.pdf"
+  >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=ef0fb74d-cd43-4670-93be-acb600a5e14d)
+  
+  Some more detail on parallel scaling laws can be [found
+  here](https://teaching.wence.uk/phys52015/notes/theory/scaling-laws/).
+  For details on machine (or algorithmic) scaling, and its application
+  to PDE solvers, I like [_A performance spectrum for parallel
+  computational frameworks that solve
+  PDEs_](https://arxiv.org/pdf/1705.03625) (the published paper is [in
+  CCPE](https://onlinelibrary.wiley.com/doi/abs/10.1002/cpe.4401)).
 
 ## Lecturers
 
