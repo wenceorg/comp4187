@@ -1,6 +1,7 @@
 ---
 title: Introduction
 draft: false
+katex: true
 weight: 1
 ---
 
@@ -59,12 +60,34 @@ the videos (accessible with a Durham account) here.
   >}}),
   [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fe338448-89f7-49b6-be1b-acaf00a72ad7),
   [code]({{< code-ref "parallel/live/hello.py" >}})
-- 2021-01-20: [Scribbles(]{{< static-ref "parallel/2020-21/lec02.pdf"
+- 2021-01-20: [Scribbles]({{< static-ref "parallel/2020-21/lec02.pdf"
   >}}),
   [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=ef0fb74d-cd43-4670-93be-acb600a5e14d)
-  
+
+  About half way through when I wrote down the efficiency for weak
+  scaling I simplified $\frac{T_1}{T_1 + \mathcal{o}(p)T_1}$ to $\frac{T_1}{1 + \mathcal{o}(p)}$. The correct efficiency for weak scaling is
+  $$
+  \eta_p = \frac{1}{1 + \mathcal{o}(p)},
+  $$
+  the correct expressions for $\eta_p^{\text{fix}}$ and
+  $\eta_p^{\text{log}}$ are therefore
+
+  {{< rawhtml >}}
+  $$
+  \begin{aligned}
+  \eta_p^{\text{fix}} &= \frac{1}{1 + \alpha}\text{ and} \\
+  \eta_p^{\text{log}} &= \frac{1}{1 + \mathcal{O}(\log p)}.
+  \end{aligned}
+  $$
+  {{< /rawhtml >}}
+
+  I've updated the notes that were uploaded to reflect this, but
+  can't change the video. The subsequent discussion of what the plots
+  look like is, I think, all correct.
+
   Some more detail on parallel scaling laws can be [found
   here](https://teaching.wence.uk/phys52015/notes/theory/scaling-laws/).
+
   For details on machine (or algorithmic) scaling, and its application
   to PDE solvers, I like [_A performance spectrum for parallel
   computational frameworks that solve
