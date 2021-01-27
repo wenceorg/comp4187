@@ -108,8 +108,8 @@ Finally, non-blocking communication allows us to (in theory) _overlap_
 communication with computation. This can help to improve scaling
 performance in some cases.
 
-As you probably saw when doing the [ping-pong]({{ ref
-"mpi-ping-pong.md" }}) exercise, all MPI messages have a non-zero
+As you probably saw when doing the [ping-pong]({{< ref
+"pingpong.md" >}}) exercise, all MPI messages have a non-zero
 latency. That means that no matter how small it is, it takes some
 time for a message to cross the network. If we use blocking messages,
 the best case total time for our simulation is going to be
