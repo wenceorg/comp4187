@@ -112,11 +112,9 @@ splitting the input communicator into two)?
 {{< /exercise >}}
 
 This splitting facility is useful if we only need a subset of all the
-processes to participate in a collective operation. For example, the
-outer-product matrix-matrix SUMMA multiplication in the
-[coursework]({{< ref "coursework.md" >}}) requires a broadcast of
-matrix blocks along rows and columns of the 2D process grid, this is
-much simplified by creating communicators for the rows and columns.
+processes to participate in a collective operation. This might be
+something like reducing the number of processes participating in the
+[coarse grids of a multigrid solve](https://arxiv.org/abs/1604.07163).
 
 ## Further features and details
 
@@ -187,12 +185,12 @@ tutorials](https://htor.inf.ethz.ch/teaching/mpi_tutorials/).
 distributed arrays in the
 [MPIArrays.jl](https://github.com/barche/MPIArrays.jl) package.
 
-Python has wrappers via
+As we've seen in this course, Python has wrappers via
 [mpi4py](https://mpi4py.readthedocs.io/en/stable/). For distributed
 array computation, look at [dask](https://dask.org).
 
 For parallel sparse linear algebra, and PDE solvers,
 [PETSc](https://www.mcs.anl.gov/) and
 [Trilinos](https://trilinos.github.io) are robust and well-supported
-libraries.
+libraries. PETSc has mature Python bindings provided by petsc4py.
 

@@ -10,11 +10,11 @@ katex: true
 sufficient to write all the parallel algorithms we might want.
 However, they might not necessarily be the most efficient.
 
-As motivation, let's think about the time we would expect the [ring
-reduction]({{ ref "mpi-ring.md" }}) you implemented to take as a
-function of the number of processes.
+As motivation, let's think about the time we would expect a reduction
+(combination of values) to take if we send messages in a 1-D ring of
+processes.
 
-Recall from the [ping-pong exercise]({{ ref "mpi-ping-pong.md" }})
+Recall from the [ping-pong exercise]({{< ref "pingpong.md" >}})
 that our model for the length of time it takes to send a message with
 $B$ bytes is
 
@@ -71,7 +71,7 @@ def f(p):
 root = scipy.optimize.newton(f, 2)
 
 print(root)
-=> 6.319722355838366
+# => 6.319722355838366
 ```
 
 {{< autofig

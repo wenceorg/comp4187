@@ -366,8 +366,5 @@ Messages can be distinguished by tags. Often don't need them for
 simple processes, but can be used in advanced usage, or to make sure
 that messages don't accidentally match.
 
-You should now know enough to attempt the exercise [sending messages
-in a ring]({{ ref "mpi-ring.md" }}).
-
 [^1]: MPI does have some facility for one-sided message passing, but
       we won't cover it in this course.
