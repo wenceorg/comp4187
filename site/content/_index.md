@@ -97,12 +97,12 @@ the videos (accessible with a Durham account) here.
   >}}),
   [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=45ef144c-596e-4ef7-a140-acbd00a56638),
   [code]({{< code-ref "parallel/live/pingpong.py" >}})
-  
+
   Have a go at running this code on your own machine (or on Hamilton).
   If on Hamilton do you observe different behaviour when running
   across more than one node? See [this exercise description]({{< ref
   "pingpong.md" >}}) for more information.
-  
+
   The paper I briefly mentioned in the lecture is [_Scaling Limits for
   PDE-based
   simulation_](http://www.mcs.anl.gov/papers/P5347-0515.pdf), it goes
@@ -110,6 +110,20 @@ the videos (accessible with a Durham account) here.
   to turning machine and computational models into models for scaling.
   I'll cover a little more of it next week, so if you have time to
   skim through that would be great.
+- 2021-02-03: [Scribbles]({{< static-ref "parallel/2020-21/lec04.pdf" >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=dc7a8f75-b76d-4f5d-95e9-acc400a73ecb)
+
+  We looked at some results from the ping-pong code we wrote last
+  time, and then discussed the idea that the reason we can have a hope
+  of solving PDEs in parallel is that we have _sparse_
+  representations. So we don't need to do alltoall communication and
+  computation. We then started on how might divide the work on our
+  grids up between parallel processes, with a goal of having
+  $\frac{N}{P}$ work per process and (hopefully) at worst
+  $\mathcal{O}(\log P)$ algorithmic, memory footprint, or
+  message-passing complexity as a function of the number of processes.
+  I tried to motivate why this is a reasonable goal for multigrid
+  solvers.
 
 ## Lecturers
 
