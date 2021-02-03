@@ -71,6 +71,7 @@ def pingpong(m, comm=MPI.COMM_WORLD, use_numpy=True):
     # Also need to combine warmups, use minimum value here
     minwarmup = comm.allreduce(nwarmup, op=MPI.MIN)
 
+    # This will be the same on all processes
     single_iteration_time = maxtotal / minwarmup
 
     # Pick a number of iterations that will maybe run for 2 seconds.
