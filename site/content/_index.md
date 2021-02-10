@@ -110,7 +110,8 @@ the videos (accessible with a Durham account) here.
   to turning machine and computational models into models for scaling.
   I'll cover a little more of it next week, so if you have time to
   skim through that would be great.
-- 2021-02-03: [Scribbles]({{< static-ref "parallel/2020-21/lec04.pdf" >}}),
+- 2021-02-03: [Scribbles]({{< static-ref "parallel/2020-21/lec04.pdf"
+  >}}),
   [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=dc7a8f75-b76d-4f5d-95e9-acc400a73ecb)
 
   We looked at some results from the ping-pong code we wrote last
@@ -124,6 +125,35 @@ the videos (accessible with a Durham account) here.
   message-passing complexity as a function of the number of processes.
   I tried to motivate why this is a reasonable goal for multigrid
   solvers.
+- 2021-02-10: [Scribbles]({{< static-ref "parallel/2020-21/lec05.pdf"
+  >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4f9c54be-8651-4805-9935-accb00a87468)
+
+  We briefly recapped why we want "square" subdomains: since we want
+  to minimise surface to volume ratio. Then we started looking at the
+  design of MPI-parallel grids. In particular, we motivated that we
+  want to agglomerate messages into large batches (rather than sending
+  many small messages).
+
+  The key point in the design is the separation of "global" vectors
+  (which have no overlap) which our timestepper wants to see, and
+  "local" vectors (with overlap) which are necessary for computing (I
+  called this assembly) the residual. The local vectors need overlap
+  because the stencil doesn't just act pointwise. I sketched a
+  plausible design for how this works, which we'll make more concrete
+  next week.
+
+  Next time we want to look at the analysis of scaling limits for
+  Jacobi iteration from [_Scaling Limits for
+  PDE-based
+  simulation_](http://www.mcs.anl.gov/papers/P5347-0515.pdf), so
+
+  {{< exercise >}}
+  Please read the introduction and up to the send of Section II.B.1
+  (Jacobi iteration) from that paper, we'll try and discuss the key
+  points.
+  {{< /exercise >}}
+
 
 ## Lecturers
 
@@ -132,7 +162,8 @@ the videos (accessible with a Durham account) here.
 [Lawrence Mitchell](mailto:lawrence.mitchell@durham.ac.uk)
 
 
-The course will be taught over both Term 1 and 2, and assessed by a single piece of coursework due in Term 3.
+The course will be taught over both Term 1 and 2, and assessed by a
+single piece of coursework due in Term 3.
 
 Lecture slots are at 9am on Wednesday mornings. These will be run over
 Zoom (you will need to be logged in with your Durham credentials)
