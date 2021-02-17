@@ -153,7 +153,46 @@ the videos (accessible with a Durham account) here.
   (Jacobi iteration) from that paper, we'll try and discuss the key
   points.
   {{< /exercise >}}
+- 2021-02-17: [Scribbles]({{< static-ref "parallel/2020-21/lec06.pdf"
+  >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=c8155b70-fde8-4d09-9d59-acd200a7b739)
 
+  This time my annotatations where on the Fischer et al. paper I set
+  as reading work. I provided some background on the application areas
+  they are starting from (and nearly managed, up to one sign error, to
+  get the [Navier--Stokes
+  equations](https://en.wikipedia.org/wiki/Navier–Stokes_equations)
+  correct). We then looked a little bit more at scaling models and did
+  an analysis (following the paper) of scaling limits for a finite
+  difference discretisation of the Laplacian in 3D if using Jacobi
+  iterations as a solver. Each iteration is scalable, but since we
+  need to do a number of iterations that increases with the total
+  number of degrees of freedom, Jacobi iteration on its own is not
+  algorithmically scalable. I got a bit confused with the way they had
+  written the Jacobi update. There is a sign error in that equation.
+  The uploaded scribbles work out what it should look like (in two
+  different ways).
+
+  The paper also presents the results of a detailed analysis (not
+  worked through) for scaling limits for a V(1, 0) cycle of geometric
+  multigrid. This _is_ an algorithmically scalable algorithm. It has
+  more communication, with a term that grows with $\log P$, so as we
+  add more processes we need more local work to remain computationally
+  scalable.
+
+  We remarked briefly on how few extra flops multigrid needs (compared
+  to Jacobi iteration) to get a scalable algorithm.
+
+  One thing I remarked on in Table 1 from the paper is exactly how
+  fast the network interconnect is on nice HPC platforms. To see
+  exactly how fast, compare with the latency for modern [NVMe
+  SSDs](https://www.anandtech.com/show/16458/2021-ssd-benchmark-suite/3),
+  which are touted as a real step forward in disk technology, and
+  notice that we've had interconnects with lower latency than modern
+  SSDs since _1990_.
+
+  Next time we'll do some more hands on stuff and sketch some code
+  for multi-level algorithms in MPI.
 
 ## Lecturers
 
