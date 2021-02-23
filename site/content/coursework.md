@@ -275,19 +275,23 @@ $$
 
 Using
 $$
-\begin{aligned}
-K(x, y, z) &= ...
-f(x, y, z) &= ...
-\end{aligned}
+K(x, y, z) = \sin(4.5 \pi x)
 $$
-and the boundary conditions
 $$
-u(x, y, z) = ...
+f(x, y, z) = \frac{9 \pi}{2} \cos(4.5 \pi x),
 $$
-timestep to a steady state solution. The exact solution for this
+Dirichlet boundary conditions on the left and right faces
+$$
+u(x, y, z) = 0 \text{ at } x=0 \text{ and } x = 1
+$$
+and Neumann boundary conditions everywhere else
+$$
+\nabla u(x, y, z)\cdot n = 0,
+$$
+where $n$ is the outer normal to timestep to a steady state solution. The exact solution for this
 problem is
 $$
-u^*(x, y, z) = ...
+u^*(x, y, z) = x.
 $$
 
 {{< hint info >}}
