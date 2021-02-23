@@ -9,10 +9,7 @@ katex: true
 
 The submission deadline for this work is 13th May 2021.
 
-You should submit a single text file to DUO containing the git hash of
-the repository commit you would like us to mark.
-
-See below for submission details.
+See [below]({{< ref "#submission" >}}) for submission details.
 
 {{< /hint >}}
 
@@ -401,3 +398,38 @@ rediscretised coarse grids (the default) and Galerkin coarse grids.
 Discuss your findings.
 
 {{< /question >}}
+
+## Submission and mark scheme {#submission}
+
+The work will be marked on the basis of three things
+
+1. Your submitted code;
+2. A short report discussing answers to the questions and your
+   findings;
+3. A brief (10 min) oral exam with the lecturers.
+
+You should submit to DUO a zip file containing
+
+1. A PDF of your writeup (max 4 pages), use your Z-code to name this
+   as ZCODE.pdf;
+2. A text file ZCODE.txt containing the commit hash of the code on
+   github you want us to mark.
+   
+After submission, please contact the lecturers to arrange a time for
+the oral exam.
+
+### Mark scheme
+
+- Part 1 [35 marks]
+    - Part 1a [25 marks]
+        - implementation [15 marks]
+        - questions/writeup [10 marks]
+    - Part 1b [10 marks]
+- Part 2 [25 marks]
+    - Part 2a: implementation [15 marks]
+    - Part 2b: questions/writeup [10 marks]
+- Part 3 [25 marks]
+    - implementation [5 marks]
+    - questions/writeup [20 marks]
+- Code formatting (tested via flake8) [5 marks]
+- Brief oral exam [10 marks]
