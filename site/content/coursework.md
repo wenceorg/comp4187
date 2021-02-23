@@ -275,23 +275,19 @@ $$
 
 Using
 $$
-K(x, y, z) = \sin(\pi x)
+K(x, y, z) = x
 $$
 $$
-f(x, y, z) =  \pi \cos(\pi x),
+f(x, y, z) =  (\pi \cos(\pi x)-3\pi^2x\sin(\pi x))\sin(\pi y)\sin(\pi z),
 $$
-Dirichlet boundary conditions on the left and right faces
+Dirichlet boundary conditions on the boundary
 $$
-u(x, y, z) = 0 \text{ at } x=0 \text{ and } x = 1
+u(x, y, z) = 0.
 $$
-and Neumann boundary conditions everywhere else
-$$
-\nabla u(x, y, z)\cdot n = 0,
-$$
-where $n$ is the outer normal to timestep to a steady state solution. The exact solution for this
+The exact solution for this
 problem is
 $$
-u^*(x, y, z) = x.
+u^*(x, y, z) = \sin(\pi x)\sin(\pi y)\sin(\pi z).
 $$
 
 {{< hint info >}}
