@@ -275,10 +275,10 @@ $$
 
 Using
 $$
-K(x, y, z) = \sin(4.5 \pi x)
+K(x, y, z) = \sin(\pi x)
 $$
 $$
-f(x, y, z) = \frac{9 \pi}{2} \cos(4.5 \pi x),
+f(x, y, z) =  \pi \cos(\pi x),
 $$
 Dirichlet boundary conditions on the left and right faces
 $$
@@ -391,7 +391,32 @@ For this setup, we'll solve the following problem. Meant to be an
 idealised case of a machine room with hot and cold areas, along with
 heat extraction from the boundary walls.
 
+{{< rawhtml >}}
 $$
+K(x,y,z) = \begin{cases} 1.0 & \text{if } y<0.9 \text{ and }x\in[0.1,0.3],~y\in[0.1,0.9]\\
+                             & \text{or } y<0.9 \text{ and }x\in[0.7,0.9],~y\in[0.1,0.9]\\
+                         0.001 & \text{else}
+        \end{cases}
+$$
+{{< \rawhtml >}}
+
+A "door" will be modeled by using Dirichlet boundary conditions
+$$
+u = 1.0 \text{ if } x=0,~y\in[0.4,0.7],~z<0.8
+$$
+and a vent in the floor cools the room
+$$
+u = 0.0 \text{ if } x\in[0.4,0.6],~y\in[0.1,0.9],~z=0
+$$
+
+And on the remaining boundary we assume (as in the lecture) "perfect" walls
+$$
+\nabla u \cdot n = 0.
+$$
+
+In an overly simplified way we add heat sources coming from the machines
+$$
+f(x,y,z) = -1+e^{-\frac{(x-0.2)^2+(y-0.5)^2+(z-0.5)^2}{0.02}}+e^{-\frac{(x-0.8)^2+(y-0.5)^2+(z-0.5)^2}{0.02}}
 $$
 
 You can again adapt your `Poisson7pt` stencil to incorporate the new
