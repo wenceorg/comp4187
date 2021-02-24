@@ -216,6 +216,7 @@ Discretise the equation
 $$
 \partial_t u - \nabla \cdot K(x, y, z) \nabla u = f(x, y, z)
 $$
+on the cubic domain $\Omega = [0, 1] \times [0, 1] \times [0, 1]$,
 using forward Euler as a timestepping scheme.
 
 To do this, create a class `Poisson7pt` that discretises the spatial
@@ -347,7 +348,8 @@ coefficient variation that _does not_ align well with the grids.
 
 For this setup, we'll solve the following problem. Meant to be an
 idealised case of a machine room with hot and cold areas, along with
-heat extraction from the floor.
+heat extraction from the floor. Again, the domain is the cube $\Omega
+= [0, 1] \times [0, 1] \times [0, 1]$.
 
 {{< rawhtml >}}
 $$
