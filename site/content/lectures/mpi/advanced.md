@@ -190,7 +190,8 @@ As we've seen in this course, Python has wrappers via
 array computation, look at [dask](https://dask.org).
 
 For parallel sparse linear algebra, and PDE solvers,
-[PETSc](https://www.mcs.anl.gov/) and
+[PETSc](https://www.mcs.anl.gov/petsc) and
 [Trilinos](https://trilinos.github.io) are robust and well-supported
-libraries. PETSc has mature Python bindings provided by petsc4py.
+libraries. PETSc has mature Python bindings provided by [petsc4py]({{<
+ref "petsc4py.md" >}}).
 

@@ -193,6 +193,44 @@ the videos (accessible with a Durham account) here.
 
   Next time we'll do some more hands on stuff and sketch some code
   for multi-level algorithms in MPI.
+- 2021-02-24: [Scribbles (quite short)]({{< static-ref "parallel/2020-21/lec07.pdf"
+  >}}), [code]({{< code-ref "parallel/live/Lec07.py" >}})
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=2e211aac-bc6e-4d75-ac62-acda00b4ba0b)
+
+  I introduced what we're doing for the coursework, a [candidate]({{<
+  ref "coursework.md" >}}) is available, which may get minor textual
+  edits after checking but is basically complete. We will be using
+  [github classroom](https://classroom.github.com) to manage the code
+  submission so please sign up via the link on the coursework page.
+
+  For the remainder of the lectures, I'll be introducing concepts, and
+  use, of the [PETSc](https://www.mcs.anl.gov/petsc/) library. PETSc
+  is a sophisticated parallel library that provides many useful
+  datastructures for PDEs on grids and unstructured meshes. We're
+  using it provide the parallel grids and sparse matrices in the
+  coursework, so you'll want to get it installed locally. If you have
+  any issues here please **get in touch**.
+
+  I started by introducing PETSc's
+  [`Vec`](https://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/Vec/index.html)
+  object. We saw that every PETSc object gets created with a
+  communicator. Many of the operations are then _logically collective_
+  over that communicator: all ranks must participate for correctness,
+  even if there is no obvious synchronisation required.
+
+  Most of the operations we saw were local (pointwise) operations on
+  vectors, but the final thing we saw showed how PETSc deals with the
+  problem of "batching" communication. If I want to set values in part
+  of a `Vec` that I don't own, then I do that by first
+  (non-collectively) calling `vec.setValues`. This internally creates
+  a stash for the data that will need to be communicated. Once
+  everyone is done setting values, there's a split-phase communication
+  round with `vec.assemblyBegin()` followed by `vec.assemblyEnd()`.
+  After the latter call, the `Vec` contains the new values and is
+  ready to be used again.
+
+  See the [commented code]({{< code-ref "parallel/live/Lec07.py" >}})
+  for more details.
 
 ## Lecturers
 
