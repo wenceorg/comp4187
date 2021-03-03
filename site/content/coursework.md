@@ -408,7 +408,10 @@ The work will be marked on the basis of three things
 1. Your submitted code;
 2. A short report discussing answers to the questions and your
    findings;
-3. A brief (10 min) oral exam with the lecturers.
+3. A brief (10 min) oral exam with the lecturers. We will use this to
+   have a brief discussion about your implementation choices and code,
+   and any interesting things you found in your numerical experiments.
+   No need to prepare anything specific.
 
 You should submit to DUO a zip file containing
 
@@ -418,7 +421,7 @@ You should submit to DUO a zip file containing
    github you want us to mark.
    
 After submission, please contact the lecturers to arrange a time for
-the oral exam.
+the oral exam. Please do so within 5 days of the submission deadline.
 
 ### Mark scheme
 
