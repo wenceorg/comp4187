@@ -194,7 +194,7 @@ the videos (accessible with a Durham account) here.
   Next time we'll do some more hands on stuff and sketch some code
   for multi-level algorithms in MPI.
 - 2021-02-24: [Scribbles (quite short)]({{< static-ref "parallel/2020-21/lec07.pdf"
-  >}}), [code]({{< code-ref "parallel/live/Lec07.py" >}})
+  >}}), [code]({{< code-ref "parallel/live/Lec07.py" >}}),
   [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=2e211aac-bc6e-4d75-ac62-acda00b4ba0b)
 
   I introduced what we're doing for the coursework, a [candidate]({{<
@@ -231,7 +231,25 @@ the videos (accessible with a Durham account) here.
 
   See the [commented code]({{< code-ref "parallel/live/Lec07.py" >}})
   for more details.
-
+- 2021-03-03: [Scribbles]({{< static-ref "parallel/2020-21/lec07.pdf" >}}),
+  [code]({{< code-ref "parallel/live/Lec08.py" >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8189711a-b11b-4018-a694-ace000ab310c),
+  
+  We discussed sparse matrices, and a little bit about sparse matrix
+  formats. I (somewhat informally) defined what we mean by a sparse
+  matrix. We also briefly looked at how sparse matrices are
+  distributed in parallel. This is interesting when we think about
+  operations involving matrices and vectors, particularly we need that
+  the parallel decomposition is _compatible_ (PETSc will complain if
+  not). Matrices, representing finite dimensional linear operators,
+  are encapsulated in the PETSc
+  [`Mat`](https://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/Mat/index.html)
+  object. The PETSc manual also has [a
+  section](https://docs.petsc.org/en/latest/manual/mat/) on them.
+  
+  Some example usage is shown in the [commented code]({{< code-ref
+  "parallel/live/Lec08.py" >}}).
+  
 ## Lecturers
 
 [Anne Reinarz](mailto:anne.k.reinarz@durham.ac.uk)
