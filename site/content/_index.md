@@ -233,8 +233,12 @@ the videos (accessible with a Durham account) here.
   for more details.
 - 2021-03-03: [Scribbles]({{< static-ref "parallel/2020-21/lec07.pdf" >}}),
   [code]({{< code-ref "parallel/live/Lec08.py" >}}),
-  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8189711a-b11b-4018-a694-ace000ab310c),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8189711a-b11b-4018-a694-ace000ab310c).
   
+  _Note: apologies, the screen sharing in the video only appears to
+  show the code, and not interaction with the terminal. Please try
+  running the code yourself to see what's going on._
+
   We discussed sparse matrices, and a little bit about sparse matrix
   formats. I (somewhat informally) defined what we mean by a sparse
   matrix. We also briefly looked at how sparse matrices are
