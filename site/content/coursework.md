@@ -57,7 +57,8 @@ variables every time your log in.
 
 Building PETSc is sometimes problematic. If the `pip install` route
 fails for any reason **GET IN TOUCH** and we'll figure it out. The
-best way to do this is via the discussion forum.
+best way to do this is via the [discussion forum]({{< repo
+>}}/discussions).
 
 {{< /hint >}}
 
