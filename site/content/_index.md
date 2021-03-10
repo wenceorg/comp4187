@@ -231,10 +231,10 @@ the videos (accessible with a Durham account) here.
 
   See the [commented code]({{< code-ref "parallel/live/Lec07.py" >}})
   for more details.
-- 2021-03-03: [Scribbles]({{< static-ref "parallel/2020-21/lec07.pdf" >}}),
+- 2021-03-03: [Scribbles]({{< static-ref "parallel/2020-21/lec08.pdf" >}}),
   [code]({{< code-ref "parallel/live/Lec08.py" >}}),
   [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8189711a-b11b-4018-a694-ace000ab310c).
-  
+
   _Note: apologies, the screen sharing in the video only appears to
   show the code, and not interaction with the terminal. Please try
   running the code yourself to see what's going on._
@@ -250,10 +250,23 @@ the videos (accessible with a Durham account) here.
   [`Mat`](https://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/Mat/index.html)
   object. The PETSc manual also has [a
   section](https://docs.petsc.org/en/latest/manual/mat/) on them.
-  
+
   Some example usage is shown in the [commented code]({{< code-ref
   "parallel/live/Lec08.py" >}}).
-  
+- 2021-03-10: [Scribbles]({{< static-ref "parallel/2020-21/lec09.pdf" >}}),
+  [code]({{< code-ref "parallel/live/Lec09.py" >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=0a77c5e3-9222-4d47-9185-ace700a8adac).
+
+  I introduced PETSc's
+  [`DMDA`](https://docs.petsc.org/en/latest/manual/vec/#structured-grids-using-distributed-arrays)
+  which provides indexing, matrix, and vector creation for finite
+  difference discretisations on structured grids.
+
+  They key thing here for writing finite difference codes is the
+  notion of global and local vectors, and the index ranges that the
+  DMDA gives us. We saw some pictures of this and looked at the basic
+  functionality. Next time we'll do a complete small example.
+
 ## Lecturers
 
 [Anne Reinarz](mailto:anne.k.reinarz@durham.ac.uk)
