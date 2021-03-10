@@ -15,6 +15,34 @@ This submodule builds on Numerical Algorithms I (Parallel Scientific
 Computing I) and introduces advanced topics in ODE integration
 schemes, and spatial discretisation.
 
+## Assessment
+
+The [coursework]({{< ref "coursework.md" >}}) is described on its own
+page, submission deadline is 13th May.
+
+### Practice github classroom submission
+
+The code submission is via [github
+classroom](https://classroom.github.com), I have created a small
+practice repository for you to check you understand the technology. To
+get this set up, [accept the
+invitation](https://classroom.github.com/a/jZzs7HuV). You will need to
+edit a few files so that the tests (run via github actions) pass.
+There are some [`flake8`](https://flake8.pycqa.org) failures.
+Additionally, you need to implement some [abstract
+methods](https://docs.python.org/3/library/abc.html) in a concrete
+class. When you're done, [email
+me](mailto:lawrence.mitchell@durham.ac.uk) with the commit hash you
+want me to check and I will confirm everything looks good.
+
+{{< hint info >}}
+This should take at most 15 minutes to do, but you'll get to practice
+the stuff that we're using for the real submission as well.
+
+**If you can't get things to work, get in touch!**
+
+{{< /hint >}}
+
 ## Syllabus
 
 ### Numerical Methods (Term 1)
@@ -273,9 +301,6 @@ the videos (accessible with a Durham account) here.
 
 [Lawrence Mitchell](mailto:lawrence.mitchell@durham.ac.uk)
 
-
-The course will be taught over both Term 1 and 2, and assessed by a
-single piece of coursework due in Term 3.
 
 Lecture slots are at 9am on Wednesday mornings. These will be run over
 Zoom (you will need to be logged in with your Durham credentials)
