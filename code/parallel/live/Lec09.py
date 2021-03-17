@@ -20,8 +20,8 @@ NY = 5
 
 # There are individual functions that we can use to set each of these
 # things, but it's easier to just set them in the constructor.
-grid = PETSc.DMDA().create(dof=1, # Each grid point will contain one double
-                           sizes=(NX, NY), # Global size
+grid = PETSc.DMDA().create(dof=1,  # Each grid point will contain one double
+                           sizes=(NX, NY),  # Global size
                            # Stencil type: tells us how to create matrices
                            stencil_type=PETSc.DMDA.StencilType.STAR,
                            # Width of stencil

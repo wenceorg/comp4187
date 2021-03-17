@@ -294,6 +294,26 @@ the videos (accessible with a Durham account) here.
   notion of global and local vectors, and the index ranges that the
   DMDA gives us. We saw some pictures of this and looked at the basic
   functionality. Next time we'll do a complete small example.
+- 2021-03-17: [Scribbles]({{< static-ref "parallel/2020-21/lec10.pdf" >}}),
+  [code]({{< code-ref "parallel/live/Lec10.py" >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=e2119d50-b5ae-4e71-be84-acee00a7d118).
+
+  We looked at using a DMDA grid to do parallel finite differences.
+  The major part that is a little fiddly to get right is the different
+  indexing for global points, local points, and local ghost points. I
+  drew some ASCII pictures, and showed the setup for both
+  matrix-vector product (using the local indexing) and global indexing
+  for matrix assembly.
+
+  We then discussed some of the things that might go wrong
+  when implementing numerical code, and some suggestions for how
+  to debug. The main idea is to use the mathematical structure of the
+  problem to set up tests for which you know the answer. For example,
+  if you have a 1D discretisation of $-\nabla^2$, represented as the
+  matrix $A$, then applying that matrix to the finite difference
+  representation of $x^2$ should produce a vector that represents
+  $-2$. You can incorporate such tests in a test suite and be sure
+  that newer changes do not break old behaviour.
 
 ## Lecturers
 
