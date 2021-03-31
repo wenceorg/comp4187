@@ -13,6 +13,17 @@ See [below]({{< ref "#submission" >}}) for submission details.
 
 {{< /hint >}}
 
+{{< hint info >}}
+### Updates
+
+#### 2021/03/31
+
+1. Fixed sign error in forcing term for Part 1. The $f$ needs a minus
+   sign out the front for the exact solution to be a positive product
+   of signs.
+2. Fix instructions for obtaining `petsc4py` on Hamilton.
+
+{{< /hint >}}
 ## Introduction
 
 In this coursework, we're going to implement a parallel multigrid
@@ -46,7 +57,9 @@ export PETSC_DIR=/ddn/data/vtdb72/petsc
 export PETSC_ARCH=arch-linux2-c-opt
 ```
 
-After that you can `pip install petsc4py` in your virtual environment.
+After that, to get a `petsc4py` install, you should install from the
+PETSc bindings directory. So do `pip install
+/ddn/data/vtdb72/petsc/src/binding/petsc4py` in your virtual environment.
 
 Don't forget to load those modules and export those environment
 variables every time your log in.
@@ -231,7 +244,7 @@ $$
 K(x, y, z) = x
 $$
 $$
-f(x, y, z) =  (\pi \cos(\pi x)-3\pi^2x\sin(\pi x))\sin(\pi y)\sin(\pi z),
+f(x, y, z) =  -(\pi \cos(\pi x)-3\pi^2x\sin(\pi x))\sin(\pi y)\sin(\pi z),
 $$
 Dirichlet boundary conditions on the boundary
 $$
