@@ -15,6 +15,16 @@ This submodule builds on Numerical Algorithms I (Parallel Scientific
 Computing I) and introduces advanced topics in ODE integration
 schemes, and spatial discretisation.
 
+## Office hours
+
+If you have any remaining questions about the course or the coursework, we encourage you to come talk to us during the office hours.
+Office hours will take place over zoom with the link below for both sessions:
+[Zoom link](https://durhamuniversity.zoom.us/j/91547840156?pwd=TU5QOWJ1ZVJrTlN2WXd4anBlOWw1QT09)
+
+Lawrence will be available on: Tuesday April 27, 01:00 PM
+Anne will be available on: Wednesday May 5, 01:00 PM
+
+
 ## Assessment
 
 The [coursework]({{< ref "coursework.md" >}}) is described on its own
