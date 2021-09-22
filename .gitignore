@@ -13,3 +13,5 @@
 /code/add_numbers/*/addnumbers
 .DS_Store
 /code/.ipynb_checkpoints/
+__pycache__/
+.vscode/
