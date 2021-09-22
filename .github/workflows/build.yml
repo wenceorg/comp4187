@@ -3,7 +3,9 @@ name: Check build
 on:
   pull_request:
     branches:
-      - master
+      - main
+  push:
+    branches: [ main ]
 
 jobs:
   build:
@@ -26,3 +28,14 @@ jobs:
     - name: Build
       run:
         make html
+    - name: Deploy
+      uses: crazy-max/ghaction-github-pages@v2.5.0
+      if: ${{ github.ref == 'refs/heads/main' }}
+      with:
+        target_branch: gh-pages
+        build_dir: ./site/public
+        keep_history: false
+        allow_empty_commit: false
+        jekyll: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
