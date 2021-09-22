@@ -15,17 +15,20 @@ This submodule builds on Numerical Algorithms I (Parallel Scientific
 Computing I) and introduces advanced topics in ODE integration
 schemes, and spatial discretisation.
 
+## Time and Place
+In term 1 lectures take place at 12:00 on Wednesdays in CM107.
+Recordings of each lecture will be uploaded on encore, 
+but you are encouraged to attend synchronously in person or via zoom.
+
+
 ## Syllabus
 
 ### Numerical Methods (Term 1)
 
-Topic 1: Spatial discretisation. Finite difference methods for partial differential equations (PDEs), stability, convergence, and consistency;
-
-Topic 2: Time dependent PDEs. Stability constraints for time-dependent PDEs, connection to eigenvalue analysis;
-
-Topic 3: Implicit ordinary differential equation (ODE) methods, and matrix representations of PDE operators;
-
-Topic 4: Advanced algorithms for PDEs. Fast methods of solving PDEs, high order discretisation schemes.
+- Topic 1: Spatial discretisation. Finite difference methods for partial differential equations (PDEs), stability, convergence, and consistency;
+- Topic 2: Time dependent PDEs. Stability constraints for time-dependent PDEs, connection to eigenvalue analysis;
+- Topic 3: Implicit ordinary differential equation (ODE) methods, and matrix representations of PDE operators;
+- Topic 4: Advanced algorithms for PDEs. Fast methods of solving PDEs, high order discretisation schemes.
 
 ### Parallel Computing (Term 2)
 
@@ -47,7 +50,7 @@ of those already, right? Note that this repository and forum is
 publically visible.
 
 ### Office hours
-
+We're happy to answer any questions in office hours, email to arrange a time.
 
 ## Lecturers
 
