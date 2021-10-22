@@ -12,6 +12,8 @@ The submission deadline for this work is November 4th.
 
 This coursework is worth 20% of the total mark for the module.
 
+You can accept the assignment on [github classroom](https://classroom.github.com/a/y0zy7ioC)
+
 See [below]({{< ref "#submission" >}}) for submission details.
 
 {{< /hint >}}
