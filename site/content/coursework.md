@@ -70,7 +70,7 @@ $$
 
 The analytical solution to this problem can be computed directly:
 $$
-u*(x,t) = \cos(\pi^2 \sqrt{k} t)\sin(\pi x) + \frac{1}{2} \cos(9\pi^2 \sqrt{k} t)\sin(3\pi x).
+u^*(x,t) = \cos(\pi^2 \sqrt{k} t)\sin(\pi x) + \frac{1}{2} \cos(9\pi^2 \sqrt{k} t)\sin(3\pi x).
 $$
 You may use the analytical solution to test your implementation and to compute errors.
 
@@ -82,7 +82,7 @@ You may start by modifying code shown in the lecture.
 {{< question "Questions" >}}
 1. Derive a centred differences stencil for the spatial component of the problem.
 1. The second-order in time equation can easily be transformed into a coupled system of first-order in time equations. Derive the first-order system and apply an explicit Euler time-stepping scheme.
-1. Implement the time-stepping scheme and stencil to find a numerical approximation to $u*$. Use a small value for the end time and for $k$, e.g. $k=0.01$.
+1. Implement the time-stepping scheme and stencil to find a numerical approximation to $u^*$. Use a small value for the end time and for $k$, e.g. $k=0.01$.
 1. Is there a time-step size limitation needed to ensure stability? If so what is it?
 1. What convergence order do you observe? Is this what you expected? Why/why not?
 {{< /question >}}
