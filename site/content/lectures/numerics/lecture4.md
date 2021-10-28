@@ -1,5 +1,5 @@
 ---
-title: "Lecture 4: Time-stepping"
+title: "Lecture 4: Finite Differences"
 weight: 2
 katex: true
 ---
