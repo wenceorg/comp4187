@@ -18,7 +18,8 @@ See [below]({{< ref "#submission" >}}) for submission details.
 ## Introduction
 
 In this coursework, we're going to implement a parallel multigrid
-solver in three dimensions for the variable-coefficient Laplacian.
+solver initially in one dimension for the Euler-Bernoulli beam
+and finally in three dimensions for the variable-coefficient Laplacian.
 
 We are using [PETSc](https://www.mcs.anl.gov/petsc/), via
 [petsc4py](https://pypi.org/project/petsc4py/), to provide the
@@ -249,7 +250,11 @@ $$w(x) = \begin{cases}
     \frac{x(4x^2-3)}{48k}, & \mbox{for } 0 < x < \frac{1}{2} \\
     \frac{(x-1)(1-8x+4x^2)}{48k}, & \mbox{for } \frac{1}{2} < x < 1
     \end{cases}$$
-but some constant is wrong in the above.
+    
+For now we will solve the resulting linear system with a direct solver.
+You can use one of the built-in PETSc solvers for this. Later we will
+implement a multigrid solver. At that stage you may want to go back to
+this equation to see how multigrid performs.
 
 {{< question "Part 1a questions" >}}
 1. How does the error in your numerical solution behave under grid
@@ -267,7 +272,14 @@ $$
 \partial_t u - \nabla \cdot K(x, y, z) \nabla u = f(x, y, z)
 $$
 on the cubic domain $\Omega = [0, 1] \times [0, 1] \times [0, 1]$,
-using forward Euler as a timestepping scheme.
+using forward Euler as a timestepping scheme. After some time-stepping
+the equation will reach its steady-state, which is to say that the time
+derivative will become zero. Compare solving the stationary state-state
+equation 
+$$
+- \nabla \cdot K(x, y, z) \nabla u = f(x, y, z)
+$$
+directly using a linear solver with time-stepping towards the steady-state.
 
 To do this, create a class `Poisson7pt` that discretises the spatial
 operator using a 2nd order accurate 7-point stencil (as derived in lectures).
@@ -309,8 +321,9 @@ serial (when run with MPI).
 {{< question "Part 2a questions" >}}
 1. How does the error in your numerical solution behave under grid
    refinement? Can you explain what you see?
-2. What restriction, if any, is there on the size of the timestep you can
-   choose?
+2. Is the same solution reached by solving the stationary equation 
+   and by solving the time-dependent problem after reaching the steady-state?
+   How does the error behave with respect to time to solution in these two cases?
 {{< /question >}}
 
 ### Part 2b: A higher-order scheme
@@ -343,13 +356,21 @@ Implement the missing pieces in the `MGSolver` class, namely
 
 You should do this directly in the `mgsolver/mgsolver.py` file (don't
 forget to commit it!). If you do this correctly, the one dimensional
-tests should now pass.
+tests should now pass. You can now test the multigrid solver on the
+Euler-Bernoulli beam example you have implemented in part 1.
 
 {{< hint info >}}
 Ensure that your implementation is correct in both serial and
 parallel. Up to round-off error, you should get the same results
 independent of the number of processes.
 {{< /hint >}}
+
+{{< question "Part 3a questions" >}}
+1. For the Euler-Bernoulli beam what mesh convergence do you get with the new
+   multigrid solver? Does it differ from the behaviour using a direct solver?
+   Do you have to adjust the tolerance to which you solve the problem as you add more
+   grid levels?
+{{< /question >}}
 
 ### Part 3b: solving for a steady state
 
@@ -359,7 +380,7 @@ You should do your implementation for this part in a file called
 {{< /hint >}}
 
 Using the same `Poisson7pt` operator that you implemented for Part
-1a, we will now solve for the steady state directly (rather than
+2a, we will now solve for the steady state directly (rather than
 timestepping towards it).
 
 Confirm that your implementation is correct by doing an MMS
@@ -367,12 +388,12 @@ convergence test. For large problems you will probably want to run in
 parallel.
 
 {{< hint info >}}
-If your operator definition was correct in parallel in Part 1, you
+If your operator definition was correct in parallel in Part 2, you
 should not have to worry very hard about parallelism in this part,
 since everything is done with "collective" operations.
 {{< /hint >}}
 
-{{< question "Part 2b questions" >}}
+{{< question "Part 3b questions" >}}
 
 1. What mesh convergence do you get for this problem? Do you have to
    adjust the tolerance to which you solve the problem as you add more
@@ -407,11 +428,7 @@ The work will be marked on the basis of three things
    and any interesting things you found in your numerical experiments.
    No need to prepare anything specific.
 
-You should submit to DUO a zip file containing
-
-1. A PDF of your writeup (max 4 pages), use your Z-code to name this
-   as ZCODE.pdf;
-2. A text file ZCODE.txt containing the commit hash of the code on
+You should submit to LearnUltra only the commit hash of the code on
    github you want us to mark.
    
 After submission, please contact the lecturers to arrange a time for
@@ -419,6 +436,18 @@ the oral exam. Please do so within 5 days of the submission deadline.
 
 ### Mark scheme
 
-- TODO
+- Part 1 [15 marks]
+    - implementation [10 marks]
+    - questions/writeup [5 marks]
+- Part 2 [35 marks]
+    - Part 2a [25 marks]
+       - implementation [15 marks]
+       - questions/writeup [10 marks]
+    - Part 2b [10 marks]
+- Part 3 [35 marks]
+    - Part 3a [10 marks]
+    - Part 3b [25 marks]
+       - implementation [15 marks]
+       - questions/writeup [10 marks]
 - Code formatting (tested via flake8) [5 marks]
 - Brief oral exam [10 marks]
