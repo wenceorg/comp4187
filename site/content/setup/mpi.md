@@ -53,7 +53,8 @@ gcc
 
 Microsoft provides an MPI implementation called
 [MS-MPI](https://docs.microsoft.com/en-us/message-passing-interface/microsoft-mpi),
-but I have no experience of it, or development on Windows.
+but I have no experience of it, or development on Windows. I recommend
+using WSL and then following the instructions for Debian-based systems above.
 
 ## Python interface to MPI
 
