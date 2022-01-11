@@ -5,20 +5,20 @@ weight: 5
 
 # A petsc4py Rosetta stone
 
-[PETSc](https://www.mcs.anl.gov/petsc) itself has rather good
+[PETSc](https://petsc.org/release) itself has rather good
 documentation, both of the
-[API](https://www.mcs.anl.gov/petsc/documentation/index.html) and a
-[user manual](https://docs.petsc.org/en/latest/manual/). The PETSc API
+[API](https://petsc.org/release/docs/manualpages/) and a
+[user manual](https://petsc.org/release/docs/manual/). The PETSc API
 has very consistent naming. Objects are created with `XXXCreate`.
 Where `XXX` stands for the object type name. For example, to create a
 vector (which has type
-[`Vec`](https://docs.petsc.org/en/latest/manual/vec/)):
+[`Vec`](https://petsc.org/release/docs/manual/vec/)):
 ```c
 Vec v;
 VecCreate(MPI_COMM_WORLD, &v);
 ```
 To create a matrix (which has type
-[`Mat`](https://docs.petsc.org/en/latest/manual/mat/)):
+[`Mat`](https://petsc.org/release/docs/manual/mat)):
 ```c
 Mat m;
 MatCreate(MPI_COMM_WORLD, &m);
@@ -42,7 +42,7 @@ m = PETSc.Mat().create(comm=MPI.COMM_WORLD)
 
 Subsequent "method" calls on the created objects take as their first
 argument the object on which to call the method. For example
-[`VecSetValues`](https://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/Vec/VecSetValues.html#VecSetValues)
+[`VecSetValues`](https://petsc.org/release/docs/manualpages/Vec/VecSetValues.html)
 has prototype
 ```c
 VecSetValues(Vec x,PetscInt ni,const PetscInt ix[],const PetscScalar y[],InsertMode iora);
@@ -57,7 +57,7 @@ To translate this to `petsc4py`:
 
 Since arrays know their size in Python, we can avoid the `ni` argument
 that says how many entries we are inserting. The
-[`InsertMode`](https://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/Sys/InsertMode.html#InsertMode)
+[`InsertMode`](https://petsc.org/release/docs/manualpages/Sys/InsertMode.html#InsertMode)
 enum type turns into a enum in `PETSc`. So `PETSc.InsertMode`
 
 ```python
@@ -65,3 +65,5 @@ v.setValues(indices, values, addv=PETSc.InsertMode.ADD_VALUES)
 ```
 I find it often useful to have an IPython window open where I can
 autocomplete method names and look at their signatures.
+
+We will see more examples in the live-coding parts of the lectures.

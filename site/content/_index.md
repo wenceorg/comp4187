@@ -16,10 +16,30 @@ Computing I) and introduces advanced topics in ODE integration
 schemes, and spatial discretisation.
 
 ## Time and Place
+
+In term 2 the course will run on Wednesdays at 12pm in CM107.
+
+{{< hint warning >}}
+
+In the first week of term 2 (week beginning 10th January 2022), the lecture
+is **online only**
+
+{{< /hint >}}
+
+{{< hint info >}}
+
+You can attend remotely over
+[zoom](https://durhamuniversity.zoom.us/j/97852350575?pwd=V0E5VHgxVkVuOFBOVk5POW5JY1Q0QT09),
+and will need to be authenticated with your Durham account,
+
+Meeting ID: 978 5235 0575  
+Passcode: 646264
+
+{{< /hint >}}
+
 In term 1 lectures take place at 12:00 on Wednesdays in CM107.
 Recordings of each lecture will be uploaded on encore, 
 but you are encouraged to attend synchronously in person or via zoom.
-
 
 ## Syllabus
 
@@ -36,10 +56,13 @@ but you are encouraged to attend synchronously in person or via zoom.
 
 - Parallel algorithms and data structures for finite difference codes.
 
-- Irregular data distribution and load-balancing.
-
 - Measurement and modelling. Analysis of achieved performance,
   performance models, including the Roofline model.
+  
+- Use of the [PETSc](https://petsc.org) library for parallel computing.
+
+- Irregular data distribution and load-balancing.
+
 
 ### Discussion forum
 
