@@ -17,7 +17,10 @@ schemes, and spatial discretisation.
 
 ## Time and Place
 
-In term 2 the course will run on Wednesdays at 12pm in CM107.
+In term 2 the course will run on Wednesdays at 12pm in CM107. Links to
+live code, the recording, a small amount of commentary, and the
+blackboard notes appear [in the notes section]({{< ref "live-notes.md"
+>}}) after the fact.
 
 {{< hint warning >}}
 
@@ -40,6 +43,7 @@ Passcode: 646264
 In term 1 lectures take place at 12:00 on Wednesdays in CM107.
 Recordings of each lecture will be uploaded on encore, 
 but you are encouraged to attend synchronously in person or via zoom.
+
 
 ## Syllabus
 
