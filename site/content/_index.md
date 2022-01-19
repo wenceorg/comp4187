@@ -17,7 +17,7 @@ schemes, and spatial discretisation.
 
 ## Time and Place
 
-In term 2 the course will run on Wednesdays at 12pm in CM107. Links to
+In term 2 the course will run on Wednesdays at 12pm in **E245**. Links to
 live code, the recording, a small amount of commentary, and the
 blackboard notes appear [in the notes section]({{< ref "live-notes.md"
 >}}) after the fact.

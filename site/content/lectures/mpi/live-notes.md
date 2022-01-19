@@ -31,5 +31,4 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
   didn't really define efficiency). I've fixed my todo note and added
   a few more details in the uploaded notes.
 
-  I've requested a better room for next week, and will update if we
-  get it.
+  From next week we are in **E245**.
