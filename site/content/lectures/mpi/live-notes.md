@@ -19,7 +19,7 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
   Have a go at the [hello world]({{< ref "hello.md" >}}) exercise
   which walks through setting up an environment with MPI installed.
 
-- 2022-01-10: [Notes]({{< static-ref "paralllel/2021-22/lec02.pdf" >}}), [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4ed36e00-5ef0-42dd-83c2-ae2100946181).
+- 2022-01-19: [Notes]({{< static-ref "parallel/2021-22/lec02.pdf" >}}), [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4ed36e00-5ef0-42dd-83c2-ae2100946181).
 
   We had a bit of a palaver with the network being terrible, so sorry
   to those attending online for the drop out in the second half.
@@ -32,3 +32,16 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
   a few more details in the uploaded notes.
 
   From next week we are in **E245**.
+
+- 2022-01-26: [Notes]({{< static-ref "parallel/2021-22/lec03.pdf"
+  >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=0e3fe682-0bc2-4920-8fa6-ae2900dee766),
+  [code]({{< code-ref "parallel/live/2021-22/lec03.py" >}})
+  
+  We went over scaling behaviour a bit more and wrote some simple
+  ping-pong code (linked above). A more fleshed-out version of this
+  (with more comments and argument parsing) is available as
+  [`pingpong.py`]({{< code-ref "parallel/live/pingpong.py" >}}). Have
+  a go at running this (on your own machine and/or Hamilton), the
+  [pingpong exercise]({{< ref "pingpong.md" >}}) has more details on
+  what we're looking for.

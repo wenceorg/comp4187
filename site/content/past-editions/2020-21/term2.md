@@ -50,7 +50,7 @@ registered on the course in 2020/21.
 - 2021-01-27: [Scribbles]({{< static-ref "parallel/2020-21/lec03.pdf"
   >}}),
   [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=45ef144c-596e-4ef7-a140-acbd00a56638),
-  [code]({{< code-ref "parallel/live/2020-21/pingpong.py" >}})
+  [code]({{< code-ref "parallel/live/pingpong.py" >}})
 
   Have a go at running this code on your own machine (or on Hamilton).
   If on Hamilton do you observe different behaviour when running
