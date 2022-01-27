@@ -15,13 +15,18 @@ import numpy
 from mpi4py import MPI
 
 parser = argparse.ArgumentParser()
-parser.add_argument("output_file", type=str,
-                    help="Write data to specified numpy file"
-                    " (load with numpy.load)")
-parser.add_argument("--use-pickle", action="store_true",
-                    default=False,
-                    help="Send messages using pickle interface? "
-                    "If False (default), send numpy buffers")
+parser.add_argument(
+    "output_file",
+    type=str,
+    help="Write data to specified numpy file" " (load with numpy.load)",
+)
+parser.add_argument(
+    "--use-pickle",
+    action="store_true",
+    default=False,
+    help="Send messages using pickle interface? "
+    "If False (default), send numpy buffers",
+)
 args, _ = parser.parse_known_args()
 if MPI.COMM_WORLD.size < 2:
     print("Need at least two processes")
@@ -32,8 +37,7 @@ def pingpong(m, comm=MPI.COMM_WORLD, use_numpy=True):
     buf = numpy.empty(m, dtype=numpy.int8)
     size = buf.nbytes
     if comm.rank == 0:
-        print(f"Running pingpong: {size} bytes; use_numpy {use_numpy}",
-              flush=True)
+        print(f"Running pingpong: {size} bytes; use_numpy {use_numpy}", flush=True)
 
     def backandforth(nits):
         # Need this so that the assignment to buf below writes to the
@@ -56,6 +60,7 @@ def pingpong(m, comm=MPI.COMM_WORLD, use_numpy=True):
                     comm.send(buf, dest=0, tag=0)
             else:
                 pass
+
     # Try and figure out how many iterations to run for.
     nwarmup = 1
     total = 0
@@ -90,8 +95,7 @@ if args.use_pickle:
     # Avoid very large messages with pickle
     sizes = sizes[:-3]
 
-data = numpy.asarray([pingpong(m, use_numpy=not args.use_pickle)
-                      for m in sizes])
+data = numpy.asarray([pingpong(m, use_numpy=not args.use_pickle) for m in sizes])
 
 if MPI.COMM_WORLD.rank == 0:
     numpy.save(args.output_file, data)
