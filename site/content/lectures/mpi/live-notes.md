@@ -69,7 +69,7 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
   simulation_](http://www.mcs.anl.gov/papers/P5347-0515.pdf), so
 
   {{< exercise >}}
-  Please read the introduction and up to the send of Section II.B.1
+  Please read the introduction and up to the end of Section II.B.1
   (Jacobi iteration) from that paper, we'll try and discuss the key
   points.
   {{< /exercise >}}
