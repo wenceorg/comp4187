@@ -2,6 +2,7 @@
 title: "Term 2: live lecture notes"
 draft: false
 weight: 100
+katex: true
 ---
 
 # Lecture slides 2021/22 edition
@@ -45,3 +46,30 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
   a go at running this (on your own machine and/or Hamilton), the
   [pingpong exercise]({{< ref "pingpong.md" >}}) has more details on
   what we're looking for.
+
+- 2022-02-03: [Notes]({{< static-ref "parallel/2021-22/lec04.pdf"
+  >}}), [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=adb7447d-11dc-4664-8c86-ae3000d794a0), [plotting code]({{< code-ref
+  "parallel/live/2021-22/ping-pong-plots.py" >}})
+  
+  We started out looking at results from running the ping-pong
+  benchmark run on both old (Hamilton 7) and new ([Hamilton
+  8](https://www.dur.ac.uk/arc/hamilton/migration/)) hardware. You
+  should be able to back out the network latency and bandwidth by
+  fitting the model $t(b) = \alpha + \beta b$ to the data. We noted
+  that the pickle protocol has much higher latency.
+  
+  Then I talked about domain-decomposing finite difference grids, and
+  why parallel computing works at all (because there is sparsity in
+  the computation).
+  
+  Next time, if there is time (I need to do some planning), I would
+  like to look at the analysis of scaling limits for
+  Jacobi iteration from [_Scaling Limits for
+  PDE-based
+  simulation_](http://www.mcs.anl.gov/papers/P5347-0515.pdf), so
+
+  {{< exercise >}}
+  Please read the introduction and up to the send of Section II.B.1
+  (Jacobi iteration) from that paper, we'll try and discuss the key
+  points.
+  {{< /exercise >}}
