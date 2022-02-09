@@ -9,7 +9,7 @@ katex: true
 
 The submission deadline for this work is 5th May 2022 at 2pm.
 
-You can accept the assignment on [github classroom](TODO LINK)
+You can accept the assignment on [github classroom](https://classroom.github.com/a/aS5kAaVW)
 
 See [below]({{< ref "#submission" >}}) for submission details.
 
@@ -34,33 +34,58 @@ sufficient. This will go away and build PETSc, followed by `petsc4py`.
 If you're using conda, you can install `petsc4py` in your conda
 environment with `conda install -c conda-forge petsc4py`.
 
-{{< details "PETSc on Hamilton" >}}
+{{< details "PETSc on Hamilton 8" >}}
 {{< hint info >}}
-On Hamilton, I provide a useable version of PETSc.
+You will need to build PETSc and petsc4py on Hamilton 8 (for parallel
+runs).
 
-To use it, you'll need to use the following modules
+Load the following modules:
+
 ```
-gcc/9.3.0
-intelmpi/gcc/2019.6
-```
-and set the environment variables
-```
-export PETSC_DIR=/ddn/data/vtdb72/petsc
-export PETSC_ARCH=arch-linux2-c-opt
+gcc
+intelmpi
+openblas
+python
 ```
 
-After that, to get a `petsc4py` install, you should install from the
-PETSc bindings directory. So do `pip install
-/ddn/data/vtdb72/petsc/src/binding/petsc4py` in your virtual environment.
+and create a virtual environment:
 
-Don't forget to load those modules and export those environment
-variables every time your log in.
+```
+$ python3.9 -m venv pscii
+```
+
+Activate the virtual environment and install dependencies
+```
+$ pip install mpi4py numpy
+```
+
+Download PETSc (I recommend you do this in the large "data" directory)
+```
+$ cd /nobackup/$USER
+$ git clone https://gitlab.com/petsc/petsc.git
+$ cd petsc
+$ ./configure --with-debugging=0 --with-openblas-dir=$OPENBLAS_HOME
+$ make PETSC_DIR=/nobackup/$USER/petsc PETSC_ARCH=arch-linux-c-opt all
+$ make PETSC_DIR=/nobackup/$USER/petsc PETSC_ARCH=arch-linux-c-opt check
+```
+
+If anything fails at this point **get in touch**.
+
+Now install petsc4py (still with the virtual environment activated)
+```
+$ export PETSC_DIR=/nobackup/$USER/petsc
+$ export PETSC_ARCH=arch-linux-c-opt
+$ pip install $PETSC_DIR/src/binding/petsc4py/
+```
+
+petsc4py should now be usable having activated your virtual
+environment. Don't get to load the relevant modules every time.
 {{< /hint >}}
 {{< /details >}}
 
 {{< hint warning >}}
 
-Building PETSc is sometimes problematic. If the `pip install` route
+Building PETSc is sometimes problematic. If the installation
 fails for any reason **GET IN TOUCH** and we'll figure it out. The
 best way to do this is via the [discussion forum]({{< repo
 >}}/discussions).
@@ -71,7 +96,7 @@ best way to do this is via the [discussion forum]({{< repo
 
 We will use [GitHub classroom](https://classroom.github.com) to manage
 the submissions. To set up and fork the template repository, follow
-[this link](https://classroom.github.com/a/YYCs7KMb).
+[this link](https://classroom.github.com/a/aS5kAaVW).
 
 You should work in your fork and push your code regularly. Having
 forked the repository, you can clone it locally and install the
