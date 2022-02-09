@@ -73,3 +73,30 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
   (Jacobi iteration) from that paper, we'll try and discuss the key
   points.
   {{< /exercise >}}
+
+- 2022-02-09: [Annotated paper]({{< static-ref
+  "parallel/2021-22/Fischer2015.pdf" >}})
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=56478af1-c709-4cbe-9d87-ae3700d56272),
+  
+  
+  Live notes only contain administrative information, reproduced here.
+  The second coursework should go live in the next short while. It
+  will be using [PETSc](https://petsc.org/) via
+  [petsc4py](https://pypi.org/project/petsc4py/) for parallel data
+  structures so for most of the remaining slots I will focus on live
+  code demonstrating the ideas and usage (which is somewhat
+  non-trivial). You'll want to have PETSc installed on whatever you're
+  using for development, so please follow their instructions and get
+  in touch if you can't manage things.
+  
+  Some administrative matters:
+  
+  - No lecture next week on 2022-02-16 due to [UCU strike
+    action](https://www.ucu.org.uk/article/11896/Why-were-taking-action).
+    
+  - No lecture (subject to strikes being cancelled) on 2022-03-02 due
+    to more strike action.
+    
+  - I need to either arrange to deliver the lecture on 2022-03-09
+    remotely, or else reschedule for another time (since I will be in
+    [Dagstuhl](https://dagstuhl.de) that week).
