@@ -275,7 +275,7 @@ $$w(x) = \begin{cases}
     \frac{x(4x^2-3)}{48k}, & \mbox{for } 0 < x < \frac{1}{2} \\
     \frac{(x-1)(1-8x+4x^2)}{48k}, & \mbox{for } \frac{1}{2} < x < 1
     \end{cases}$$
-    
+
 For now we will solve the resulting linear system with a direct solver.
 You can use one of the built-in PETSc solvers for this. Later we will
 implement a multigrid solver. At that stage you may want to go back to
@@ -300,7 +300,7 @@ on the cubic domain $\Omega = [0, 1] \times [0, 1] \times [0, 1]$,
 using forward Euler as a timestepping scheme. After some time-stepping
 the equation will reach its steady-state, which is to say that the time
 derivative will become zero. Compare solving the stationary state-state
-equation 
+equation
 $$
 - \nabla \cdot K(x, y, z) \nabla u = f(x, y, z)
 $$
@@ -346,7 +346,7 @@ serial (when run with MPI).
 {{< question "Part 2a questions" >}}
 1. How does the error in your numerical solution behave under grid
    refinement? Can you explain what you see?
-2. Is the same solution reached by solving the stationary equation 
+2. Is the same solution reached by solving the stationary equation
    and by solving the time-dependent problem after reaching the steady-state?
    How does the error behave with respect to time to solution in these two cases?
 {{< /question >}}
@@ -455,7 +455,7 @@ The work will be marked on the basis of three things
 
 You should submit to LearnUltra only the commit hash of the code on
    github you want us to mark.
-   
+
 After submission, please contact the lecturers to arrange a time for
 the oral exam. Please do so within 5 days of the submission deadline.
 
