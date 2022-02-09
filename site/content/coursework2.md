@@ -380,7 +380,7 @@ Implement the missing pieces in the `MGSolver` class, namely
 - `MGSolver.wcycle`
 
 You should do this directly in the `mgsolver/mgsolver.py` file (don't
-forget to commit it!). If you do this correctly, the one dimensional
+forget to commit and push it!). If you do this correctly, the one dimensional
 tests should now pass. You can now test the multigrid solver on the
 Euler-Bernoulli beam example you have implemented in part 1.
 
@@ -453,8 +453,9 @@ The work will be marked on the basis of three things
    and any interesting things you found in your numerical experiments.
    No need to prepare anything specific.
 
-You should submit to LearnUltra only the commit hash of the code on
-   github you want us to mark.
+You should submit to LearnUltra a single text file containing only the
+commit hash of the code on GitHub you want us to mark. Please add your
+CIS user id to the `README.md` in the template repository.
 
 After submission, please contact the lecturers to arrange a time for
 the oral exam. Please do so within 5 days of the submission deadline.
