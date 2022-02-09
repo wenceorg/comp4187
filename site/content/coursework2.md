@@ -79,7 +79,7 @@ $ pip install $PETSC_DIR/src/binding/petsc4py/
 ```
 
 petsc4py should now be usable having activated your virtual
-environment. Don't get to load the relevant modules every time.
+environment. Don't forget to load the relevant modules every time.
 {{< /hint >}}
 {{< /details >}}
 
