@@ -102,7 +102,7 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
     [Dagstuhl](https://dagstuhl.de) that week).
 
 - 2022-02-23: [Code]({{< code-ref "parallel/live/lec06.py" >}}),
-  [video]()
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=365190be-a98b-45cd-8e11-ae4500d750f9)
   
   We started looking at [PETSc](https://petsc.org/) for parallel data
   structures. The [second coursework]({{< ref "coursework2.md" >}}) is
