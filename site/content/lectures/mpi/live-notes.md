@@ -100,3 +100,23 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
   - I need to either arrange to deliver the lecture on 2022-03-09
     remotely, or else reschedule for another time (since I will be in
     [Dagstuhl](https://dagstuhl.de) that week).
+
+- 2022-02-23: [Code]({{< code-ref "parallel/live/lec06.py" >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=365190be-a98b-45cd-8e11-ae4500d750f9)
+  
+  We started looking at [PETSc](https://petsc.org/) for parallel data
+  structures. The [second coursework]({{< ref "coursework2.md" >}}) is
+  now live and uses PETSc extensively. So please do try and get an
+  install working so that we can debug issues quickly.
+  
+  I introduced the PETSc object model, and manipulation of Vectors. I
+  recommend also skimming the PETSc manual (particularly the
+  [introduction](https://petsc.org/release/docs/manual/getting_started/)).
+  
+  More administrative matters:
+  
+  - No lecture next week on 2022-03-02 due to continuing strike
+    action.
+
+  - The lecture on 2022-03-09 will be **remote only** (I will send
+    email reminding everyone).
