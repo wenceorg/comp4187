@@ -28,7 +28,15 @@ from petsc4py import PETSc  # noqa: E402
 
 comm = MPI.COMM_WORLD
 
-# Remove the petsc4py error handler, and just use the normal PETSc one.
+# Remove the petsc4py error handler, and just use the normal PETSc
+# one.
+# If you want to debug in parallel with pdb (I recommend either pdb++
+# or ipython --pdb) then you'll want to remove this.
+# For parallel debugging with a small number of cores I like a
+# combination of tmux and https://github.com/wrs20/tmux-mpi
+# Running tmux-mpi 2 ipython --pdb my-script.py
+# gives me a tmux window where I can run all the processes in parallel
+# and debug.
 PETSc.Sys.popErrorHandler()
 
 # PETSc has a number of objects useful for numerical computing. It is
@@ -57,117 +65,110 @@ PETSc.Sys.popErrorHandler()
 # PETSc documentation:
 # https://petsc.org/release/docs/manualpages/Vec/index.html
 
-# Translation from petsc4py -> PETSc
-# All PETSc Vec methods are called VecXyz e.g. VecCreate, VecNorm.
-# remove the Vec prefix (lowercase the first letter, and keep
-# camelcase for the rest)
-# See the course webpages for a PETSc -> petsc4py rosetta stone.
+# PetscErrorCode  VecCreate(MPI_Comm comm, Vec *vec)
 
-v1 = PETSc.Vec().create(comm=comm)  # Calls VecCreate.
+# Translation:
+
+# VecCreate is a _method_ on Vec objects. And camel-cased names are
+# maintained but the first letter is lowercase.
+# So: VecCreate -> Vec()
+
+v1 = PETSc.Vec()                # Create empty object
+
+v1.create(comm=comm)            # Call create method.
+
+# Vec().create(comm=comm) equivalent to __init__ on a normal Python object.
+
+# How big will the vector be?
+
+# PetscErrorCode  VecSetSizes(Vec v, PetscInt n, PetscInt N)
+# n is number of entries on _this process_
+# N is total number of entries.
+
+n = 3
+N = 10
+# Sizes are provided as a tuple of (local, global)
+# Let's say we know the local size, but want PETSc to determine the global size
+v1.setSizes((n, None))
+# Now v1 global size is sum_ranks n
+
+# Equally, if we know the global size can say
+
 v2 = PETSc.Vec().create(comm=comm)
+# N elements will be divided approximately equally amongst all the ranks.
+v2.setSizes((None, N))
 
-# How many entries should we have?
-# This makes space for the vector metadata but we haven't said how
-# much space it should have.
+# All PETSc objects are configured by an options database (command-line arguments)
 
-# Make a vector that holds 10 values in total (distributed
-# approximately evenly across the available processes in the
-# communicator).
+# Configure objects via options:
 
-# Specify global size
+# All objects by default have the same (empty) _prefix_.
+# Set a prefix to provide different options for different objects
 
+v1.setOptionsPrefix("v1_")
+v2.setOptionsPrefix("v2_")
+v1.setFromOptions()
+v2.setFromOptions()
 
-# Specify local size
-
-# We can control aspects of the way objects behave by configuring them
-# with commandline options.
-# Generally not necessary for vectors.
-
-
-# Setup (after setFromOptions)
-
-# Let's look at the sizes we've ended up with
-# PETSc's syncPrint prints in a synchronised manner on all processes
-# Output comes after a syncFlush.
-PETSc.Sys.syncPrint(f"[{comm.rank}]: "
-                    f"v1: {v1.getSizes()}; "
-                    f"v2: {v2.getSizes()}",
-                    comm=comm)
+PETSc.Sys.syncPrint(f"[{comm.rank}] {v1.getSizes()} {v2.getSizes()}", comm=comm)
 PETSc.Sys.syncFlush(comm=comm)
 
+# Setting values
 
-# Manipulating local entries
+# Two ways of doing this:
 
+# 1. Directly write to local part of vector
 
-# This will look for a flag -v1_vec_view and view the vector
+# .array property gets writeable numpy array for locally owned values
+# This is (logically) collective: every process in the communicator needs to access the property
+# otherwise -> deadlock (or wrong results). (https://petsc.org/release/docs/manualpages/Vec/VecGetArray.html)
+v1.array[0] = 1
+# If you want only read-only access to the local part use v1.array_r
+# (note trailing _r), which is _not_ collective
+# https://petsc.org/release/docs/manualpages/Vec/VecGetArrayRead.html
+
 v1.viewFromOptions("-vec_view")
 
-
-# Reading local entries
-
-v2.viewFromOptions("-vec_view")
-
-# We can do various pointwise operations on vectors
-# The vectors involved must have a _compatible layout_
-# Pointwise operations need us to have allocated all the vectors.
-
-# https://petsc.org/release/docs/manualpages/Vec/VecAXPY.html
-# C version  VecAXPY(Vec y,PetscScalar alpha,Vec x)
-# We would write VecAXPY(v4, 0.5, v2)
-# To translate, first (object) argument is the object we call the
-# method on. v4.axpy(0.5, v2) remaining arguments appear in order
-# v4 <- 0.5 v2 + v4 "alpha x plus y"
-# In place modification of v4.
-v4.axpy(0.5, v2)
-
-# v4 <- v2 + 0.25 v4 "alpha y plus x"
-v4.aypx(0.25, v2)
-
-v4.viewFromOptions("-vec_view")
-
-# We can also do reductions of various kinds
-# Again, these need compatible layout where more than one vector is
-# provided.
-v4v2dot = v4.dot(v2)
-
-# Collective print, only rank 0 on the communicator actually prints
-# anything
-PETSc.Sys.Print(f"v4 . v2 = {v4v2dot}", comm=comm)
-
-# We can also take euclidean norms
-#  VecNorm(Vec x,NormType type,PetscReal *val)
-# Translation of these enums (like NormType) is that they are
-# namespaced just in PETSc.NormType
-
-# l1 norm: sum_i |x_i|
-v4_1 = v4.norm(norm_type=PETSc.NormType.NORM_1)
-
-PETSc.Sys.Print(f"||v4||_1 = {v4_1}", comm=comm)
-
-# Insertion of values that are not local. Generally we don't need to
-# do this, but this will illustrate a common pattern.
-
-# Recall that we don't want to communicate all the time, and instead
-# batch things up.
-# PETSc provides an interface for this via Vec.setValues
-# https://petsc.org/release/docs/manualpages/Vec/VecSetValues.html
-# VecSetValues(Vec x,PetscInt ni,const PetscInt ix[],const PetscScalar y[], InsertMode iora)
-
-size = 0
-# 10 random indices
-rng = numpy.random.default_rng()
-indices = rng.integers(size, size=10,
-                       # The type for integers in petsc.
-                       dtype=PETSc.IntType)
-values = rng.uniform(size=10)
-
-PETSc.Sys.syncPrint(f"{indices} {values}", comm=comm)
+PETSc.Sys.syncPrint(f"[{comm.rank}] ||v1|| =  {v1.norm()}", comm=comm)
 PETSc.Sys.syncFlush(comm=comm)
 
+# 2. Write through an interface to any (globally numbered) entry.
 
-# set values
+if comm.rank == 0:
+    # PetscErrorCode  VecSetValues(Vec x,PetscInt ni,const PetscInt ix[],const PetscScalar y[],InsertMode iora)
+    # Need to provide
+    # Array of indices (in global numbering)
+    # Array of values (of same length)
 
-# finalise assembly.
+    # Insertion mode: PETSc.InsertMode.INSERT
+    # either v1[i] = value[i]
+    # or PETSc.InsetMode.ADD
+    # v1[i] = v1[i] + value[i]
+    # Insertion mode is logically collective (can't mixed INSERT and
+    # ADD on different processes in one go).
+    # https://petsc.org/release/docs/manualpages/Vec/VecSetValues.html
+    v1.setValues([11], [100], addv=PETSc.InsertMode.INSERT)
 
-# After the assemblyEnd we are permitted to look at the vector again.
-v2.viewFromOptions("-vec_view_after")
+# So now, we've scheduled an insertion, but haven't "committed" it
+# yet.
+
+# Finalise insertions with
+# https://petsc.org/release/docs/manualpages/Vec/VecAssemblyBegin.html
+v1.assemblyBegin()
+# These are split, because you could overlap some communication with
+# compute in between here.
+
+# This synchronises neighbourhood-wise (so it does pointwise
+# synchronisation over the processes that are exchanging values).
+# https://petsc.org/release/docs/manualpages/Vec/VecAssemblyEnd.html
+v1.assemblyEnd()
+
+# Pointwise operations on vectors:
+
+# v1 <- 10*v2 + v1 (pointwise)
+# These operations must have vectors with compatible layouts (each
+# process must have then same number of entries for every vector)
+# This would fail because v1 and v2 are not compabtible.
+if False:
+    # https://petsc.org/release/docs/manualpages/Vec/VecAXPY.html
+    v1.axpy(10, v2)
