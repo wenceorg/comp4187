@@ -248,6 +248,7 @@ with a small material parameter $k$. Here $\delta$ is a Dirac function, it is on
 of the beam $x=\frac{1}{2}$ and zero everywhere else.
 
 Boundary conditions remain as before:
+$$
 u(0,t)=u(1,t)=0
 $$
 and
@@ -271,10 +272,12 @@ You should do your implementation for this part in a file called
 
 
 The analytical solution is
-$$w(x) = \begin{cases}
+$$
+w(x) = \begin{cases}
     \frac{x(4x^2-3)}{48k}, & \mbox{for } 0 < x < \frac{1}{2} \\
     \frac{(x-1)(1-8x+4x^2)}{48k}, & \mbox{for } \frac{1}{2} < x < 1
-    \end{cases}$$
+    \end{cases}
+    $$
 
 For now we will solve the resulting linear system with a direct solver.
 You can use one of the built-in PETSc solvers for this. Later we will
@@ -401,7 +404,7 @@ independent of the number of processes.
 
 {{< hint info >}}
 You should do your implementation for this part in a file called
-`part2_multigrid.py` placed in the root of the repository.
+`part3_multigrid.py` placed in the root of the repository.
 {{< /hint >}}
 
 Using the same `Poisson7pt` operator that you implemented for Part
@@ -447,7 +450,7 @@ The work will be marked on the basis of three things
 
 1. Your submitted code;
 2. A short report discussing answers to the questions and your
-   findings;
+   findings (also added to the GitHub repository);
 3. A brief (10 min) oral exam with the lecturers. We will use this to
    have a brief discussion about your implementation choices and code,
    and any interesting things you found in your numerical experiments.
@@ -472,6 +475,8 @@ the oral exam. Please do so within 5 days of the submission deadline.
     - Part 2b [10 marks]
 - Part 3 [35 marks]
     - Part 3a [10 marks]
+       - implementation [5 marks]
+       - questions/writeup [5 marks]
     - Part 3b [25 marks]
        - implementation [15 marks]
        - questions/writeup [10 marks]
