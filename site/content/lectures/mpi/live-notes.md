@@ -120,3 +120,29 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
 
   - The lecture on 2022-03-09 will be **remote only** (I will send
     email reminding everyone).
+
+- 2022-03-09: [Notes]({{< static-ref "parallel/2021-22/lec09.pdf" >}})
+  [Code]({{< code-ref "parallel/live/lec09.py" >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=f7125450-3852-43e7-b31b-ae5300d72eea)
+  
+  Apologies for the delayed upload this week. Mostly what we covered
+  this week was the basics of using PETSc's
+  [DMDA](https://petsc.org/release/docs/manualpages/DMDA/DMDA.html#DMDA)
+  objects for managing structured grids. These manage the tedious
+  detail of constructing communication patterns for ghost exchange and
+  insertion into distributed sparse matrices. We will use these in our
+  implementation of multigrid in the [second coursework]({{< ref
+  "coursework2.md" >}}).
+  
+  Mostly we looked at creating
+  [`Vec`s](https://petsc.org/release/docs/manual/vec/#dm-local-global-vectors-and-ghost-updates)
+  and [`Mat`s](https://petsc.org/release/docs/manual/mat/) from these
+  [`DMDA`](https://petsc.org/release/docs/manualpages/DMDA/DMDA.html#DMDA)
+  objects. The reason to do this is that the vectors and matrices now
+  remember that they came from the DMDA and so this enables certain
+  extra methods (particularly for insertion into matrices which we
+  will see next time). Particularly, the DMDA also knows how to refine
+  itself and construct grid transfer operators between the two grids
+  (very useful for multigrid methods).
+  
+  Next time we will glue everything together.
