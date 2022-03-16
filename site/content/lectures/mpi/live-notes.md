@@ -146,3 +146,31 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
   (very useful for multigrid methods).
   
   Next time we will glue everything together.
+
+- 2022-03-16: [Code]({{< code-ref "parallel/live/lec10.py" >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4ed89385-62cd-4209-b22d-ae5a00d7900b)
+  
+  We finished up for the year by looking at how to discretise a
+  constant coefficient Laplacian in parallel using DMDA. The core idea
+  is that we need to map between global, local, and ghosted indices.
+  
+  We also discussed appropriate scaling of the entries in the operator
+  to work with PETSc's builtin prolongation and restriction matrices.
+  Effectively this means we scale the equations we're solving by the
+  volume element for our grid (how big is a single cell?), and put
+  "compatible" things in the boundary rows.
+  
+  If you want to play around with the PETSc C example I showed towards
+  the end, it is
+  [`ex45`](https://petsc.org/main/src/ksp/ksp/tutorials/ex45.c.html).
+  If you have a PETSc install, then the code lives in
+  `$PETSC_DIR/src/ksp/ksp/tutorials/ex45.c`, with `PETSC_DIR` and
+  `PETSC_ARCH` set appropriately, `make ex45` in that directory will
+  build it. This example implements (in C) the constant coefficient
+  Laplacian in 3D using DMDA, so it is somewhat similar to the
+  equation in the coursework (although you will need a different
+  stencil).
+  
+  That's all for this term, for queries on the course, the best place
+  is the [discussions forum]({{< repo >}}/discussions). Good luck for
+  the summer!
