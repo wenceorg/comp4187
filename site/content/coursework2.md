@@ -273,11 +273,11 @@ You should do your implementation for this part in a file called
 
 The analytical solution is
 $$ 
-w(x) = \frac{x(4x^2-3)}{48k}, \mbox{for } 0 < x < \frac{1}{2}
+w(x) = \frac{x(4x^2-3)}{48k}, \text{for } 0 < x < \frac{1}{2}
 $$
 and
 $$
-w(x) = \frac{(x-1)(1-8x+4x^2)}{48k}, \mbox{for } \frac{1}{2} < x < 1
+w(x) = \frac{(x-1)(1-8x+4x^2)}{48k}, \text{for } \frac{1}{2} < x < 1.
 $$
 
 For now we will solve the resulting linear system with a direct solver.
