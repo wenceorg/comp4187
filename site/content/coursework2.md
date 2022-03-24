@@ -273,7 +273,7 @@ You should do your implementation for this part in a file called
 
 The analytical solution is
 $$ 
-w(x) = \frac{x(4x^2-3)}{48k}, \text{for } 0 < x < \frac{1}{2}
+w(x) = \frac{x(4x^2-3)}{48k}, \text{for } 0 < x \leq \frac{1}{2}
 $$
 and
 $$
@@ -312,8 +312,7 @@ directly using a linear solver with time-stepping towards the steady-state.
 
 To do this, create a class `Poisson7pt` that discretises the spatial
 operator using a 2nd order accurate 7-point stencil (as derived in lectures).
-$$
--\nabla \cdot K(x, y, z) \nabla u.
+$$ -\nabla \cdot K(x, y, z) \nabla u.
 $$
 
 Using
