@@ -1,0 +1,164 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Lecture scribblings and video links #  Links to the videos should be accessible with a Durham account registered on the course in 2020/21.
+  2021-01-13: Scribbles, video, code
+  2021-01-20: Scribbles, video
+About half way through when I wrote down the efficiency for weak scaling I simplified $\frac{T_1}{T_1 + \mathcal{o}(p)T_1}$ to $\frac{T_1}{1 + \mathcal{o}(p)}$. The correct efficiency for weak scaling is $$ \eta_p = \frac{1}{1 + \mathcal{o}(p)}, $$ the correct expressions for $\eta_p^{\text{fix}}$ and $\eta_p^{\text{log}}$ are therefore"><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Term 2: parallel computing"><meta property="og:description" content="Lecture scribblings and video links #  Links to the videos should be accessible with a Durham account registered on the course in 2020/21.
+  2021-01-13: Scribbles, video, code
+  2021-01-20: Scribbles, video
+About half way through when I wrote down the efficiency for weak scaling I simplified $\frac{T_1}{T_1 + \mathcal{o}(p)T_1}$ to $\frac{T_1}{1 + \mathcal{o}(p)}$. The correct efficiency for weak scaling is $$ \eta_p = \frac{1}{1 + \mathcal{o}(p)}, $$ the correct expressions for $\eta_p^{\text{fix}}$ and $\eta_p^{\text{log}}$ are therefore"><meta property="og:type" content="article"><meta property="og:url" content="https://teaching.wence.uk/comp4187/past-editions/2020-21/term2/"><meta property="article:modified_time" content="2024-02-14T14:35:09+00:00"><title>Term 2: parallel computing | COMP4187 – Parallel Scientific Computing II</title><link rel=manifest href=/comp4187/manifest.json><link rel=icon href=/comp4187/favicon.png type=image/x-icon><link rel=stylesheet href=/comp4187/book.min.0cb0b7d6a1ed5d0e95321cc15edca4d6e9cc406149d1f4a3f25fd532f6a3bb38.css integrity="sha256-DLC31qHtXQ6VMhzBXtyk1unMQGFJ0fSj8l/VMvajuzg="><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false},{left:"\\(",right:"\\)",display:false},{left:"\\[",right:"\\]",display:true}]})});</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><nav><div class=book-brand><img class=book-center src=/comp4187/logo.svg alt=Logo><h2><a href=/comp4187>COMP4187 – Parallel Scientific Computing II</a></h2></div><ul><li><span>Administrivia</span><ul><li><a href=/comp4187/setup/jupyter/>Jupyter</a></li><li><a href=/comp4187/setup/mpi/>MPI</a></li></ul></li><li><span>Exercises</span><ul><li><span>Parallel</span><ul><li><a href=/comp4187/exercises/parallel/hello/>Parallel Hello World</a></li><li><a href=/comp4187/exercises/parallel/pi/>Calculating π</a></li><li><a href=/comp4187/exercises/parallel/domain-decomp-simple/>1-D domain decomposition</a></li><li><a href=/comp4187/exercises/parallel/pingpong/>Ping-pong latency</a></li></ul></li><li><a href=/comp4187/exercises/coarse-grid/>Coarse Grid Operator</a></li><li><a href=/comp4187/exercises/finite-differences/>Finite Differences</a></li><li><a href=/comp4187/exercises/two-grid/>Two-Grid Iteration</a></li><li><a href=/comp4187/exercises/norms/>Norms</a></li></ul></li><li><span>Notes</span><ul><li><span>Lectures: Numerics</span><ul><li><a href=/comp4187/lectures/numerics/lecture1/>Lecture 1: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture2/>Lecture 2: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture3/>Lecture 3: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture4/>Lecture 4: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture5/>Lecture 5: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture6/>Lecture 6: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture7/>Lecture 7: Linear Solvers</a></li><li><a href=/comp4187/lectures/numerics/lecture8/>Lecture 8: Linear Solvers</a></li><li><a href=/comp4187/lectures/numerics/lecture9/>Lecture 9: Multigrid</a></li></ul></li><li><a href=/comp4187/lectures/mpi/>MPI</a><ul><li><a href=/comp4187/lectures/mpi/point-to-point/>Point-to-point messaging in MPI</a></li><li><a href=/comp4187/lectures/mpi/point-to-point-nb/>Non-blocking point-to-point messaging</a></li><li><a href=/comp4187/lectures/mpi/collectives/>Collectives</a></li><li><a href=/comp4187/lectures/mpi/advanced/>Advanced topics</a></li><li><a href=/comp4187/lectures/mpi/petsc4py/>PETSc and petsc4py</a></li><li><a href=/comp4187/lectures/mpi/live-notes/>Term 2: live lecture notes</a></li></ul></li></ul></li><li><a href=/comp4187/coursework/>Coursework 1: Euler-Bernoulli Beam Theory</a></li><li><a href=/comp4187/coursework2/>Coursework 2: multigrid solvers</a></li><li><a href=/comp4187/acknowledgements/>Acknowledgements</a></li><li><span>Past editions</span><ul><li><span>2020/21</span><ul><li><a href=/comp4187/past-editions/2020-21/term1/>Term 1: numerics</a></li><li><a href=/comp4187/past-editions/2020-21/term2/ class=active>Term 2: parallel computing</a></li><li><a href=/comp4187/past-editions/2020-21/coursework/>Coursework: a 3D multigrid solver</a></li></ul></li></ul></li></ul></nav><script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/comp4187/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Term 2: parallel computing</strong>
+<label for=toc-control><img src=/comp4187/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#lecture-scribblings-and-video-links>Lecture scribblings and video links</a></li></ul></nav></aside></header><article class=markdown><h1 id=lecture-scribblings-and-video-links>Lecture scribblings and video links
+<a class=anchor href=#lecture-scribblings-and-video-links>#</a></h1><p>Links to the videos should be accessible with a Durham account
+registered on the course in 2020/21.</p><ul><li><p>2021-01-13: <a href=https://teaching.wence.uk/comp4187/parallel/2020-21/lec01.pdf>Scribbles</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=fe338448-89f7-49b6-be1b-acaf00a72ad7">video</a>,
+<a href=https://teaching.wence.uk/comp4187/code/parallel/live/2020-21/hello.py>code</a></p></li><li><p>2021-01-20: <a href=https://teaching.wence.uk/comp4187/parallel/2020-21/lec02.pdf>Scribbles</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=ef0fb74d-cd43-4670-93be-acb600a5e14d">video</a></p><p>About half way through when I wrote down the efficiency for weak
+scaling I simplified $\frac{T_1}{T_1 + \mathcal{o}(p)T_1}$ to $\frac{T_1}{1 + \mathcal{o}(p)}$. The correct efficiency for weak scaling is
+$$
+\eta_p = \frac{1}{1 + \mathcal{o}(p)},
+$$
+the correct expressions for $\eta_p^{\text{fix}}$ and
+$\eta_p^{\text{log}}$ are therefore</p>$$
+\begin{aligned}
+\eta_p^{\text{fix}} &= \frac{1}{1 + \alpha}\text{ and} \\
+\eta_p^{\text{log}} &= \frac{1}{1 + \mathcal{O}(\log p)}.
+\end{aligned}
+$$<p>I&rsquo;ve updated the notes that were uploaded to reflect this, but
+can&rsquo;t change the video. The subsequent discussion of what the plots
+look like is, I think, all correct.</p><p>Some more detail on parallel scaling laws can be <a href=https://teaching.wence.uk/phys52015/notes/theory/scaling-laws/>found
+here</a>.</p><p>For details on machine (or algorithmic) scaling, and its application
+to PDE solvers, I like <a href=https://arxiv.org/pdf/1705.03625><em>A performance spectrum for parallel
+computational frameworks that solve
+PDEs</em></a> (the published paper is <a href=https://onlinelibrary.wiley.com/doi/abs/10.1002/cpe.4401>in
+CCPE</a>).</p></li><li><p>2021-01-27: <a href=https://teaching.wence.uk/comp4187/parallel/2020-21/lec03.pdf>Scribbles</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=45ef144c-596e-4ef7-a140-acbd00a56638">video</a>,
+<a href=https://teaching.wence.uk/comp4187/code/parallel/live/pingpong.py>code</a></p><p>Have a go at running this code on your own machine (or on Hamilton).
+If on Hamilton do you observe different behaviour when running
+across more than one node? See <a href=https://teaching.wence.uk/comp4187/exercises/parallel/pingpong/>this exercise description</a> for more information.</p><p>The paper I briefly mentioned in the lecture is <a href=http://www.mcs.anl.gov/papers/P5347-0515.pdf><em>Scaling Limits for
+PDE-based
+simulation</em></a>, it goes
+into more details of what I was discussing the lecture with regards
+to turning machine and computational models into models for scaling.
+I&rsquo;ll cover a little more of it next week, so if you have time to
+skim through that would be great.</p></li><li><p>2021-02-03: <a href=https://teaching.wence.uk/comp4187/parallel/2020-21/lec04.pdf>Scribbles</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=dc7a8f75-b76d-4f5d-95e9-acc400a73ecb">video</a></p><p>We looked at some results from the ping-pong code we wrote last
+time, and then discussed the idea that the reason we can have a hope
+of solving PDEs in parallel is that we have <em>sparse</em>
+representations. So we don&rsquo;t need to do alltoall communication and
+computation. We then started on how might divide the work on our
+grids up between parallel processes, with a goal of having
+$\frac{N}{P}$ work per process and (hopefully) at worst
+$\mathcal{O}(\log P)$ algorithmic, memory footprint, or
+message-passing complexity as a function of the number of processes.
+I tried to motivate why this is a reasonable goal for multigrid
+solvers.</p></li><li><p>2021-02-10: <a href=https://teaching.wence.uk/comp4187/parallel/2020-21/lec05.pdf>Scribbles</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4f9c54be-8651-4805-9935-accb00a87468">video</a></p><p>We briefly recapped why we want &ldquo;square&rdquo; subdomains: since we want
+to minimise surface to volume ratio. Then we started looking at the
+design of MPI-parallel grids. In particular, we motivated that we
+want to agglomerate messages into large batches (rather than sending
+many small messages).</p><p>The key point in the design is the separation of &ldquo;global&rdquo; vectors
+(which have no overlap) which our timestepper wants to see, and
+&ldquo;local&rdquo; vectors (with overlap) which are necessary for computing (I
+called this assembly) the residual. The local vectors need overlap
+because the stencil doesn&rsquo;t just act pointwise. I sketched a
+plausible design for how this works, which we&rsquo;ll make more concrete
+next week.</p><p>Next time we want to look at the analysis of scaling limits for
+Jacobi iteration from <a href=http://www.mcs.anl.gov/papers/P5347-0515.pdf><em>Scaling Limits for
+PDE-based
+simulation</em></a>, so</p><blockquote class=exercise><h3>Exercise</h3><span>Please read the introduction and up to the send of Section II.B.1
+(Jacobi iteration) from that paper, we&rsquo;ll try and discuss the key
+points.</span></blockquote></li><li><p>2021-02-17: <a href=https://teaching.wence.uk/comp4187/parallel/2020-21/lec06.pdf>Scribbles</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=c8155b70-fde8-4d09-9d59-acd200a7b739">video</a></p><p>This time my annotatations where on the Fischer et al. paper I set
+as reading work. I provided some background on the application areas
+they are starting from (and nearly managed, up to one sign error, to
+get the <a href=https://en.wikipedia.org/wiki/Navier%e2%80%93Stokes_equations>Navier&ndash;Stokes
+equations</a>
+correct). We then looked a little bit more at scaling models and did
+an analysis (following the paper) of scaling limits for a finite
+difference discretisation of the Laplacian in 3D if using Jacobi
+iterations as a solver. Each iteration is scalable, but since we
+need to do a number of iterations that increases with the total
+number of degrees of freedom, Jacobi iteration on its own is not
+algorithmically scalable. I got a bit confused with the way they had
+written the Jacobi update. There is a sign error in that equation.
+The uploaded scribbles work out what it should look like (in two
+different ways).</p><p>The paper also presents the results of a detailed analysis (not
+worked through) for scaling limits for a V(1, 0) cycle of geometric
+multigrid. This <em>is</em> an algorithmically scalable algorithm. It has
+more communication, with a term that grows with $\log P$, so as we
+add more processes we need more local work to remain computationally
+scalable.</p><p>We remarked briefly on how few extra flops multigrid needs (compared
+to Jacobi iteration) to get a scalable algorithm.</p><p>One thing I remarked on in Table 1 from the paper is exactly how
+fast the network interconnect is on nice HPC platforms. To see
+exactly how fast, compare with the latency for modern <a href=https://www.anandtech.com/show/16458/2021-ssd-benchmark-suite/3>NVMe
+SSDs</a>,
+which are touted as a real step forward in disk technology, and
+notice that we&rsquo;ve had interconnects with lower latency than modern
+SSDs since <em>1990</em>.</p><p>Next time we&rsquo;ll do some more hands on stuff and sketch some code
+for multi-level algorithms in MPI.</p></li><li><p>2021-02-24: <a href=https://teaching.wence.uk/comp4187/parallel/2020-21/lec07.pdf>Scribbles (quite short)</a>, <a href=https://teaching.wence.uk/comp4187/code/parallel/live/2020-21/Lec07.py>code</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=2e211aac-bc6e-4d75-ac62-acda00b4ba0b">video</a></p><p>I introduced what we&rsquo;re doing for the coursework, a <a href=https://teaching.wence.uk/comp4187/past-editions/2020-21/coursework/>candidate</a> is available, which may get minor textual
+edits after checking but is basically complete. We will be using
+<a href=https://classroom.github.com>github classroom</a> to manage the code
+submission so please sign up via the link on the coursework page.</p><p>For the remainder of the lectures, I&rsquo;ll be introducing concepts, and
+use, of the <a href=https://www.mcs.anl.gov/petsc/>PETSc</a> library. PETSc
+is a sophisticated parallel library that provides many useful
+datastructures for PDEs on grids and unstructured meshes. We&rsquo;re
+using it provide the parallel grids and sparse matrices in the
+coursework, so you&rsquo;ll want to get it installed locally. If you have
+any issues here please <strong>get in touch</strong>.</p><p>I started by introducing PETSc&rsquo;s
+<a href=https://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/Vec/index.html><code>Vec</code></a>
+object. We saw that every PETSc object gets created with a
+communicator. Many of the operations are then <em>logically collective</em>
+over that communicator: all ranks must participate for correctness,
+even if there is no obvious synchronisation required.</p><p>Most of the operations we saw were local (pointwise) operations on
+vectors, but the final thing we saw showed how PETSc deals with the
+problem of &ldquo;batching&rdquo; communication. If I want to set values in part
+of a <code>Vec</code> that I don&rsquo;t own, then I do that by first
+(non-collectively) calling <code>vec.setValues</code>. This internally creates
+a stash for the data that will need to be communicated. Once
+everyone is done setting values, there&rsquo;s a split-phase communication
+round with <code>vec.assemblyBegin()</code> followed by <code>vec.assemblyEnd()</code>.
+After the latter call, the <code>Vec</code> contains the new values and is
+ready to be used again.</p><p>See the <a href=https://teaching.wence.uk/comp4187/code/parallel/live/2020-21/Lec07.py>commented code</a>
+for more details.</p></li><li><p>2021-03-03: <a href=https://teaching.wence.uk/comp4187/parallel/2020-21/lec08.pdf>Scribbles</a>,
+<a href=https://teaching.wence.uk/comp4187/code/parallel/live/2020-21/Lec08.py>code</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=8189711a-b11b-4018-a694-ace000ab310c">video</a>.</p><p><em>Note: apologies, the screen sharing in the video only appears to
+show the code, and not interaction with the terminal. Please try
+running the code yourself to see what&rsquo;s going on.</em></p><p>We discussed sparse matrices, and a little bit about sparse matrix
+formats. I (somewhat informally) defined what we mean by a sparse
+matrix. We also briefly looked at how sparse matrices are
+distributed in parallel. This is interesting when we think about
+operations involving matrices and vectors, particularly we need that
+the parallel decomposition is <em>compatible</em> (PETSc will complain if
+not). Matrices, representing finite dimensional linear operators,
+are encapsulated in the PETSc
+<a href=https://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/Mat/index.html><code>Mat</code></a>
+object. The PETSc manual also has <a href=https://docs.petsc.org/en/latest/manual/mat/>a
+section</a> on them.</p><p>Some example usage is shown in the <a href=https://teaching.wence.uk/comp4187/code/parallel/live/2020-21/Lec08.py>commented code</a>.</p></li><li><p>2021-03-10: <a href=https://teaching.wence.uk/comp4187/parallel/2020-21/lec09.pdf>Scribbles</a>,
+<a href=https://teaching.wence.uk/comp4187/code/parallel/live/2020-21/Lec09.py>code</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=0a77c5e3-9222-4d47-9185-ace700a8adac">video</a>.</p><p>I introduced PETSc&rsquo;s
+<a href=https://docs.petsc.org/en/latest/manual/vec/#structured-grids-using-distributed-arrays><code>DMDA</code></a>
+which provides indexing, matrix, and vector creation for finite
+difference discretisations on structured grids.</p><p>They key thing here for writing finite difference codes is the
+notion of global and local vectors, and the index ranges that the
+DMDA gives us. We saw some pictures of this and looked at the basic
+functionality. Next time we&rsquo;ll do a complete small example.</p></li><li><p>2021-03-17: <a href=https://teaching.wence.uk/comp4187/parallel/2020-21/lec10.pdf>Scribbles</a>,
+<a href=https://teaching.wence.uk/comp4187/code/parallel/live/2020-21/Lec10.py>code</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=e2119d50-b5ae-4e71-be84-acee00a7d118">video</a>.</p><p>We looked at using a DMDA grid to do parallel finite differences.
+The major part that is a little fiddly to get right is the different
+indexing for global points, local points, and local ghost points. I
+drew some ASCII pictures, and showed the setup for both
+matrix-vector product (using the local indexing) and global indexing
+for matrix assembly.</p><p>We then discussed some of the things that might go wrong
+when implementing numerical code, and some suggestions for how
+to debug. The main idea is to use the mathematical structure of the
+problem to set up tests for which you know the answer. For example,
+if you have a 1D discretisation of $-\nabla^2$, represented as the
+matrix $A$, then applying that matrix to the finite difference
+representation of $x^2$ should produce a vector that represents
+$-2$. You can incorporate such tests in a test suite and be sure
+that newer changes do not break old behaviour.</p></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/wenceorg/comp4187/commit/9271858aa631161252031b9cd38d4da1c5c802a0 title="Last modified by Lawrence Mitchell | February 14, 2024" target=_blank rel=noopener><img src=/comp4187/svg/calendar.svg class=book-icon alt=Calendar>
+<span>February 14, 2024</span></a></div><div><a class="flex align-center" href=https://github.com/wenceorg/comp4187/edit/main/site/content/past-editions/2020-21/term2.md target=_blank rel=noopener><img src=/comp4187/svg/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div><div class="flex flex-wrap align-right"><p>© 2020&ndash; <a href=mailto:lawrence@wence.uk>Lawrence Mitchell</a>, <a href=https://annereinarz.github.io>Anne Reinarz</a> & <a href=https://www.dur.ac.uk/>Durham University</a>.</p><p><a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/><img alt="Creative Commons License" style=border-width:0 src=/comp4187/cc-by-sa.svg></a>
+This work is licensed under a <a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>Creative
+Commons Attribution-ShareAlike 4.0 International License</a>.</p></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><nav id=TableOfContents><ul><li><a href=#lecture-scribblings-and-video-links>Lecture scribblings and video links</a></li></ul></nav></aside></main></body></html>

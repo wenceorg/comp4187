@@ -1,0 +1,116 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="MPI: a messaging API #  If we want to solve really big problems (maybe upwards of 50 million degrees of freedom), we run into the issue that our problem likely doesn&rsquo;t fit (or is too slow) on a single shared memory system. We therefore need to move to a parallelisation model with distributed memory.
+In this situation, we have multiple computers which are connected with some form of network. The dominant parallel programming paradigm for this situation is that of message passing."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="MPI"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://teaching.wence.uk/comp4187/lectures/mpi/"><title>MPI | COMP4187 – Parallel Scientific Computing II</title><link rel=manifest href=/comp4187/manifest.json><link rel=icon href=/comp4187/favicon.png type=image/x-icon><link rel=stylesheet href=/comp4187/book.min.0cb0b7d6a1ed5d0e95321cc15edca4d6e9cc406149d1f4a3f25fd532f6a3bb38.css integrity="sha256-DLC31qHtXQ6VMhzBXtyk1unMQGFJ0fSj8l/VMvajuzg="></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><nav><div class=book-brand><img class=book-center src=/comp4187/logo.svg alt=Logo><h2><a href=/comp4187>COMP4187 – Parallel Scientific Computing II</a></h2></div><ul><li><span>Administrivia</span><ul><li><a href=/comp4187/setup/jupyter/>Jupyter</a></li><li><a href=/comp4187/setup/mpi/>MPI</a></li></ul></li><li><span>Exercises</span><ul><li><span>Parallel</span><ul><li><a href=/comp4187/exercises/parallel/hello/>Parallel Hello World</a></li><li><a href=/comp4187/exercises/parallel/pi/>Calculating π</a></li><li><a href=/comp4187/exercises/parallel/domain-decomp-simple/>1-D domain decomposition</a></li><li><a href=/comp4187/exercises/parallel/pingpong/>Ping-pong latency</a></li></ul></li><li><a href=/comp4187/exercises/coarse-grid/>Coarse Grid Operator</a></li><li><a href=/comp4187/exercises/finite-differences/>Finite Differences</a></li><li><a href=/comp4187/exercises/two-grid/>Two-Grid Iteration</a></li><li><a href=/comp4187/exercises/norms/>Norms</a></li></ul></li><li><span>Notes</span><ul><li><span>Lectures: Numerics</span><ul><li><a href=/comp4187/lectures/numerics/lecture1/>Lecture 1: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture2/>Lecture 2: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture3/>Lecture 3: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture4/>Lecture 4: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture5/>Lecture 5: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture6/>Lecture 6: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture7/>Lecture 7: Linear Solvers</a></li><li><a href=/comp4187/lectures/numerics/lecture8/>Lecture 8: Linear Solvers</a></li><li><a href=/comp4187/lectures/numerics/lecture9/>Lecture 9: Multigrid</a></li></ul></li><li><a href=/comp4187/lectures/mpi/ class=active>MPI</a><ul><li><a href=/comp4187/lectures/mpi/point-to-point/>Point-to-point messaging in MPI</a></li><li><a href=/comp4187/lectures/mpi/point-to-point-nb/>Non-blocking point-to-point messaging</a></li><li><a href=/comp4187/lectures/mpi/collectives/>Collectives</a></li><li><a href=/comp4187/lectures/mpi/advanced/>Advanced topics</a></li><li><a href=/comp4187/lectures/mpi/petsc4py/>PETSc and petsc4py</a></li><li><a href=/comp4187/lectures/mpi/live-notes/>Term 2: live lecture notes</a></li></ul></li></ul></li><li><a href=/comp4187/coursework/>Coursework 1: Euler-Bernoulli Beam Theory</a></li><li><a href=/comp4187/coursework2/>Coursework 2: multigrid solvers</a></li><li><a href=/comp4187/acknowledgements/>Acknowledgements</a></li><li><span>Past editions</span><ul><li><span>2020/21</span><ul><li><a href=/comp4187/past-editions/2020-21/term1/>Term 1: numerics</a></li><li><a href=/comp4187/past-editions/2020-21/term2/>Term 2: parallel computing</a></li><li><a href=/comp4187/past-editions/2020-21/coursework/>Coursework: a 3D multigrid solver</a></li></ul></li></ul></li></ul></nav><script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/comp4187/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>MPI</strong>
+<label for=toc-control><img src=/comp4187/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#mpi-a-messaging-api>MPI: a messaging API</a><ul><li><a href=#concepts>Concepts</a></li><li><a href=#single-program-multiple-data-spmd>Single program, multiple data (SPMD)</a></li><li><a href=#communicators>Communicators</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=mpi-a-messaging-api>MPI: a messaging API
+<a class=anchor href=#mpi-a-messaging-api>#</a></h1><p>If we want to solve really big problems (maybe upwards of 50 million
+degrees of freedom), we run into the issue that our problem likely
+doesn&rsquo;t fit (or is too slow) on a single shared memory system.
+We therefore need to move to a parallelisation model with
+<em>distributed memory</em>.</p><p>In this situation, we have multiple computers which are connected with
+some form of network. The dominant parallel programming paradigm for
+this situation is that of <em>message passing</em>.</p><p>In distributed memory settings we need to explicitly package up and
+send data between the different computers involved in the computation.</p><p>In the high performance computing world, the dominant library for
+message passing is <a href=https://www.mpi-forum.org/>MPI</a>, the Message
+Passing Interface.</p><p>We&rsquo;re going to do our programming in Python in this course so you&rsquo;ll
+need the Python bindings to MPI,
+<a href=https://mpi4py.readthedocs.io>mpi4py</a>.</p><p>Let&rsquo;s look at a simple <a href=https://teaching.wence.uk/comp4187/exercises/parallel/hello/#mpi>&ldquo;Hello, World&rdquo;</a>
+MPI program.</p><div class=book-include><div class=book-include-heading><tt>parallel/hello/hello.py</tt></div><div class=book-include-download><a href=https://teaching.wence.uk/comp4187/code/parallel/hello/hello.py>Download</a></div><div class=book-include-content><div class=highlight><pre style=color:#272822;background-color:#fafafa><code class=language-py data-lang=py><span style=color:#f92672>from</span> <span style=color:#111>mpi4py</span> <span style=color:#f92672>import</span> <span style=color:#111>MPI</span>  <span style=color:#75715e># This automatically calls MPI_Init</span>
+
+<span style=color:#111>comm</span> <span style=color:#f92672>=</span> <span style=color:#111>MPI</span><span style=color:#f92672>.</span><span style=color:#111>COMM_WORLD</span>
+
+<span style=color:#111>rank</span> <span style=color:#f92672>=</span> <span style=color:#111>comm</span><span style=color:#f92672>.</span><span style=color:#111>rank</span>
+<span style=color:#111>size</span> <span style=color:#f92672>=</span> <span style=color:#111>comm</span><span style=color:#f92672>.</span><span style=color:#111>size</span>
+
+<span style=color:#111>name</span> <span style=color:#f92672>=</span> <span style=color:#111>MPI</span><span style=color:#f92672>.</span><span style=color:#111>Get_processor_name</span><span style=color:#111>()</span>
+
+<span style=color:#00a8c8>print</span><span style=color:#111>(</span><span style=color:#111>f</span><span style=color:#d88200>&#34;Hello, World! I am rank {rank} of {size}. Running on node {name}&#34;</span><span style=color:#111>)</span>
+
+<span style=color:#75715e># MPI_Finalize is called in an atexit handler.</span>
+</code></pre></div></div></div><p>MPI is a library-based programming model, so we start by importing the
+library. If writing in C, we need to remember to call <code>MPI_Init</code>, but
+mpi4py does that for us when we do</p><div class=highlight><pre style=color:#272822;background-color:#fafafa><code class=language-py data-lang=py><span style=color:#f92672>from</span> <span style=color:#111>mpi4py</span> <span style=color:#f92672>import</span> <span style=color:#111>MPI</span>
+</code></pre></div><p>If we want to control what is going on, we should instead do</p><div class=highlight><pre style=color:#272822;background-color:#fafafa><code class=language-py data-lang=py><span style=color:#f92672>import</span> <span style=color:#111>mpi4py</span>
+<span style=color:#75715e># See the documentation for valid arguments</span>
+<span style=color:#111>mpi4py</span><span style=color:#f92672>.</span><span style=color:#111>rc</span><span style=color:#111>(</span><span style=color:#111>initialize</span><span style=color:#f92672>=</span><span style=color:#111>False</span><span style=color:#111>)</span>
+
+<span style=color:#f92672>from</span> <span style=color:#111>mpi4py</span> <span style=color:#f92672>import</span> <span style=color:#111>MPI</span>
+<span style=color:#111>MPI</span><span style=color:#f92672>.</span><span style=color:#111>Init</span><span style=color:#111>()</span>
+</code></pre></div><p>Similarly, the last thing we should do is call <code>MPI_Finalize</code>. By
+default <code>mpi4py</code> does this for us by installing it in an
+<a href=https://docs.python.org/3/library/atexit.html><code>atexit</code></a> handler.</p><p>With those logistics out the way, it looks like our code doesn&rsquo;t
+contain any parallelism at all. What&rsquo;s going on?</p><blockquote class="book-hint info"><span><p>When I link to MPI functions in the documentation, the links will be
+to C function declarations (since there&rsquo;s no official Python
+documentation).</p><p>Here&rsquo;s a quick translation guide.</p><ol><li>Functions that don&rsquo;t reference a communicator in the C interface
+(like <a href=https://rookiehpc.com/mpi/docs/mpi_init.php><code>MPI_Init</code></a>),
+become functions on the <code>MPI</code> module. Capitalisation remains the
+same: <code>MPI.Init()</code>.</li><li>Functions that do reference a <a href=#communicators>communicator</a> (like
+<a href=https://rookiehpc.com/mpi/docs/mpi_send.php><code>MPI_Send</code></a>), become
+methods on the communicator: <code>communicator.Send()</code>.</li><li>There are two versions of all the messaging routines. The first set use
+the Python <a href=https://docs.python.org/3/library/pickle.html>pickle</a>
+module to send arbitrary Python data (these are slow) and are spelt
+with a <strong>lowercase</strong> name (e.g. <code>communicator.send()</code>). The second
+set can only send objects that implement the Python <a href=https://www.python.org/dev/peps/pep-3118/>buffer
+protocol</a>, the usual
+case will be <a href=https://numpy.org>numpy arrays</a>, these are fast
+(because no copy is required) and are spelt with a <strong>capitalised</strong>
+name (e.g. <code>communicator.Send()</code>). See the <a href=https://mpi4py.readthedocs.io/en/stable/tutorial.html#tutorial>mpi4py
+tutorial</a>
+for more information.</li></ol><p>We&rsquo;ll revisit these concepts through the examples.</p></span></blockquote><h2 id=concepts>Concepts
+<a class=anchor href=#concepts>#</a></h2><p>The message passing model is based on the notion of processes (rather
+than the threads in OpenMP). Processes are very similar, but do not
+share an address space (and therefore do not share memory).</p><div class="book-columns flex flex-wrap"><div class="flex-even markdown-inner"><figure style=width:100%><img class=scaled src=https://teaching.wence.uk/comp4187/images/manual/processes-private-memory-sketch.svg alt="Processes do not share memory."><figcaption><p>Processes do not share memory.</p></figcaption></figure></div><div class="flex-even markdown-inner"><figure style=width:100%><img class=scaled src=https://teaching.wence.uk/comp4187/images/manual/shared-memory-sketch.svg alt="Threads can share memory."><figcaption><p>Threads can share memory.</p></figcaption></figure></div></div><p>Like in OpenMP programming (which you saw last year), we achieve
+parallelism by having many processes cooperate to solve the same task.
+We must come up with some way of dividing the data and computation
+between the processes.</p><p>Since processes do not share memory, they must instead send messages
+to communicate information. This is implemented in MPI through library
+calls that we can make from our sequential programming language.
+This is in contrast to OpenMP which defines pragma-based extensions to
+the language.</p><p>The core difficulty in writing message-passing programs is the
+conceptual model. This is a very different model to that required for
+sequential programs. Becoming comfortable with this model is key to
+understanding MPI programs. A key idea, is that there is much more
+focus on the <em>decomposition of the data and work</em>. That is, we must
+think about how we divide the data (and hence work) in our parallel
+program. I will endeavour to emphasise this through the examples and
+exposition when we encounter MPI functions.</p><p>Although at first MPI parallelism seems complicated, it is, in my
+experience, a really well-designed programming model, and well-suited
+suited to the implementation of reusable software.</p><h2 id=single-program-multiple-data-spmd>Single program, multiple data (SPMD)
+<a class=anchor href=#single-program-multiple-data-spmd>#</a></h2><p>Most MPI programs are written using the single-program, multiple data
+(SPMD) paradigm. All processes are launched and run their <em>own</em> copy
+of the same program. You saw this with the <a href=https://teaching.wence.uk/comp4187/exercises/parallel/hello/>Hello World</a> example.</p><blockquote class=exercise><h3>Exercise</h3><span>If you&rsquo;ve haven&rsquo;t already done it, go away and do that <a href=https://teaching.wence.uk/comp4187/exercises/parallel/hello/>hello world
+exercise</a> now, since it also sets up your
+environment for the rest of the course.</span></blockquote><p>Although each process is running the same program, they each have a
+separate copy of data.</p><p>So that this is useful, processes have a unique identifier, their
+<em>rank</em>. We can then write code that sends different ranks down
+different paths in the control flow.</p><p>The way to think about this is as if we had written a number of
+different copies of a program and each process gets its own copy. They
+then execute at the same time and can pass messages to each other.</p><p>Suppose we have a function</p><div class=highlight><pre style=color:#272822;background-color:#fafafa><code class=language-py data-lang=py><span style=color:#00a8c8>def</span> <span style=color:#75af00>print_hello</span><span style=color:#111>(</span><span style=color:#111>comm</span><span style=color:#111>):</span>
+    <span style=color:#00a8c8>print</span><span style=color:#111>(</span><span style=color:#d88200>&#34;Hello, I am rank </span><span style=color:#d88200>%d</span><span style=color:#d88200> of </span><span style=color:#d88200>%d</span><span style=color:#d88200>&#34;</span><span style=color:#111>,</span> <span style=color:#111>comm</span><span style=color:#f92672>.</span><span style=color:#111>rank</span><span style=color:#111>,</span> <span style=color:#111>comm</span><span style=color:#f92672>.</span><span style=color:#111>size</span><span style=color:#111>)</span>
+</code></pre></div><p>Then if we execute it with two processes we have</p><div class="book-columns flex flex-wrap"><div class="flex-even markdown-inner"><p>Process 0</p><div class=highlight><pre style=color:#272822;background-color:#fafafa><code class=language-py data-lang=py><span style=color:#00a8c8>def</span> <span style=color:#75af00>print_hello</span><span style=color:#111>(</span><span style=color:#111>comm</span><span style=color:#111>):</span>
+    <span style=color:#00a8c8>print</span><span style=color:#111>(</span><span style=color:#d88200>&#34;Hello, I am rank </span><span style=color:#d88200>%d</span><span style=color:#d88200> of </span><span style=color:#d88200>%d</span><span style=color:#d88200>&#34;</span><span style=color:#111>,</span>
+          <span style=color:#ae81ff>0</span><span style=color:#111>,</span> <span style=color:#ae81ff>2</span><span style=color:#111>)</span>
+</code></pre></div></div><div class="flex-even markdown-inner"><p>Process 1</p><div class=highlight><pre style=color:#272822;background-color:#fafafa><code class=language-py data-lang=py><span style=color:#00a8c8>def</span> <span style=color:#75af00>print_hello</span><span style=color:#111>(</span><span style=color:#111>comm</span><span style=color:#111>):</span>
+    <span style=color:#00a8c8>print</span><span style=color:#111>(</span><span style=color:#d88200>&#34;Hello, I am rank </span><span style=color:#d88200>%d</span><span style=color:#d88200> of </span><span style=color:#d88200>%d</span><span style=color:#d88200>&#34;</span><span style=color:#111>,</span>
+          <span style=color:#ae81ff>1</span><span style=color:#111>,</span> <span style=color:#ae81ff>2</span><span style=color:#111>)</span>
+</code></pre></div></div></div><p>Of course, on its own, this is not that useful. So the real power in
+MPI comes through the ability to send messages between the processes.
+These are facilitated by communicators.</p><h2 id=communicators>Communicators
+<a class=anchor href=#communicators>#</a></h2><p>The powerful abstraction that MPI is built around is a notion of a
+communicator. This logically groups some set of processes in the MPI
+program. All communication happens via communicators. That is, when
+sending and receiving messages we do so by providing a
+communicator and a source/destination to be interpreted with reference
+to that communicator.</p><p>When MPI launches a program, it pre-initialises two communicators</p><dl><dt><a href=https://rookiehpc.com/mpi/docs/mpi_comm_world.php><code>MPI.COMM_WORLD</code></a></dt><dd>A communicator consisting of all the processes in the current run.</dd><dt><a href=https://rookiehpc.com/mpi/docs/mpi_comm_self.php><code>MPI.COMM_SELF</code></a></dt><dd>A communicator consisting of each process individually.</dd></dl><p>The figure below shows an example of eight processes and draws the
+world and self communicators.</p><figure style=width:75%><img class=scaled src=https://teaching.wence.uk/comp4187/images/manual/comm-world-comm-self.svg alt="An MPI program with eight processes and their ranks in MPI_COMM_WORLD (left) and MPI_COMM_SELF (right). In the right-hand figure the corresponding world rank is shown in parentheses"><figcaption><p>An MPI program with eight processes and their ranks in <code>MPI_COMM_WORLD</code> (left) and <code>MPI_COMM_SELF</code> (right). In the right-hand figure the corresponding world rank is shown in parentheses</p></figcaption></figure><p>A key thing to note is that the processes are the <em>same</em> in the left
+and right figures. It is just their identifier that changes depending
+on which communicator we view them through.</p><blockquote class=exercise><h3>Exercise</h3><span><p>This concept is illustrated by <a href=https://teaching.wence.uk/comp4187/code/parallel/snippets/comm-world-self.py><code>parallel/snippets/comm-world-self.py</code></a>.</p><p>Run with</p><pre><code>$ mpirun -n 4 python comm-world-self.py
+</code></pre><p>Do you understand the output?</p><blockquote class="book-hint info"><span>Don&rsquo;t forget to load the correct <code>intelmpi/gcc/2019.6</code> module, along
+with activating your virtual environment.</span></blockquote></span></blockquote><p>An important thing about communicators is that they are always
+explicit when we send messages: to send a message, we need a
+communicator. So communicators, and the group of processes they
+represent, are at the core of MPI programming.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/wenceorg/comp4187/commit/9271858aa631161252031b9cd38d4da1c5c802a0 title="Last modified by Lawrence Mitchell | February 14, 2024" target=_blank rel=noopener><img src=/comp4187/svg/calendar.svg class=book-icon alt=Calendar>
+<span>February 14, 2024</span></a></div><div><a class="flex align-center" href=https://github.com/wenceorg/comp4187/edit/main/site/content/lectures/mpi/_index.md target=_blank rel=noopener><img src=/comp4187/svg/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div><div class="flex flex-wrap align-right"><p>© 2020&ndash; <a href=mailto:lawrence@wence.uk>Lawrence Mitchell</a>, <a href=https://annereinarz.github.io>Anne Reinarz</a> & <a href=https://www.dur.ac.uk/>Durham University</a>.</p><p><a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/><img alt="Creative Commons License" style=border-width:0 src=/comp4187/cc-by-sa.svg></a>
+This work is licensed under a <a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>Creative
+Commons Attribution-ShareAlike 4.0 International License</a>.</p></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><nav id=TableOfContents><ul><li><a href=#mpi-a-messaging-api>MPI: a messaging API</a><ul><li><a href=#concepts>Concepts</a></li><li><a href=#single-program-multiple-data-spmd>Single program, multiple data (SPMD)</a></li><li><a href=#communicators>Communicators</a></li></ul></li></ul></nav></aside></main></body></html>

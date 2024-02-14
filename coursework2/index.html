@@ -1,0 +1,247 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="A 3D multigrid solver #   The submission deadline for this work is 5th May 2022 at 2pm.
+You can accept the assignment on github classroom
+See below for submission details.
+  Introduction #  In this coursework, we&rsquo;re going to implement a parallel multigrid solver initially in one dimension for the Euler-Bernoulli beam and finally in three dimensions for the variable-coefficient Laplacian.
+We are using PETSc, via petsc4py, to provide the parallel data structures."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Coursework 2: multigrid solvers"><meta property="og:description" content="A 3D multigrid solver #   The submission deadline for this work is 5th May 2022 at 2pm.
+You can accept the assignment on github classroom
+See below for submission details.
+  Introduction #  In this coursework, we&rsquo;re going to implement a parallel multigrid solver initially in one dimension for the Euler-Bernoulli beam and finally in three dimensions for the variable-coefficient Laplacian.
+We are using PETSc, via petsc4py, to provide the parallel data structures."><meta property="og:type" content="article"><meta property="og:url" content="https://teaching.wence.uk/comp4187/coursework2/"><meta property="article:modified_time" content="2024-02-14T14:35:09+00:00"><title>Coursework 2: multigrid solvers | COMP4187 – Parallel Scientific Computing II</title><link rel=manifest href=/comp4187/manifest.json><link rel=icon href=/comp4187/favicon.png type=image/x-icon><link rel=stylesheet href=/comp4187/book.min.0cb0b7d6a1ed5d0e95321cc15edca4d6e9cc406149d1f4a3f25fd532f6a3bb38.css integrity="sha256-DLC31qHtXQ6VMhzBXtyk1unMQGFJ0fSj8l/VMvajuzg="><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false},{left:"\\(",right:"\\)",display:false},{left:"\\[",right:"\\]",display:true}]})});</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><nav><div class=book-brand><img class=book-center src=/comp4187/logo.svg alt=Logo><h2><a href=/comp4187>COMP4187 – Parallel Scientific Computing II</a></h2></div><ul><li><span>Administrivia</span><ul><li><a href=/comp4187/setup/jupyter/>Jupyter</a></li><li><a href=/comp4187/setup/mpi/>MPI</a></li></ul></li><li><span>Exercises</span><ul><li><span>Parallel</span><ul><li><a href=/comp4187/exercises/parallel/hello/>Parallel Hello World</a></li><li><a href=/comp4187/exercises/parallel/pi/>Calculating π</a></li><li><a href=/comp4187/exercises/parallel/domain-decomp-simple/>1-D domain decomposition</a></li><li><a href=/comp4187/exercises/parallel/pingpong/>Ping-pong latency</a></li></ul></li><li><a href=/comp4187/exercises/coarse-grid/>Coarse Grid Operator</a></li><li><a href=/comp4187/exercises/finite-differences/>Finite Differences</a></li><li><a href=/comp4187/exercises/two-grid/>Two-Grid Iteration</a></li><li><a href=/comp4187/exercises/norms/>Norms</a></li></ul></li><li><span>Notes</span><ul><li><span>Lectures: Numerics</span><ul><li><a href=/comp4187/lectures/numerics/lecture1/>Lecture 1: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture2/>Lecture 2: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture3/>Lecture 3: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture4/>Lecture 4: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture5/>Lecture 5: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture6/>Lecture 6: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture7/>Lecture 7: Linear Solvers</a></li><li><a href=/comp4187/lectures/numerics/lecture8/>Lecture 8: Linear Solvers</a></li><li><a href=/comp4187/lectures/numerics/lecture9/>Lecture 9: Multigrid</a></li></ul></li><li><a href=/comp4187/lectures/mpi/>MPI</a><ul><li><a href=/comp4187/lectures/mpi/point-to-point/>Point-to-point messaging in MPI</a></li><li><a href=/comp4187/lectures/mpi/point-to-point-nb/>Non-blocking point-to-point messaging</a></li><li><a href=/comp4187/lectures/mpi/collectives/>Collectives</a></li><li><a href=/comp4187/lectures/mpi/advanced/>Advanced topics</a></li><li><a href=/comp4187/lectures/mpi/petsc4py/>PETSc and petsc4py</a></li><li><a href=/comp4187/lectures/mpi/live-notes/>Term 2: live lecture notes</a></li></ul></li></ul></li><li><a href=/comp4187/coursework/>Coursework 1: Euler-Bernoulli Beam Theory</a></li><li><a href=/comp4187/coursework2/ class=active>Coursework 2: multigrid solvers</a></li><li><a href=/comp4187/acknowledgements/>Acknowledgements</a></li><li><span>Past editions</span><ul><li><span>2020/21</span><ul><li><a href=/comp4187/past-editions/2020-21/term1/>Term 1: numerics</a></li><li><a href=/comp4187/past-editions/2020-21/term2/>Term 2: parallel computing</a></li><li><a href=/comp4187/past-editions/2020-21/coursework/>Coursework: a 3D multigrid solver</a></li></ul></li></ul></li></ul></nav><script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/comp4187/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Coursework 2: multigrid solvers</strong>
+<label for=toc-control><img src=/comp4187/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#a-3d-multigrid-solver>A 3D multigrid solver</a><ul><li><a href=#introduction>Introduction</a></li><li><a href=#getting-and-installing-the-mgsolver-package>Getting and installing the <code>mgsolver</code> package</a></li><li><a href=#package-layout>Package layout</a></li><li><a href=#part-1-reimplementing-the-beam>Part 1: Reimplementing the beam</a></li><li><a href=#part-2-the-3d-darcy-equation>Part 2: The 3D Darcy Equation</a><ul><li><a href=#part-2a-timestepping>Part 2a: timestepping</a></li><li><a href=#part-2b-a-higher-order-scheme>Part 2b: A higher-order scheme</a></li></ul></li><li><a href=#part-3-multigrid>Part 3: multigrid</a><ul><li><a href=#part-3a-completing-the-multigrid-solver>Part 3a: completing the multigrid solver</a></li><li><a href=#part-3b-solving-for-a-steady-state>Part 3b: solving for a steady state</a></li></ul></li><li><a href=#submission>Submission and mark scheme</a><ul><li><a href=#mark-scheme>Mark scheme</a></li></ul></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=a-3d-multigrid-solver>A 3D multigrid solver
+<a class=anchor href=#a-3d-multigrid-solver>#</a></h1><blockquote class="book-hint warning"><span><p>The submission deadline for this work is 5th May 2022 at 2pm.</p><p>You can accept the assignment on <a href=https://classroom.github.com/a/aS5kAaVW>github classroom</a></p><p>See <a href=#submission>below</a> for submission details.</p></span></blockquote><h2 id=introduction>Introduction
+<a class=anchor href=#introduction>#</a></h2><p>In this coursework, we&rsquo;re going to implement a parallel multigrid
+solver initially in one dimension for the Euler-Bernoulli beam
+and finally in three dimensions for the variable-coefficient Laplacian.</p><p>We are using <a href=https://www.mcs.anl.gov/petsc/>PETSc</a>, via
+<a href=https://pypi.org/project/petsc4py/>petsc4py</a>, to provide the
+parallel data structures.</p><p>There&rsquo;s a skeleton Python package that provides a lot of the
+infrastructure that you will build on to develop your solver.</p><p>To get going, you&rsquo;ll need to install <code>petsc4py</code> in your virtual
+environment. On your own machine, <code>pip install petsc4py</code> should be
+sufficient. This will go away and build PETSc, followed by <code>petsc4py</code>.
+If you&rsquo;re using conda, you can install <code>petsc4py</code> in your conda
+environment with <code>conda install -c conda-forge petsc4py</code>.</p><details><summary>PETSc on Hamilton 8</summary><div class=markdown-inner><blockquote class="book-hint info"><span><p>You will need to build PETSc and petsc4py on Hamilton 8 (for parallel
+runs).</p><p>Load the following modules:</p><pre><code>gcc
+intelmpi
+openblas
+python
+</code></pre><p>and create a virtual environment:</p><pre><code>$ python3.9 -m venv pscii
+</code></pre><p>Activate the virtual environment and install dependencies</p><pre><code>$ pip install mpi4py numpy
+</code></pre><p>Download PETSc (I recommend you do this in the large &ldquo;data&rdquo; directory)</p><pre><code>$ cd /nobackup/$USER
+$ git clone https://gitlab.com/petsc/petsc.git
+$ cd petsc
+$ ./configure --with-debugging=0 --with-openblas-dir=$OPENBLAS_HOME
+$ make PETSC_DIR=/nobackup/$USER/petsc PETSC_ARCH=arch-linux-c-opt all
+$ make PETSC_DIR=/nobackup/$USER/petsc PETSC_ARCH=arch-linux-c-opt check
+</code></pre><p>If anything fails at this point <strong>get in touch</strong>.</p><p>Now install petsc4py (still with the virtual environment activated)</p><pre><code>$ export PETSC_DIR=/nobackup/$USER/petsc
+$ export PETSC_ARCH=arch-linux-c-opt
+$ pip install $PETSC_DIR/src/binding/petsc4py/
+</code></pre><p>petsc4py should now be usable having activated your virtual
+environment. Don&rsquo;t forget to load the relevant modules every time.</p></span></blockquote></div></details><blockquote class="book-hint warning"><span>Building PETSc is sometimes problematic. If the installation
+fails for any reason <strong>GET IN TOUCH</strong> and we&rsquo;ll figure it out. The
+best way to do this is via the <a href=https://github.com/wenceorg/comp4187/discussions>discussion forum</a>.</span></blockquote><h2 id=getting-and-installing-the-mgsolver-package>Getting and installing the <code>mgsolver</code> package
+<a class=anchor href=#getting-and-installing-the-mgsolver-package>#</a></h2><p>We will use <a href=https://classroom.github.com>GitHub classroom</a> to manage
+the submissions. To set up and fork the template repository, follow
+<a href=https://classroom.github.com/a/aS5kAaVW>this link</a>.</p><p>You should work in your fork and push your code regularly. Having
+forked the repository, you can clone it locally and install the
+package. I recommend using an <em>editable install</em> since you&rsquo;ll be
+developing new code in the package.</p><pre><code>$ git clone git@github.com:Durham-COMP4187/your-repo-name-here.git comp4187-coursework
+$ pip install -e comp4187-coursework/
+</code></pre><p>After doing this, you should be able to run the tests with (they will
+all fail)</p><pre><code>$ pytest tests
+</code></pre><blockquote class="book-hint warning"><span>If you can&rsquo;t get this far for whatever reason, <strong>GET IN TOUCH</strong>.</span></blockquote><h2 id=package-layout>Package layout
+<a class=anchor href=#package-layout>#</a></h2><p>The <code>mgsolver</code> package contains a number of classes, some of which are
+missing functionality that you are to implement. The main classes that
+we need are</p><ul><li><p><code>grid.Grid3D</code> and <code>grid.GridHierarchy</code>. These provide a coarse grid
+and a hierarchy of regularly refined grids. We&rsquo;ll just need to
+construct these.</p></li><li><p><code>mgsolver.MGSolver</code>: This class manages the multigrid solver. It has
+unimplemented methods for Jacobi iteration (<code>jacobi</code>), a V-cycle
+(<code>vcycle</code>), and a W-cycle (<code>wcycle</code>), which you will need to
+implement.</p></li><li><p><code>operator.AbstractOperator</code>: You should produce a subclass of this
+for your operators and implement the requisite abstract methods.</p><ol><li><code>mult</code> do a matrix-vector multiply.</li><li><code>diagonal</code> a property that returns the diagonal of the operator.</li><li><code>as_sparse_matrix</code> return the operator as a sparse matrix.</li></ol></li></ul><p>Additionally, visualisation output of solution vectors to
+<a href=https://vtk.org>VTK</a> files viewable in
+<a href=https://www.paraview.org>Paraview</a> can be produced using the
+<code>write_output</code> function.</p><p>Here is a sketch of how you would use the package (eliding details of
+the implementation of the operator&rsquo;s methods).</p><div class=highlight><pre style=color:#272822;background-color:#fafafa><code class=language-python data-lang=python><span style=color:#f92672>from</span> <span style=color:#111>functools</span> <span style=color:#f92672>import</span> <span style=color:#111>cached_property</span>
+<span style=color:#f92672>from</span> <span style=color:#111>mgsolver</span> <span style=color:#f92672>import</span> <span style=color:#111>AbstractOperator</span><span style=color:#111>,</span> <span style=color:#111>Grid3D</span><span style=color:#111>,</span> <span style=color:#111>GridHierarchy</span><span style=color:#111>,</span> <span style=color:#111>MGSolver</span><span style=color:#111>,</span> <span style=color:#111>PETSc</span>
+<span style=color:#f92672>from</span> <span style=color:#111>mpi4py</span> <span style=color:#f92672>import</span> <span style=color:#111>MPI</span>
+
+
+<span style=color:#75715e># Define the operator we want to apply</span>
+<span style=color:#75715e># Must inherit from AbstractOperator</span>
+<span style=color:#00a8c8>class</span> <span style=color:#75af00>Poisson7pt</span><span style=color:#111>(</span><span style=color:#111>AbstractOperator</span><span style=color:#111>):</span>
+    <span style=color:#00a8c8>def</span> <span style=color:#111>__init__</span><span style=color:#111>(</span><span style=color:#111>self</span><span style=color:#111>,</span> <span style=color:#111>grid</span><span style=color:#111>):</span>
+        <span style=color:#75715e># Can do some stuff here, but remember to always do</span>
+        <span style=color:#111>super</span><span style=color:#111>()</span><span style=color:#f92672>.</span><span style=color:#111>__init__</span><span style=color:#111>(</span><span style=color:#111>grid</span><span style=color:#111>)</span>
+
+    <span style=color:#75715e># We need to implement this property. A @cached_property is like</span>
+    <span style=color:#75715e># a @property, but only gets evaluated once.</span>
+    <span style=color:#75af00>@cached_property</span>
+    <span style=color:#00a8c8>def</span> <span style=color:#75af00>diagonal</span><span style=color:#111>(</span><span style=color:#111>self</span><span style=color:#111>):</span>
+        <span style=color:#00a8c8>pass</span>
+
+    <span style=color:#75715e># We need to implement this method</span>
+    <span style=color:#00a8c8>def</span> <span style=color:#75af00>mult</span><span style=color:#111>(</span><span style=color:#111>self</span><span style=color:#111>,</span> <span style=color:#111>x</span><span style=color:#111>,</span> <span style=color:#111>y</span><span style=color:#111>):</span>
+        <span style=color:#75715e># x is the input vector, y is the output vector.</span>
+        <span style=color:#00a8c8>pass</span>
+
+    <span style=color:#75715e># Finally, we need to implement this method</span>
+    <span style=color:#00a8c8>def</span> <span style=color:#75af00>as_sparse_matrix</span><span style=color:#111>(</span><span style=color:#111>self</span><span style=color:#111>):</span>
+        <span style=color:#75715e># Return the operator as a sparse matrix</span>
+        <span style=color:#00a8c8>pass</span>
+
+
+<span style=color:#75715e># Create a coarse grid with 4 vertices in each direction</span>
+<span style=color:#111>coarse_grid</span> <span style=color:#f92672>=</span> <span style=color:#111>Grid3D</span><span style=color:#111>(</span><span style=color:#ae81ff>4</span><span style=color:#111>,</span> <span style=color:#ae81ff>4</span><span style=color:#111>,</span> <span style=color:#ae81ff>4</span><span style=color:#111>,</span> <span style=color:#111>comm</span><span style=color:#f92672>=</span><span style=color:#111>MPI</span><span style=color:#f92672>.</span><span style=color:#111>COMM_WORLD</span><span style=color:#111>)</span>
+<span style=color:#75715e># Create a hierarchy with two refinements (3 levels in total)</span>
+<span style=color:#111>hierarchy</span> <span style=color:#f92672>=</span> <span style=color:#111>GridHierarchy</span><span style=color:#111>(</span><span style=color:#111>coarse_grid</span><span style=color:#111>,</span> <span style=color:#111>nrefinements</span><span style=color:#f92672>=</span><span style=color:#ae81ff>2</span><span style=color:#111>)</span>
+<span style=color:#75715e># You can index the GridHierarchy like a normal list.</span>
+<span style=color:#111>fine_grid</span> <span style=color:#f92672>=</span> <span style=color:#111>hierarchy</span><span style=color:#111>[</span><span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#111>]</span>
+<span style=color:#75715e># Now we can build a solver</span>
+<span style=color:#111>solver</span> <span style=color:#f92672>=</span> <span style=color:#111>MGSolver</span><span style=color:#111>(</span><span style=color:#111>hierarchy</span><span style=color:#111>,</span> <span style=color:#111>Poisson7pt</span><span style=color:#111>)</span>
+
+<span style=color:#75715e># Create vectors to hold the solution and right hand side</span>
+<span style=color:#111>x</span> <span style=color:#f92672>=</span> <span style=color:#111>fine_grid</span><span style=color:#f92672>.</span><span style=color:#111>createGlobalVector</span><span style=color:#111>()</span>
+<span style=color:#111>b</span> <span style=color:#f92672>=</span> <span style=color:#111>fine_grid</span><span style=color:#f92672>.</span><span style=color:#111>createGlobalVector</span><span style=color:#111>()</span>
+
+<span style=color:#75715e># To get an operator on a given level</span>
+<span style=color:#111>A_fine</span> <span style=color:#f92672>=</span> <span style=color:#111>solver</span><span style=color:#f92672>.</span><span style=color:#111>get_operator</span><span style=color:#111>(</span><span style=color:#111>len</span><span style=color:#111>(</span><span style=color:#111>hierarchy</span><span style=color:#111>)</span><span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#111>)</span>
+<span style=color:#75715e># The solver also provides storage for vectors of residuals and so</span>
+<span style=color:#75715e># forth on each level. The jacobi iteration needs somewhere to store</span>
+<span style=color:#75715e># the residual.</span>
+<span style=color:#111>r</span> <span style=color:#f92672>=</span> <span style=color:#111>solver</span><span style=color:#f92672>.</span><span style=color:#111>residuals</span><span style=color:#111>[</span><span style=color:#111>len</span><span style=color:#111>(</span><span style=color:#111>hierarchy</span><span style=color:#111>)</span><span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#111>]</span>
+<span style=color:#75715e># To run 10 iterations of Jacobi</span>
+<span style=color:#111>solver</span><span style=color:#f92672>.</span><span style=color:#111>jacobi</span><span style=color:#111>(</span><span style=color:#111>A</span><span style=color:#111>,</span> <span style=color:#111>x</span><span style=color:#111>,</span> <span style=color:#111>b</span><span style=color:#111>,</span> <span style=color:#111>r</span><span style=color:#111>,</span> <span style=color:#111>niter</span><span style=color:#f92672>=</span><span style=color:#ae81ff>10</span><span style=color:#111>)</span>
+<span style=color:#75715e># To solve using a V-cycle using 1 iteration of pre- and post-smoothing</span>
+<span style=color:#75715e># to a relative tolerance of 1e-5</span>
+<span style=color:#111>solver</span><span style=color:#f92672>.</span><span style=color:#111>solve</span><span style=color:#111>(</span><span style=color:#111>x</span><span style=color:#111>,</span> <span style=color:#111>b</span><span style=color:#111>,</span> <span style=color:#111>rtol</span><span style=color:#f92672>=</span><span style=color:#ae81ff>1e-5</span><span style=color:#111>,</span> <span style=color:#111>presmooth</span><span style=color:#f92672>=</span><span style=color:#ae81ff>1</span><span style=color:#111>,</span> <span style=color:#111>postsmooth</span><span style=color:#f92672>=</span><span style=color:#ae81ff>1</span><span style=color:#111>,</span>
+             <span style=color:#111>cycle_type</span><span style=color:#f92672>=</span><span style=color:#111>solver</span><span style=color:#f92672>.</span><span style=color:#111>Type</span><span style=color:#f92672>.</span><span style=color:#111>V</span><span style=color:#111>)</span>
+<span style=color:#75715e># To solve using a W-cycle using 1 iteration of pre-smoothing and 2</span>
+<span style=color:#75715e># iterations of post-smoothing to a relative tolerance of 1e-8</span>
+<span style=color:#111>solver</span><span style=color:#f92672>.</span><span style=color:#111>solve</span><span style=color:#111>(</span><span style=color:#111>x</span><span style=color:#111>,</span> <span style=color:#111>b</span><span style=color:#111>,</span> <span style=color:#111>rtol</span><span style=color:#f92672>=</span><span style=color:#ae81ff>1e-8</span><span style=color:#111>,</span> <span style=color:#111>presmooth</span><span style=color:#f92672>=</span><span style=color:#ae81ff>1</span><span style=color:#111>,</span> <span style=color:#111>postsmooth</span><span style=color:#f92672>=</span><span style=color:#ae81ff>2</span><span style=color:#111>,</span>
+             <span style=color:#111>cycle_type</span><span style=color:#f92672>=</span><span style=color:#111>solver</span><span style=color:#f92672>.</span><span style=color:#111>Type</span><span style=color:#f92672>.</span><span style=color:#111>W</span><span style=color:#111>)</span>
+</code></pre></div><p>For a complete example, see the tests in <code>tests/test_one_dim.py</code>,
+which implement a one-dimensional example.</p><p>The tests themselves do not pass, since the various bits of the <code>MGSolver</code>
+class are not completed. You can run the tests with
+<a href=https://pytest.org><code>pytest</code></a>, using <code>pytest tests</code>. After
+successfully implementing the Jacobi iteration and V-cycle, the test
+run looks something like</p><pre><code>$ pytest tests/test_one_dim.py -v
+================================== test session starts ===================================
+platform darwin -- Python 3.8.6, pytest-6.2.2, py-1.10.0, pluggy-0.13.1 -- pscii/bin/python3
+cachedir: .pytest_cache
+rootdir: XXX, configfile: setup.cfg
+collected 3 items
+
+tests/test_one_dim.py::test_mms_convergence PASSED                                 [ 33%]
+tests/test_one_dim.py::test_two_grid[Jacobi coarse grid] PASSED                    [ 66%]
+tests/test_one_dim.py::test_two_grid[Exact coarse grid] PASSED                     [100%]
+
+=================================== 3 passed in 0.34s ====================================
+</code></pre><p>You can also run the tests in parallel by doing</p><pre><code>$ mpiexec -n 4 tests/test_one_dim.py -v
+</code></pre><h2 id=part-1-reimplementing-the-beam>Part 1: Reimplementing the beam
+<a class=anchor href=#part-1-reimplementing-the-beam>#</a></h2><p>In the previous coursework you implemented a 5-point stencil for the Euler-Bernoulli beam
+We will solve the stationary variant of this equation (i.e. no time-component this time).
+In particular, we will solve a three-point bending test. The beam is supported at both ends,
+and at the centre a concentrated load is applied.</p><p>$$
+\delta(x-\frac{1}{2}) = -k \partial_{xxxx}u(x)
+$$
+with a small material parameter $k$. Here $\delta$ is a Dirac function, it is one at the centre
+of the beam $x=\frac{1}{2}$ and zero everywhere else.</p><p>Boundary conditions remain as before:
+$$
+u(0,t)=u(1,t)=0
+$$
+and
+$$
+\partial_{xx}u(0,t) = \partial_{xx}u(1,t) = 0.
+$$</p><p>To implement this create a class <code>Bernoulli5pt</code> that discretises the
+spatial operator using a 2nd order accurate 5-point stencil. Watch out
+for the boundary conditions.</p><blockquote class="book-hint info"><span>Hint: Have a look at <code>tests/test_one_dim.py</code></span></blockquote><blockquote class="book-hint info"><span>You should do your implementation for this part in a file called
+<code>part1_euler_bernoulli.py</code> placed in the root of the repository.</span></blockquote><p>The analytical solution is
+$$
+w(x) = \frac{x(4x^2-3)}{48k}, \text{for } 0 &lt; x \leq \frac{1}{2}
+$$
+and
+$$
+w(x) = -\frac{(x-1)(1-8x+4x^2)}{48k}, \text{for } \frac{1}{2} &lt; x &lt; 1.
+$$</p><p>For now we will solve the resulting linear system with a direct solver.
+You can use one of the built-in PETSc solvers for this. Later we will
+implement a multigrid solver. At that stage you may want to go back to
+this equation to see how multigrid performs.</p><blockquote class=question><h3>Part 1a questions</h3><span><ol><li>How does the error in your numerical solution behave under grid
+refinement? Can you explain what you see?</li></ol></span></blockquote><h2 id=part-2-the-3d-darcy-equation>Part 2: The 3D Darcy Equation
+<a class=anchor href=#part-2-the-3d-darcy-equation>#</a></h2><p>Discretise the equation
+$$
+\partial_t u - \nabla \cdot K(x, y, z) \nabla u = f(x, y, z)
+$$
+on the cubic domain $\Omega = [0, 1] \times [0, 1] \times [0, 1]$,
+using forward Euler as a timestepping scheme. After some time-stepping
+the equation will reach its steady-state, which is to say that the time
+derivative will become zero. Compare solving the stationary state-state
+equation
+$$</p><ul><li>\nabla \cdot K(x, y, z) \nabla u = f(x, y, z)
+$$
+directly using a linear solver with time-stepping towards the steady-state.</li></ul><p>To do this, create a class <code>Poisson7pt</code> that discretises the spatial
+operator using a 2nd order accurate 7-point stencil (as derived in lectures).
+$$ -\nabla \cdot K(x, y, z) \nabla u.
+$$</p><p>Using
+$$
+K(x, y, z) = cos(\pi y)
+$$
+$$
+f(x, y, z) = (\pi+3\pi^2) \sin(\pi x)\sin(\pi y)\sin(\pi z),
+$$
+Dirichlet boundary conditions on the boundary
+$$
+u(x, y, z) = 0.
+$$
+The exact solution for this
+problem is
+$$
+u^*(x, y, z) = \sin(\pi x)\sin(\pi y)\sin(\pi z).
+$$</p><h3 id=part-2a-timestepping>Part 2a: timestepping
+<a class=anchor href=#part-2a-timestepping>#</a></h3><blockquote class="book-hint info"><span>You should do your implementation for this part in a file called
+<code>part2_explicit_euler.py</code> placed in the root of the repository.</span></blockquote><p>Implement an explicit Euler time-stepping scheme using your 7-point stencil.</p><blockquote class="book-hint info"><span>Ensure that your implementation works correctly in parallel as well as
+serial (when run with MPI).</span></blockquote><blockquote class=question><h3>Part 2a questions</h3><span><ol><li>How does the error in your numerical solution behave under grid
+refinement? Can you explain what you see?</li><li>Is the same solution reached by solving the stationary equation
+and by solving the time-dependent problem after reaching the steady-state?
+How does the error behave with respect to time to solution in these two cases?</li></ol></span></blockquote><h3 id=part-2b-a-higher-order-scheme>Part 2b: A higher-order scheme
+<a class=anchor href=#part-2b-a-higher-order-scheme>#</a></h3><blockquote class="book-hint info"><span>This part doesn&rsquo;t need to you to write any code.</span></blockquote><blockquote class=question><h3>Part 2b questions</h3><span><ol><li>Derive, but do not implement, the 4th order accurate stencil for a
+5-point discretisation of the Laplace operator in one dimension.</li><li>How do you have to modify the stencil at the boundary to maintain the
+accuracy for:<ol><li>Dirichlet conditions $u = g$?</li><li>Neumann conditions $\nabla u \cdot n = h$?</li></ol></li><li>Would this spatial discretisation have the same timestep restriction
+as the 2nd order operator, or a different one? Explain your answer.</li></ol></span></blockquote><h2 id=part-3-multigrid>Part 3: multigrid
+<a class=anchor href=#part-3-multigrid>#</a></h2><h3 id=part-3a-completing-the-multigrid-solver>Part 3a: completing the multigrid solver
+<a class=anchor href=#part-3a-completing-the-multigrid-solver>#</a></h3><p>Implement the missing pieces in the <code>MGSolver</code> class, namely</p><ul><li><code>MGSolver.jacobi</code></li><li><code>MGSolver.vcycle</code></li><li><code>MGSolver.wcycle</code></li></ul><p>You should do this directly in the <code>mgsolver/mgsolver.py</code> file (don&rsquo;t
+forget to commit and push it!). If you do this correctly, the one dimensional
+tests should now pass. You can now test the multigrid solver on the
+Euler-Bernoulli beam example you have implemented in part 1.</p><blockquote class="book-hint info"><span>Ensure that your implementation is correct in both serial and
+parallel. Up to round-off error, you should get the same results
+independent of the number of processes.</span></blockquote><blockquote class=question><h3>Part 3a questions</h3><span><ol><li>For the Euler-Bernoulli beam what mesh convergence do you get with the new
+multigrid solver? Does it differ from the behaviour using a direct solver?
+Do you have to adjust the tolerance to which you solve the problem as you add more
+grid levels?</li></ol></span></blockquote><h3 id=part-3b-solving-for-a-steady-state>Part 3b: solving for a steady state
+<a class=anchor href=#part-3b-solving-for-a-steady-state>#</a></h3><blockquote class="book-hint info"><span>You should do your implementation for this part in a file called
+<code>part3_multigrid.py</code> placed in the root of the repository.</span></blockquote><p>Using the same <code>Poisson7pt</code> operator that you implemented for Part
+2a, we will now solve for the steady state directly (rather than
+timestepping towards it).</p><p>Confirm that your implementation is correct by doing an MMS
+convergence test. For large problems you will probably want to run in
+parallel.</p><blockquote class="book-hint info"><span>If your operator definition was correct in parallel in Part 2, you
+should not have to worry very hard about parallelism in this part,
+since everything is done with &ldquo;collective&rdquo; operations.</span></blockquote><blockquote class=question><h3>Part 3b questions</h3><span><ol><li><p>What mesh convergence do you get for this problem? Do you have to
+adjust the tolerance to which you solve the problem as you add more
+grid levels?</p></li><li><p>For this problem, which method (jacobi, V-cycles, W-cycles) works
+best when you add more grid levels?</p><p>Consider both algorithmic convergence and time to solution.</p></li><li><p>Play around with the number of smoothing steps, does that change
+your conclusions?</p></li></ol><details><summary>Performance hint</summary><div class=markdown-inner>You may wish to pull the body of the matrix-vector <code>mult</code> method out
+and try JIT-compiling it with numba. I found that made a big
+(positive) difference in the performance of my code.</div></details></span></blockquote><h2 id=submission>Submission and mark scheme
+<a class=anchor href=#submission>#</a></h2><p>The work will be marked on the basis of three things</p><ol><li>Your submitted code;</li><li>A short report discussing answers to the questions and your
+findings (also added to the GitHub repository);</li><li>A brief (10 min) oral exam with the lecturers. We will use this to
+have a brief discussion about your implementation choices and code,
+and any interesting things you found in your numerical experiments.
+No need to prepare anything specific.</li></ol><p>You should submit to LearnUltra a single text file containing only the
+commit hash of the code on GitHub you want us to mark. Please add your
+CIS user id to the <code>README.md</code> in the template repository.</p><p>After submission, please contact the lecturers to arrange a time for
+the oral exam. Please do so within 5 days of the submission deadline.</p><h3 id=mark-scheme>Mark scheme
+<a class=anchor href=#mark-scheme>#</a></h3><ul><li>Part 1 [15 marks]<ul><li>implementation [10 marks]</li><li>questions/writeup [5 marks]</li></ul></li><li>Part 2 [35 marks]<ul><li>Part 2a [25 marks]<ul><li>implementation [15 marks]</li><li>questions/writeup [10 marks]</li></ul></li><li>Part 2b [10 marks]</li></ul></li><li>Part 3 [35 marks]<ul><li>Part 3a [10 marks]<ul><li>implementation [5 marks]</li><li>questions/writeup [5 marks]</li></ul></li><li>Part 3b [25 marks]<ul><li>implementation [15 marks]</li><li>questions/writeup [10 marks]</li></ul></li></ul></li><li>Code formatting (tested via flake8) [5 marks]</li><li>Brief oral exam [10 marks]</li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/wenceorg/comp4187/commit/9271858aa631161252031b9cd38d4da1c5c802a0 title="Last modified by Lawrence Mitchell | February 14, 2024" target=_blank rel=noopener><img src=/comp4187/svg/calendar.svg class=book-icon alt=Calendar>
+<span>February 14, 2024</span></a></div><div><a class="flex align-center" href=https://github.com/wenceorg/comp4187/edit/main/site/content/coursework2.md target=_blank rel=noopener><img src=/comp4187/svg/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div><div class="flex flex-wrap align-right"><p>© 2020&ndash; <a href=mailto:lawrence@wence.uk>Lawrence Mitchell</a>, <a href=https://annereinarz.github.io>Anne Reinarz</a> & <a href=https://www.dur.ac.uk/>Durham University</a>.</p><p><a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/><img alt="Creative Commons License" style=border-width:0 src=/comp4187/cc-by-sa.svg></a>
+This work is licensed under a <a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>Creative
+Commons Attribution-ShareAlike 4.0 International License</a>.</p></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><nav id=TableOfContents><ul><li><a href=#a-3d-multigrid-solver>A 3D multigrid solver</a><ul><li><a href=#introduction>Introduction</a></li><li><a href=#getting-and-installing-the-mgsolver-package>Getting and installing the <code>mgsolver</code> package</a></li><li><a href=#package-layout>Package layout</a></li><li><a href=#part-1-reimplementing-the-beam>Part 1: Reimplementing the beam</a></li><li><a href=#part-2-the-3d-darcy-equation>Part 2: The 3D Darcy Equation</a><ul><li><a href=#part-2a-timestepping>Part 2a: timestepping</a></li><li><a href=#part-2b-a-higher-order-scheme>Part 2b: A higher-order scheme</a></li></ul></li><li><a href=#part-3-multigrid>Part 3: multigrid</a><ul><li><a href=#part-3a-completing-the-multigrid-solver>Part 3a: completing the multigrid solver</a></li><li><a href=#part-3b-solving-for-a-steady-state>Part 3b: solving for a steady state</a></li></ul></li><li><a href=#submission>Submission and mark scheme</a><ul><li><a href=#mark-scheme>Mark scheme</a></li></ul></li></ul></li></ul></nav></aside></main></body></html>

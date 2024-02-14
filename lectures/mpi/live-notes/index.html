@@ -1,0 +1,106 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Lecture slides 2021/22 edition #  Slides as produced during the live lectures. Recordings of the live sessions are available if you&rsquo;re appropriately logged in. If you think you should have access but don&rsquo;t, please get in touch.
+  2022-01-12: Notes, video, code.
+Have a go at the hello world exercise which walks through setting up an environment with MPI installed.
+  2022-01-19: Notes, video.
+We had a bit of a palaver with the network being terrible, so sorry to those attending online for the drop out in the second half."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Term 2: live lecture notes"><meta property="og:description" content="Lecture slides 2021/22 edition #  Slides as produced during the live lectures. Recordings of the live sessions are available if you&rsquo;re appropriately logged in. If you think you should have access but don&rsquo;t, please get in touch.
+  2022-01-12: Notes, video, code.
+Have a go at the hello world exercise which walks through setting up an environment with MPI installed.
+  2022-01-19: Notes, video.
+We had a bit of a palaver with the network being terrible, so sorry to those attending online for the drop out in the second half."><meta property="og:type" content="article"><meta property="og:url" content="https://teaching.wence.uk/comp4187/lectures/mpi/live-notes/"><meta property="article:modified_time" content="2024-02-14T14:35:09+00:00"><title>Term 2: live lecture notes | COMP4187 – Parallel Scientific Computing II</title><link rel=manifest href=/comp4187/manifest.json><link rel=icon href=/comp4187/favicon.png type=image/x-icon><link rel=stylesheet href=/comp4187/book.min.0cb0b7d6a1ed5d0e95321cc15edca4d6e9cc406149d1f4a3f25fd532f6a3bb38.css integrity="sha256-DLC31qHtXQ6VMhzBXtyk1unMQGFJ0fSj8l/VMvajuzg="><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin=anonymous></script><script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false},{left:"\\(",right:"\\)",display:false},{left:"\\[",right:"\\]",display:true}]})});</script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><nav><div class=book-brand><img class=book-center src=/comp4187/logo.svg alt=Logo><h2><a href=/comp4187>COMP4187 – Parallel Scientific Computing II</a></h2></div><ul><li><span>Administrivia</span><ul><li><a href=/comp4187/setup/jupyter/>Jupyter</a></li><li><a href=/comp4187/setup/mpi/>MPI</a></li></ul></li><li><span>Exercises</span><ul><li><span>Parallel</span><ul><li><a href=/comp4187/exercises/parallel/hello/>Parallel Hello World</a></li><li><a href=/comp4187/exercises/parallel/pi/>Calculating π</a></li><li><a href=/comp4187/exercises/parallel/domain-decomp-simple/>1-D domain decomposition</a></li><li><a href=/comp4187/exercises/parallel/pingpong/>Ping-pong latency</a></li></ul></li><li><a href=/comp4187/exercises/coarse-grid/>Coarse Grid Operator</a></li><li><a href=/comp4187/exercises/finite-differences/>Finite Differences</a></li><li><a href=/comp4187/exercises/two-grid/>Two-Grid Iteration</a></li><li><a href=/comp4187/exercises/norms/>Norms</a></li></ul></li><li><span>Notes</span><ul><li><span>Lectures: Numerics</span><ul><li><a href=/comp4187/lectures/numerics/lecture1/>Lecture 1: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture2/>Lecture 2: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture3/>Lecture 3: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture4/>Lecture 4: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture5/>Lecture 5: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture6/>Lecture 6: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture7/>Lecture 7: Linear Solvers</a></li><li><a href=/comp4187/lectures/numerics/lecture8/>Lecture 8: Linear Solvers</a></li><li><a href=/comp4187/lectures/numerics/lecture9/>Lecture 9: Multigrid</a></li></ul></li><li><a href=/comp4187/lectures/mpi/>MPI</a><ul><li><a href=/comp4187/lectures/mpi/point-to-point/>Point-to-point messaging in MPI</a></li><li><a href=/comp4187/lectures/mpi/point-to-point-nb/>Non-blocking point-to-point messaging</a></li><li><a href=/comp4187/lectures/mpi/collectives/>Collectives</a></li><li><a href=/comp4187/lectures/mpi/advanced/>Advanced topics</a></li><li><a href=/comp4187/lectures/mpi/petsc4py/>PETSc and petsc4py</a></li><li><a href=/comp4187/lectures/mpi/live-notes/ class=active>Term 2: live lecture notes</a></li></ul></li></ul></li><li><a href=/comp4187/coursework/>Coursework 1: Euler-Bernoulli Beam Theory</a></li><li><a href=/comp4187/coursework2/>Coursework 2: multigrid solvers</a></li><li><a href=/comp4187/acknowledgements/>Acknowledgements</a></li><li><span>Past editions</span><ul><li><span>2020/21</span><ul><li><a href=/comp4187/past-editions/2020-21/term1/>Term 1: numerics</a></li><li><a href=/comp4187/past-editions/2020-21/term2/>Term 2: parallel computing</a></li><li><a href=/comp4187/past-editions/2020-21/coursework/>Coursework: a 3D multigrid solver</a></li></ul></li></ul></li></ul></nav><script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/comp4187/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Term 2: live lecture notes</strong>
+<label for=toc-control><img src=/comp4187/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#lecture-slides-202122-edition>Lecture slides 2021/22 edition</a></li></ul></nav></aside></header><article class=markdown><h1 id=lecture-slides-202122-edition>Lecture slides 2021/22 edition
+<a class=anchor href=#lecture-slides-202122-edition>#</a></h1><p>Slides as produced during the live lectures. Recordings of the live
+sessions are available if you&rsquo;re appropriately logged in. If you think
+you should have access but don&rsquo;t, please <a href=mailto:lawrence.mitchell@durham.ac.uk>get in
+touch</a>.</p><ul><li><p>2022-01-12: <a href=https://teaching.wence.uk/comp4187/parallel/2021-22/lec01.pdf>Notes</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=a2578ab5-e2b9-4a41-ab71-ae1b00d784b0">video</a>,
+<a href=https://teaching.wence.uk/comp4187/code/parallel/live/2021-22/lec01.py>code</a>.</p><p>Have a go at the <a href=https://teaching.wence.uk/comp4187/exercises/parallel/hello/>hello world</a> exercise
+which walks through setting up an environment with MPI installed.</p></li><li><p>2022-01-19: <a href=https://teaching.wence.uk/comp4187/parallel/2021-22/lec02.pdf>Notes</a>, <a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4ed36e00-5ef0-42dd-83c2-ae2100946181">video</a>.</p><p>We had a bit of a palaver with the network being terrible, so sorry
+to those attending online for the drop out in the second half.
+Fortunately the encore recording got everything, so we&rsquo;ve got a
+complete record [the very last bit of the lecture got cut off, but I
+went through this a bit fast anyway so will recap next time].</p><p>I got confused writing the speedup for strong and weak scaling (and
+didn&rsquo;t really define efficiency). I&rsquo;ve fixed my todo note and added
+a few more details in the uploaded notes.</p><p>From next week we are in <strong>E245</strong>.</p></li><li><p>2022-01-26: <a href=https://teaching.wence.uk/comp4187/parallel/2021-22/lec03.pdf>Notes</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=0e3fe682-0bc2-4920-8fa6-ae2900dee766">video</a>,
+<a href=https://teaching.wence.uk/comp4187/code/parallel/live/2021-22/lec03.py>code</a></p><p>We went over scaling behaviour a bit more and wrote some simple
+ping-pong code (linked above). A more fleshed-out version of this
+(with more comments and argument parsing) is available as
+<a href=https://teaching.wence.uk/comp4187/code/parallel/live/pingpong.py><code>pingpong.py</code></a>. Have
+a go at running this (on your own machine and/or Hamilton), the
+<a href=https://teaching.wence.uk/comp4187/exercises/parallel/pingpong/>pingpong exercise</a> has more details on
+what we&rsquo;re looking for.</p></li><li><p>2022-02-03: <a href=https://teaching.wence.uk/comp4187/parallel/2021-22/lec04.pdf>Notes</a>, <a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=adb7447d-11dc-4664-8c86-ae3000d794a0">video</a>, <a href=https://teaching.wence.uk/comp4187/code/parallel/live/2021-22/ping-pong-plots.py>plotting code</a></p><p>We started out looking at results from running the ping-pong
+benchmark run on both old (Hamilton 7) and new (<a href=https://www.dur.ac.uk/arc/hamilton/migration/>Hamilton
+8</a>) hardware. You
+should be able to back out the network latency and bandwidth by
+fitting the model $t(b) = \alpha + \beta b$ to the data. We noted
+that the pickle protocol has much higher latency.</p><p>Then I talked about domain-decomposing finite difference grids, and
+why parallel computing works at all (because there is sparsity in
+the computation).</p><p>Next time, if there is time (I need to do some planning), I would
+like to look at the analysis of scaling limits for
+Jacobi iteration from <a href=http://www.mcs.anl.gov/papers/P5347-0515.pdf><em>Scaling Limits for
+PDE-based
+simulation</em></a>, so</p><blockquote class=exercise><h3>Exercise</h3><span>Please read the introduction and up to the end of Section II.B.1
+(Jacobi iteration) from that paper, we&rsquo;ll try and discuss the key
+points.</span></blockquote></li><li><p>2022-02-09: <a href=https://teaching.wence.uk/comp4187/parallel/2021-22/Fischer2015.pdf>Annotated paper</a>
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=56478af1-c709-4cbe-9d87-ae3700d56272">video</a>,</p><p>Live notes only contain administrative information, reproduced here.
+The second coursework should go live in the next short while. It
+will be using <a href=https://petsc.org/>PETSc</a> via
+<a href=https://pypi.org/project/petsc4py/>petsc4py</a> for parallel data
+structures so for most of the remaining slots I will focus on live
+code demonstrating the ideas and usage (which is somewhat
+non-trivial). You&rsquo;ll want to have PETSc installed on whatever you&rsquo;re
+using for development, so please follow their instructions and get
+in touch if you can&rsquo;t manage things.</p><p>Some administrative matters:</p><ul><li><p>No lecture next week on 2022-02-16 due to <a href=https://www.ucu.org.uk/article/11896/Why-were-taking-action>UCU strike
+action</a>.</p></li><li><p>No lecture (subject to strikes being cancelled) on 2022-03-02 due
+to more strike action.</p></li><li><p>I need to either arrange to deliver the lecture on 2022-03-09
+remotely, or else reschedule for another time (since I will be in
+<a href=https://dagstuhl.de>Dagstuhl</a> that week).</p></li></ul></li><li><p>2022-02-23: <a href=https://teaching.wence.uk/comp4187/code/parallel/live/2021-22/lec06.py>Code</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=365190be-a98b-45cd-8e11-ae4500d750f9">video</a></p><p>We started looking at <a href=https://petsc.org/>PETSc</a> for parallel data
+structures. The <a href=https://teaching.wence.uk/comp4187/coursework2/>second coursework</a> is
+now live and uses PETSc extensively. So please do try and get an
+install working so that we can debug issues quickly.</p><p>I introduced the PETSc object model, and manipulation of Vectors. I
+recommend also skimming the PETSc manual (particularly the
+<a href=https://petsc.org/release/docs/manual/getting_started/>introduction</a>).</p><p>More administrative matters:</p><ul><li><p>No lecture next week on 2022-03-02 due to continuing strike
+action.</p></li><li><p>The lecture on 2022-03-09 will be <strong>remote only</strong> (I will send
+email reminding everyone).</p></li></ul></li><li><p>2022-03-09: <a href=https://teaching.wence.uk/comp4187/parallel/2021-22/lec09.pdf>Notes</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=f7125450-3852-43e7-b31b-ae5300d72eea">video</a>,
+<a href=https://teaching.wence.uk/comp4187/code/parallel/live/2021-22/lec09.py>code</a></p><p>Apologies for the delayed upload this week. Mostly what we covered
+this week was the basics of using PETSc&rsquo;s
+<a href=https://petsc.org/release/docs/manualpages/DMDA/DMDA.html#DMDA>DMDA</a>
+objects for managing structured grids. These manage the tedious
+detail of constructing communication patterns for ghost exchange and
+insertion into distributed sparse matrices. We will use these in our
+implementation of multigrid in the <a href=https://teaching.wence.uk/comp4187/coursework2/>second coursework</a>.</p><p>Mostly we looked at creating
+<a href=https://petsc.org/release/docs/manual/vec/#dm-local-global-vectors-and-ghost-updates><code>Vec</code>s</a>
+and <a href=https://petsc.org/release/docs/manual/mat/><code>Mat</code>s</a> from these
+<a href=https://petsc.org/release/docs/manualpages/DMDA/DMDA.html#DMDA><code>DMDA</code></a>
+objects. The reason to do this is that the vectors and matrices now
+remember that they came from the DMDA and so this enables certain
+extra methods (particularly for insertion into matrices which we
+will see next time). Particularly, the DMDA also knows how to refine
+itself and construct grid transfer operators between the two grids
+(very useful for multigrid methods).</p><p>Next time we will glue everything together.</p></li><li><p>2022-03-16: <a href=https://teaching.wence.uk/comp4187/code/parallel/live/2021-22/lec10.py>Code</a>,
+<a href="https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4ed89385-62cd-4209-b22d-ae5a00d7900b">video</a></p><p>We finished up for the year by looking at how to discretise a
+constant coefficient Laplacian in parallel using DMDA. The core idea
+is that we need to map between global, local, and ghosted indices.</p><p>We also discussed appropriate scaling of the entries in the operator
+to work with PETSc&rsquo;s builtin prolongation and restriction matrices.
+Effectively this means we scale the equations we&rsquo;re solving by the
+volume element for our grid (how big is a single cell?), and put
+&ldquo;compatible&rdquo; things in the boundary rows.</p><p>If you want to play around with the PETSc C example I showed towards
+the end, it is
+<a href=https://petsc.org/main/src/ksp/ksp/tutorials/ex45.c.html><code>ex45</code></a>.
+If you have a PETSc install, then the code lives in
+<code>$PETSC_DIR/src/ksp/ksp/tutorials/ex45.c</code>, with <code>PETSC_DIR</code> and
+<code>PETSC_ARCH</code> set appropriately, <code>make ex45</code> in that directory will
+build it. This example implements (in C) the constant coefficient
+Laplacian in 3D using DMDA, so it is somewhat similar to the
+equation in the coursework (although you will need a different
+stencil).</p><p>That&rsquo;s all for this term, for queries on the course, the best place
+is the <a href=https://github.com/wenceorg/comp4187/discussions>discussions forum</a>. Good luck for
+the summer!</p></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/wenceorg/comp4187/commit/9271858aa631161252031b9cd38d4da1c5c802a0 title="Last modified by Lawrence Mitchell | February 14, 2024" target=_blank rel=noopener><img src=/comp4187/svg/calendar.svg class=book-icon alt=Calendar>
+<span>February 14, 2024</span></a></div><div><a class="flex align-center" href=https://github.com/wenceorg/comp4187/edit/main/site/content/lectures/mpi/live-notes.md target=_blank rel=noopener><img src=/comp4187/svg/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div><div class="flex flex-wrap align-right"><p>© 2020&ndash; <a href=mailto:lawrence@wence.uk>Lawrence Mitchell</a>, <a href=https://annereinarz.github.io>Anne Reinarz</a> & <a href=https://www.dur.ac.uk/>Durham University</a>.</p><p><a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/><img alt="Creative Commons License" style=border-width:0 src=/comp4187/cc-by-sa.svg></a>
+This work is licensed under a <a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>Creative
+Commons Attribution-ShareAlike 4.0 International License</a>.</p></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><nav id=TableOfContents><ul><li><a href=#lecture-slides-202122-edition>Lecture slides 2021/22 edition</a></li></ul></nav></aside></main></body></html>

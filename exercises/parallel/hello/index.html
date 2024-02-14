@@ -1,0 +1,78 @@
+<!doctype html><html lang=en dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Hello, World! #  Every programming course has to start with &ldquo;hello world&rdquo;, this is no exception. The goal of this is to familiarise you with compiling and running code using MPI, the parallel library we&rsquo;ll be using, either on Hamilton, or your own machine. So take a look at the setup guide if you haven&rsquo;t already.
+A Python version #  MPI is a specification for a library-based programming model."><meta name=theme-color content="#FFFFFF"><meta property="og:title" content="Parallel Hello World"><meta property="og:description" content="Hello, World! #  Every programming course has to start with &ldquo;hello world&rdquo;, this is no exception. The goal of this is to familiarise you with compiling and running code using MPI, the parallel library we&rsquo;ll be using, either on Hamilton, or your own machine. So take a look at the setup guide if you haven&rsquo;t already.
+A Python version #  MPI is a specification for a library-based programming model."><meta property="og:type" content="article"><meta property="og:url" content="https://teaching.wence.uk/comp4187/exercises/parallel/hello/"><meta property="article:modified_time" content="2024-02-14T14:35:09+00:00"><title>Parallel Hello World | COMP4187 – Parallel Scientific Computing II</title><link rel=manifest href=/comp4187/manifest.json><link rel=icon href=/comp4187/favicon.png type=image/x-icon><link rel=stylesheet href=/comp4187/book.min.0cb0b7d6a1ed5d0e95321cc15edca4d6e9cc406149d1f4a3f25fd532f6a3bb38.css integrity="sha256-DLC31qHtXQ6VMhzBXtyk1unMQGFJ0fSj8l/VMvajuzg="></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><nav><div class=book-brand><img class=book-center src=/comp4187/logo.svg alt=Logo><h2><a href=/comp4187>COMP4187 – Parallel Scientific Computing II</a></h2></div><ul><li><span>Administrivia</span><ul><li><a href=/comp4187/setup/jupyter/>Jupyter</a></li><li><a href=/comp4187/setup/mpi/>MPI</a></li></ul></li><li><span>Exercises</span><ul><li><span>Parallel</span><ul><li><a href=/comp4187/exercises/parallel/hello/ class=active>Parallel Hello World</a></li><li><a href=/comp4187/exercises/parallel/pi/>Calculating π</a></li><li><a href=/comp4187/exercises/parallel/domain-decomp-simple/>1-D domain decomposition</a></li><li><a href=/comp4187/exercises/parallel/pingpong/>Ping-pong latency</a></li></ul></li><li><a href=/comp4187/exercises/coarse-grid/>Coarse Grid Operator</a></li><li><a href=/comp4187/exercises/finite-differences/>Finite Differences</a></li><li><a href=/comp4187/exercises/two-grid/>Two-Grid Iteration</a></li><li><a href=/comp4187/exercises/norms/>Norms</a></li></ul></li><li><span>Notes</span><ul><li><span>Lectures: Numerics</span><ul><li><a href=/comp4187/lectures/numerics/lecture1/>Lecture 1: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture2/>Lecture 2: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture3/>Lecture 3: Time-stepping</a></li><li><a href=/comp4187/lectures/numerics/lecture4/>Lecture 4: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture5/>Lecture 5: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture6/>Lecture 6: Finite Differences</a></li><li><a href=/comp4187/lectures/numerics/lecture7/>Lecture 7: Linear Solvers</a></li><li><a href=/comp4187/lectures/numerics/lecture8/>Lecture 8: Linear Solvers</a></li><li><a href=/comp4187/lectures/numerics/lecture9/>Lecture 9: Multigrid</a></li></ul></li><li><a href=/comp4187/lectures/mpi/>MPI</a><ul><li><a href=/comp4187/lectures/mpi/point-to-point/>Point-to-point messaging in MPI</a></li><li><a href=/comp4187/lectures/mpi/point-to-point-nb/>Non-blocking point-to-point messaging</a></li><li><a href=/comp4187/lectures/mpi/collectives/>Collectives</a></li><li><a href=/comp4187/lectures/mpi/advanced/>Advanced topics</a></li><li><a href=/comp4187/lectures/mpi/petsc4py/>PETSc and petsc4py</a></li><li><a href=/comp4187/lectures/mpi/live-notes/>Term 2: live lecture notes</a></li></ul></li></ul></li><li><a href=/comp4187/coursework/>Coursework 1: Euler-Bernoulli Beam Theory</a></li><li><a href=/comp4187/coursework2/>Coursework 2: multigrid solvers</a></li><li><a href=/comp4187/acknowledgements/>Acknowledgements</a></li><li><span>Past editions</span><ul><li><span>2020/21</span><ul><li><a href=/comp4187/past-editions/2020-21/term1/>Term 1: numerics</a></li><li><a href=/comp4187/past-editions/2020-21/term2/>Term 2: parallel computing</a></li><li><a href=/comp4187/past-editions/2020-21/coursework/>Coursework: a 3D multigrid solver</a></li></ul></li></ul></li></ul></nav><script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/comp4187/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Parallel Hello World</strong>
+<label for=toc-control><img src=/comp4187/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#hello-world>Hello, World!</a><ul><li><a href=#mpi>A Python version</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=hello-world>Hello, World!
+<a class=anchor href=#hello-world>#</a></h1><p>Every programming course has to start with &ldquo;hello world&rdquo;, this is no
+exception. The goal of this is to familiarise you with compiling and
+running code using MPI, the parallel library we&rsquo;ll be using, either on
+Hamilton, or your own machine. So take a look at the <a href=https://teaching.wence.uk/comp4187/setup/mpi/>setup guide</a> if you haven&rsquo;t already.</p><h2 id=mpi>A Python version
+<a class=anchor href=#mpi>#</a></h2><p>MPI is a specification for a library-based programming model. The
+standard specifies Fortran and C/C++ interfaces, and there are
+wrappers for many popular programming languages including
+<a href=https://mpi4py.readthedocs.io/en/stable/>Python</a> and
+<a href=https://github.com/JuliaParallel/MPI.jl>Julia</a>.</p><p>We&rsquo;re using <code>mpi4py</code> in this course, but we&rsquo;ll need to install it
+(either on our machines, or Hamilton).</p><p>On Hamilton, we need to load the right modules. We&rsquo;ll need a modern
+version of Python, along with an MPI library. If you&rsquo;re
+running on your own system and have set things up right, you don&rsquo;t
+need modules.</p><p>To load a module (which sets up the environment) we need to run
+<code>module load MODULENAME</code>. So log in and load</p><pre><code>python/3.6.8
+gcc/8.2.0
+intelmpi/gcc/2019.6
+</code></pre><p>Our hello world code looks like this</p><div class=book-include><div class=book-include-heading><tt>parallel/hello/hello.py</tt></div><div class=book-include-download><a href=https://teaching.wence.uk/comp4187/code/parallel/hello/hello.py>Download</a></div><div class=book-include-content><div class=highlight><pre style=color:#272822;background-color:#fafafa><code class=language-py data-lang=py><span style=color:#f92672>from</span> <span style=color:#111>mpi4py</span> <span style=color:#f92672>import</span> <span style=color:#111>MPI</span>  <span style=color:#75715e># This automatically calls MPI_Init</span>
+
+<span style=color:#111>comm</span> <span style=color:#f92672>=</span> <span style=color:#111>MPI</span><span style=color:#f92672>.</span><span style=color:#111>COMM_WORLD</span>
+
+<span style=color:#111>rank</span> <span style=color:#f92672>=</span> <span style=color:#111>comm</span><span style=color:#f92672>.</span><span style=color:#111>rank</span>
+<span style=color:#111>size</span> <span style=color:#f92672>=</span> <span style=color:#111>comm</span><span style=color:#f92672>.</span><span style=color:#111>size</span>
+
+<span style=color:#111>name</span> <span style=color:#f92672>=</span> <span style=color:#111>MPI</span><span style=color:#f92672>.</span><span style=color:#111>Get_processor_name</span><span style=color:#111>()</span>
+
+<span style=color:#00a8c8>print</span><span style=color:#111>(</span><span style=color:#111>f</span><span style=color:#d88200>&#34;Hello, World! I am rank {rank} of {size}. Running on node {name}&#34;</span><span style=color:#111>)</span>
+
+<span style=color:#75715e># MPI_Finalize is called in an atexit handler.</span>
+</code></pre></div></div></div><p>This doesn&rsquo;t look that different from a serial hello world, except
+there are a bunch of additional calls to library functions in the
+<code>MPI</code> package.</p><p>We need to install <code>mpi4py</code> to be able to run this, so let&rsquo;s make a
+virtual environment</p><pre><code>$ python -m venv comp4187
+</code></pre><p>and activate it</p><pre><code>$ . comp4187/bin/activate
+(comp4187) $
+</code></pre><p>Your prompt should have changed.</p><p>Now install <code>mpi4py</code></p><pre><code>(comp4187) $ pip install mpi4py
+</code></pre><p>Let&rsquo;s confirm that it works using only one process by running</p><pre><code>(comp4187) $ python hello.py
+</code></pre><p>To run in parallel, we need to use the <code>mpirun</code> launcher. This takes
+care of allocating parallel resources and setting up the processes
+such that they can communicate with one another.</p><p>We can run it on the login node using four parallel processes with</p><pre><code>(comp4187) $ mpirun -n 4 python hello.py
+</code></pre><blockquote class="book-hint warning"><span>You should not use the login node for large-scale computation, but
+instead use a batch script and submit to the batch system. You should
+also use the batch system when benchmarking.</span></blockquote><p>If we want to submit to the backend, we need to write a batch script</p><div class=book-include><div class=book-include-heading><tt>parallel/hello/hello.slurm</tt></div><div class=book-include-download><a href=https://teaching.wence.uk/comp4187/code/parallel/hello/hello.slurm>Download</a></div><div class=book-include-content><div class=highlight><pre style=color:#272822;background-color:#fafafa><code class=language-sh data-lang=sh><span style=color:#75715e>#!/bin/bash
+</span><span style=color:#75715e></span>
+<span style=color:#75715e># 1 node</span>
+<span style=color:#75715e>#SBATCH --nodes=1</span>
+<span style=color:#75715e>#SBATCH --ntasks-per-node=24</span>
+<span style=color:#75715e>#SBATCH --job-name=&#34;hello-mpi&#34;</span>
+<span style=color:#75715e>#SBATCH -o hello-mpi.%J.out</span>
+<span style=color:#75715e>#SBATCH -e hello-mpi.%J.err</span>
+<span style=color:#75715e>#SBATCH -t 00:01:00</span>
+<span style=color:#75715e>#SBATCH -p par7.q</span>
+
+<span style=color:#111>source</span> /etc/profile.d/modules.sh
+
+module load intelmpi/gcc/2019.6
+module load python/3.6.8
+
+<span style=color:#75715e># You&#39;ll need to activate a virtual environment that contains mpi4py</span>
+<span style=color:#75715e># Before this works</span>
+mpirun python hello.py
+</code></pre></div></div></div><blockquote class="book-hint info"><span><p>On some systems you need to specify the number of processes you want
+to use when executing <code>mpirun</code>. However, on Hamilton, the metadata in
+the scheduler is used to determine the number of processes. Here we
+request 1 node and 24 tasks per node.</p><p>Hence you should only explicitly specify if you want to run with an
+amount of parallelism different to that specified in your submission
+script.</p></span></blockquote><blockquote class=question><h3>Question</h3><span>Try running on two compute nodes, by changing the <code>--nodes=1</code> line to
+<code>--nodes=2</code> in the batch script. How many total processes do you now
+have? What do you notice about the node names?</span></blockquote></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/wenceorg/comp4187/commit/9271858aa631161252031b9cd38d4da1c5c802a0 title="Last modified by Lawrence Mitchell | February 14, 2024" target=_blank rel=noopener><img src=/comp4187/svg/calendar.svg class=book-icon alt=Calendar>
+<span>February 14, 2024</span></a></div><div><a class="flex align-center" href=https://github.com/wenceorg/comp4187/edit/main/site/content/exercises/parallel/hello.md target=_blank rel=noopener><img src=/comp4187/svg/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div></div><div class="flex flex-wrap align-right"><p>© 2020&ndash; <a href=mailto:lawrence@wence.uk>Lawrence Mitchell</a>, <a href=https://annereinarz.github.io>Anne Reinarz</a> & <a href=https://www.dur.ac.uk/>Durham University</a>.</p><p><a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/><img alt="Creative Commons License" style=border-width:0 src=/comp4187/cc-by-sa.svg></a>
+This work is licensed under a <a rel=license href=http://creativecommons.org/licenses/by-sa/4.0/>Creative
+Commons Attribution-ShareAlike 4.0 International License</a>.</p></div></footer><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><nav id=TableOfContents><ul><li><a href=#hello-world>Hello, World!</a><ul><li><a href=#mpi>A Python version</a></li></ul></li></ul></nav></aside></main></body></html>
