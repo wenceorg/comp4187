@@ -101,7 +101,7 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
     remotely, or else reschedule for another time (since I will be in
     [Dagstuhl](https://dagstuhl.de) that week).
 
-- 2022-02-23: [Code]({{< code-ref "parallel/live/lec06.py" >}}),
+- 2022-02-23: [Code]({{< code-ref "parallel/live/2021-22/lec06.py" >}}),
   [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=365190be-a98b-45cd-8e11-ae4500d750f9)
   
   We started looking at [PETSc](https://petsc.org/) for parallel data
@@ -121,9 +121,9 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
   - The lecture on 2022-03-09 will be **remote only** (I will send
     email reminding everyone).
 
-- 2022-03-09: [Notes]({{< static-ref "parallel/2021-22/lec09.pdf" >}})
-  [Code]({{< code-ref "parallel/live/lec09.py" >}}),
-  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=f7125450-3852-43e7-b31b-ae5300d72eea)
+- 2022-03-09: [Notes]({{< static-ref "parallel/2021-22/lec09.pdf" >}}),
+  [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=f7125450-3852-43e7-b31b-ae5300d72eea),
+  [code]({{< code-ref "parallel/live/2021-22/lec09.py" >}})
   
   Apologies for the delayed upload this week. Mostly what we covered
   this week was the basics of using PETSc's
@@ -147,7 +147,7 @@ touch](mailto:lawrence.mitchell@durham.ac.uk).
   
   Next time we will glue everything together.
 
-- 2022-03-16: [Code]({{< code-ref "parallel/live/lec10.py" >}}),
+- 2022-03-16: [Code]({{< code-ref "parallel/live/2021-22/lec10.py" >}}),
   [video](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=4ed89385-62cd-4209-b22d-ae5a00d7900b)
   
   We finished up for the year by looking at how to discretise a
